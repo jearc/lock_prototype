@@ -185,8 +185,9 @@ extern "C" {
 #endif
 
     static inline void cdelay(ticks cycles){
-        ticks __ts_end = getticks() + (ticks) cycles;
-        while (getticks() < __ts_end);
+        ticks __ts_start = getticks();
+        //ticks __ts_end = getticks() + (ticks) cycles;
+        while (getticks() - __ts_start < (ticks) cycles); 
     }
 
     static inline void cpause(ticks cycles){
