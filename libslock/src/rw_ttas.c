@@ -117,7 +117,7 @@ void write_acquire(rw_ttas* lock, uint32_t* limit) {
 
 void write_release(rw_ttas* lock) {
     COMPILER_BARRIER;
-#ifdef __tile__
+#if defined(__tile__) || defined(__arm__)
     MEM_BARRIER;
 #endif
 

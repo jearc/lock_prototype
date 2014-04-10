@@ -53,7 +53,7 @@ spinlock_lock(spinlock_lock_t* the_lock, uint32_t* limits)
 spinlock_unlock(spinlock_lock_t *the_lock) 
 {
     COMPILER_BARRIER;
-#ifdef __tile__
+#if defined(__tile__) || defined(__arm__)
     MEM_BARRIER;
 #endif
     the_lock->lock = UNLOCKED;

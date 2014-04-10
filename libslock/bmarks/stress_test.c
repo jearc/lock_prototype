@@ -157,7 +157,7 @@ void *test(void *data)
 #endif
         release_lock(&local_d[lock_to_acq],&the_locks[lock_to_acq]);
         if (acq_delay>0) {
-#ifdef __tile__
+#if defined(__tile__) || defined(__arm__)
             MEM_BARRIER;
 #endif
             COMPILER_BARRIER;

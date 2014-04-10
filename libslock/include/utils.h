@@ -176,9 +176,7 @@ extern "C" {
 #elif defined(__arm__)
     static inline ticks getticks() {
         uint32_t r;
-        __asm__ __volatile__ ("isb");
         __asm__ __volatile__ ("mrc p15, 0, %0, c9, c13, 0" : "=r"(r) );
-        __asm__ __volatile__ ("isb");
         //printf("ticks: %u\n", r);
         return r;
     }

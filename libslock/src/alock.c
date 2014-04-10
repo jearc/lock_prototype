@@ -56,14 +56,14 @@ void alock_lock(array_lock_t* local_lock)
     PREFETCHW(local_lock->shared_data);
 #endif	/* OPTERON_OPTIMIZE */
     lock_shared_t *lock = local_lock->shared_data;
-#ifdef __tile__
+#if defined(__tile__) || defined(__arm__)
     MEM_BARRIER;
 #endif
     uint32_t slot = FAI_U32(&(lock->tail)) % lock->size;
     local_lock->my_index = slot;
 
     volatile uint16_t* flag = &lock->flags[slot].flag;
-#ifdef __tile__
+#if defined(__tile__) || defined(__arm__)
     MEM_BARRIER;
 #endif
 #if defined(OPTERON_OPTIMIZE)
@@ -88,7 +88,7 @@ void alock_unlock(array_lock_t* local_lock)
     lock_shared_t *lock = local_lock->shared_data;
     uint32_t slot = local_lock->my_index;
     lock->flags[slot].flag = 0;
-#ifdef __tile__
+#if defined(__tile__) || defined(__arm__)
     MEM_BARRIER;
 #endif
     COMPILER_BARRIER;

@@ -186,7 +186,7 @@ hclh_local_params* init_hclh_array_local(uint32_t phys_core, uint32_t num_locks,
         if (phys_core%CORES_PER_SOCKET==0) {
             the_params[i].local_queues[phys_core/CORES_PER_SOCKET] = (local_queue*)malloc(sizeof(local_queue));
             *(the_params[i].local_queues[phys_core/CORES_PER_SOCKET]) = NULL;
-#ifdef __tile__
+#if defined(__tile__) || defined(__arm__)
         MEM_BARRIER;
 #endif
             the_params[i].init_done[phys_core/CORES_PER_SOCKET]=INIT_VAL;
@@ -257,7 +257,7 @@ int init_hclh_local(uint32_t phys_core, hclh_global_params* the_params, hclh_loc
     if (phys_core%CORES_PER_SOCKET==0) {
         the_params->local_queues[phys_core/CORES_PER_SOCKET] = (local_queue*)malloc(sizeof(local_queue));
         *(the_params->local_queues[phys_core/CORES_PER_SOCKET]) = NULL;
-#ifdef __tile__
+#if defined(__tile__) || defined(__arm__)
         MEM_BARRIER;
 #endif
         the_params->init_done[phys_core/CORES_PER_SOCKET]=INIT_VAL;

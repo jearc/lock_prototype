@@ -34,7 +34,7 @@
 
 int mcs_trylock(mcs_lock *L, mcs_qnode_ptr I) {
     I->next=NULL;
-#ifndef  __tile__
+#if defined(__tile__) || defined(__arm__)
     if (CAS_PTR(L, NULL, I)==NULL) return 0;
     return 1;
 #else
@@ -48,7 +48,7 @@ int mcs_trylock(mcs_lock *L, mcs_qnode_ptr I) {
 void mcs_acquire(mcs_lock *L, mcs_qnode_ptr I) 
 {
     I->next = NULL;
-#ifndef  __tile__
+#if defined(__tile__) || defined(__arm__)
     mcs_qnode_ptr pred = (mcs_qnode*) SWAP_PTR((volatile void*) L, (void*) I);
 #else
     MEM_BARRIER;
@@ -75,7 +75,7 @@ void mcs_acquire(mcs_lock *L, mcs_qnode_ptr I)
 
 void mcs_release(mcs_lock *L, mcs_qnode_ptr I) 
 {
-#ifdef __tile__
+#if defined(__tile__) || defined(__arm__)
     MEM_BARRIER;
 #endif
 

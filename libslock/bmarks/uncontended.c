@@ -160,7 +160,7 @@ void *test(void *data)
 #ifdef PRINT_OUTPUT
         //fprintf(stderr, "%d %llu\n",d->id, (unsigned long long int) end);
 #endif
-#ifdef __tile__
+#if defined(__tile__) || defined(__arm__)
         MEM_BARRIER;
 #endif
         COMPILER_BARRIER;

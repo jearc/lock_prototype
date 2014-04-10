@@ -155,11 +155,11 @@ void *test_latency(void *data)
         } else {
             if (!do_not_measure) {
                 t1=getticks();
-#  ifdef __tile__
+#  if defined(__tile__) || defined(__arm__)
                 MEM_BARRIER;
 #  endif
                 res = CAS_U8(&(the_data[entry].data),0,1);
-#  ifdef __tile__
+#  if defined(__tile__) || defined(__arm__)
                 MEM_BARRIER;
 #  endif
                 t2=getticks();
@@ -176,11 +176,11 @@ void *test_latency(void *data)
                 res = SWAP_U8(&(the_data[entry].data),1);
             } else {
                 t1=getticks(); 
-#  ifdef __tile__
+#  if defined(__tile__) || defined(__arm__)
                 MEM_BARRIER;
 #  endif
                res = SWAP_U8(&(the_data[entry].data),1);
-#  ifdef __tile__
+#  if defined(__tile__) || defined(__arm__)
                 MEM_BARRIER;
 #  endif
 
@@ -195,14 +195,14 @@ void *test_latency(void *data)
             } while (CAS_U8(&(the_data[entry].data),old_data,new_data)!=old_data);
         } else {
             t1=getticks();
-#  ifdef __tile__
+#  if defined(__tile__) || defined(__arm__)
                 MEM_BARRIER;
 #  endif
             do {
                 old_data=the_data[entry].data;
                 new_data=old_data+1;
             } while (CAS_U8(&(the_data[entry].data),old_data,new_data)!=old_data);
-#  ifdef __tile__
+#  if defined(__tile__) || defined(__arm__)
                 MEM_BARRIER;
 #  endif
             t2=getticks();
@@ -212,11 +212,11 @@ void *test_latency(void *data)
             res = TAS_U8(&(the_data[entry].data));
         } else {
             t1=getticks();
-#  ifdef __tile__
+#  if defined(__tile__) || defined(__arm__)
                 MEM_BARRIER;
 #  endif
             res = TAS_U8(&(the_data[entry].data));
-#  ifdef __tile__
+#  if defined(__tile__) || defined(__arm__)
                 MEM_BARRIER;
 #  endif
             t2=getticks();
@@ -229,11 +229,11 @@ void *test_latency(void *data)
             FAI_U8(&(the_data[entry].data));
         } else {
             t1=getticks();
-#  ifdef __tile__
+#  if defined(__tile__) || defined(__arm__)
                 MEM_BARRIER;
 #  endif
             FAI_U8(&(the_data[entry].data));
-#  ifdef __tile__
+#  if defined(__tile__) || defined(__arm__)
                 MEM_BARRIER;
 #  endif
             t2=getticks();
