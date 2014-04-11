@@ -40,15 +40,15 @@ touch $results
 echo "                Uncontested lock aquisition latency                  " >> $results
 echo "=====================================================================" >> $results
 
-./uncontended_mcss >> $results
-./uncontended_ttass >> $results
-./uncontended_tickets >> $results
-./uncontended_htickets >> $results
-./uncontended_arrays >> $results
-./uncontended_spinlocks >> $results
-./uncontended_clhs >> $results
-./uncontended_hclhs >> $results
-./uncontended_rws >> $results
+./uncontended_mcss >> $results && echo -n "," >> $results
+./uncontended_ttass >> $results && echo -n "," >> $results
+./uncontended_tickets >> $results && echo -n "," >> $results
+./uncontended_htickets >> $results && echo -n "," >> $results
+./uncontended_arrays >> $results && echo -n "," >> $results
+./uncontended_spinlocks >> $results && echo -n "," >> $results
+./uncontended_clhs >> $results && echo -n "," >> $results
+./uncontended_hclhs >> $results && echo -n "," >> $results
+./uncontended_rws >> $results && echo -ne "\n" >> $results
 
 cd -
 echo "=====================================================================" >> $results
@@ -65,15 +65,15 @@ echo "=====================================================================" >> 
 
 for threads in 1 2 3 4; do
     echo "threads: $threads" >> $results
-    ./stress_test_mcss -l 1 -n $threads -p $p -a $a >> $results
-    ./stress_test_ttass -l 1 -n $threads -p $p -a $a >> $results
-    ./stress_test_tickets -l 1 -n $threads -p $p -a $a >> $results
-    ./stress_test_htickets -l 1 -n $threads -p $p -a $a >> $results
-    ./stress_test_arrays -l 1 -n $threads -p $p -a $a >> $results
-    ./stress_test_spinlocks -l 1 -n $threads -p $p -a $a >> $results
-    ./stress_test_clhs -l 1 -n $threads -p $p -a $a >> $results
-    ./stress_test_hclhs -l 1 -n $threads -p $p -a $a >> $results
-    ./stress_test_rws -l 1 -n $threads -p $p -a $a >> $results
+    ./stress_test_mcss -l 1 -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+    ./stress_test_ttass -l 1 -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+    ./stress_test_tickets -l 1 -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+    ./stress_test_htickets -l 1 -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+    ./stress_test_arrays -l 1 -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+    ./stress_test_spinlocks -l 1 -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+    ./stress_test_clhs -l 1 -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+    ./stress_test_hclhs -l 1 -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+    ./stress_test_rws -l 1 -n $threads -p $p -a $a >> $results && echo -ne "\n" >> $results
 done
 
 cd -
@@ -91,24 +91,15 @@ echo "=====================================================================" >> 
 
 for threads in 1 2 3 4; do
     echo "threads: $threads" >> $results
-    ./stress_test_mcss -l 512 -n $threads -p $p -a $a >> $results
-	echo -n "," >> $results
-    ./stress_test_ttass -l 512 -n $threads -p $p -a $a >> $results
-	echo -n "," >> $results
-    ./stress_test_tickets -l 512 -n $threads -p $p -a $a >> $results
-	echo -n "," >> $results
-    ./stress_test_htickets -l 512 -n $threads -p $p -a $a >> $results
-	echo -n "," >> $results
-    ./stress_test_arrays -l 512 -n $threads -p $p -a $a >> $results
-	echo -n "," >> $results
-    ./stress_test_spinlocks -l 512 -n $threads -p $p -a $a >> $results
-	echo -n "," >> $results
-    ./stress_test_clhs -l 512 -n $threads -p $p -a $a >> $results
-	echo -n "," >> $results
-    ./stress_test_hclhs -l 512 -n $threads -p $p -a $a >> $results
-	echo -n "," >> $results
-    ./stress_test_rws -l 512 -n $threads -p $p -a $a >> $results
-	echo -ne "\n" >> $results
+    ./stress_test_mcss -l 512 -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+    ./stress_test_ttass -l 512 -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+    ./stress_test_tickets -l 512 -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+    ./stress_test_htickets -l 512 -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+    ./stress_test_arrays -l 512 -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+    ./stress_test_spinlocks -l 512 -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+    ./stress_test_clhs -l 512 -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+    ./stress_test_hclhs -l 512 -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+    ./stress_test_rws -l 512 -n $threads -p $p -a $a >> $results && echo -ne "\n" >> $results
 done
 
 cd -
@@ -127,15 +118,15 @@ echo "=====================================================================" >> 
 for locks in 4 16 32 128; do
     for threads in 1 2 3 4; do
         echo "locks: $locks, threads: $threads" >> $results
-	./stress_test_mcss -l $locks -n $threads -p $p -a $a >> $results
-	./stress_test_ttass -l $locks -n $threads -p $p -a $a >> $results
-	./stress_test_tickets -l $locks -n $threads -p $p -a $a >> $results
-	./stress_test_htickets -l $locks -n $threads -p $p -a $a >> $results
-	./stress_test_arrays -l $locks -n $threads -p $p -a $a >> $results
-	./stress_test_spinlocks -l $locks -n $threads -p $p -a $a >> $results
-	./stress_test_clhs -l $locks -n $threads -p $p -a $a >> $results
-	./stress_test_hclhs -l $locks -n $threads -p $p -a $a >> $results
-        ./stress_test_rws -l $locks -n $threads -p $p -a $a >> $results
+	./stress_test_mcss -l $locks -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+	./stress_test_ttass -l $locks -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+	./stress_test_tickets -l $locks -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+	./stress_test_htickets -l $locks -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+	./stress_test_arrays -l $locks -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+	./stress_test_spinlocks -l $locks -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+	./stress_test_clhs -l $locks -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+	./stress_test_hclhs -l $locks -n $threads -p $p -a $a >> $results && echo -n "," >> $results
+        ./stress_test_rws -l $locks -n $threads -p $p -a $a >> $results && echo -ne "\n" >> $results
     done
 done
 
