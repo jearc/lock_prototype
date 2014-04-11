@@ -424,7 +424,8 @@ int main(int argc, char **argv)
 #ifdef PRINT_OUTPUT
     printf("Duration      : %d (ms)\n", duration);
 #endif
-    printf("#acquires     : %lu ( %lu / s)\n", acquires, (unsigned long )(acquires * 1000.0 / duration));
+    //printf("#acquires     : %lu ( %lu / s)\n", acquires, (unsigned long )(acquires * 1000.0 / duration));
+    printf("%lu", (unsigned long) (acquires * 1000.0 / duration));
 
     /* Cleanup locks */
     free_lock_array_global(the_locks, num_locks);

@@ -23,6 +23,7 @@ for threads in 1 2 3 4; do
     ./atomic_bench_tas -n $threads -b 1 -p $p >> $results
     ./atomic_bench_fai -n $threads -b 1 -p $p >> $results
     ./atomic_bench_swap -n $threads -b 1 -p $p >> $results
+    ./atomic_bench_ctr -n $threads -b 1 -p $p >> $results
 done
 
 cd -
@@ -41,6 +42,12 @@ echo "=====================================================================" >> 
 ./uncontended_mcss >> $results
 ./uncontended_ttass >> $results
 ./uncontended_tickets >> $results
+./uncontended_htickets >> $results
+./uncontended_arrays >> $results
+./uncontended_mutex >> $results
+./uncontended_clh >> $results
+./uncontended_hclh >> $results
+./uncontended_rw >> $results
 
 cd -
 echo "=====================================================================" >> $results
@@ -60,6 +67,12 @@ for threads in 1 2 3 4; do
     ./stress_test_mcss -l 1 -n $threads -p $p -a $a >> $results
     ./stress_test_ttass -l 1 -n $threads -p $p -a $a >> $results
     ./stress_test_tickets -l 1 -n $threads -p $p -a $a >> $results
+    ./stress_test_htickets -l 1 -n $threads -p $p -a $a >> $results
+    ./stress_test_arrays -l 1 -n $threads -p $p -a $a >> $results
+    ./stress_test_mutex -l 1 -n $threads -p $p -a $a >> $results
+    ./stress_test_clh -l 1 -n $threads -p $p -a $a >> $results
+    ./stress_test_hclh -l 1 -n $threads -p $p -a $a >> $results
+    ./stress_test_rw -l 1 -n $threads -p $p -a $a >> $results
 done
 
 cd -
@@ -80,6 +93,12 @@ for threads in 1 2 3 4; do
     ./stress_test_mcss -l 512 -n $threads -p $p -a $a >> $results
     ./stress_test_ttass -l 512 -n $threads -p $p -a $a >> $results
     ./stress_test_tickets -l 512 -n $threads -p $p -a $a >> $results
+    ./stress_test_htickets -l 512 -n $threads -p $p -a $a >> $results
+    ./stress_test_arrays -l 512 -n $threads -p $p -a $a >> $results
+    ./stress_test_mutex -l 512 -n $threads -p $p -a $a >> $results
+    ./stress_test_clh -l 512 -n $threads -p $p -a $a >> $results
+    ./stress_test_hclh -l 512 -n $threads -p $p -a $a >> $results
+    ./stress_test_rw -l 512 -n $threads -p $p -a $a >> $results
 done
 
 cd -
@@ -101,6 +120,12 @@ for locks in 4 16 32 128; do
         ./stress_test_mcss -l $locks -n $threads -p $p -a $a >> $results
         ./stress_test_ttass -l $locks -n $threads -p $p -a $a >> $results
         ./stress_test_tickets -l $locks -n $threads -p $p -a $a >> $results
+        ./stress_test_htickets -l $locks -n $threads -p $p -a $a >> $results
+        ./stress_test_arrays -l $locks -n $threads -p $p -a $a >> $results
+        ./stress_test_mutex -l $locks -n $threads -p $p -a $a >> $results
+        ./stress_test_clh -l $locks -n $threads -p $p -a $a >> $results
+        ./stress_test_hclh -l $locks -n $threads -p $p -a $a >> $results
+        ./stress_test_rw -l $locks -n $threads -p $p -a $a >> $results
     done
 done
 

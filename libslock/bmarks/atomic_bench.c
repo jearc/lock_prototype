@@ -635,8 +635,9 @@ int main(int argc, char* const argv[])
         }
     }
 
-    printf("Duration      : %d (ms)\n", duration);
-    printf("#operations     : %lu (%f / s)\n", operations, operations * 1000.0 / duration);
+    //printf("Duration      : %d (ms)\n", duration);
+    //printf("#operations     : %lu (%f / s)\n", operations, operations * 1000.0 / duration);
+    printf("%f", operations * 1000.0 / duration);
     if (benchmark==2) {
         printf("average latency     : %lu\n", total_ticks / total_measurements);
     }
