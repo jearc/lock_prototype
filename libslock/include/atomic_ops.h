@@ -142,22 +142,22 @@ static inline uint8_t swap_uint8(volatile uint8_t* ptr,  uint8_t x) {
 
 //test-and-set uint8_t
 static inline uint8_t tas_uint8(volatile uint8_t *ptr) {
-    uint8_t atomic, old, tmp1;
+    uint8_t atomic, ret, tmp1;
 
     __asm__ __volatile__ (
             "1:                             \n\t"
-            "ldrexb %2, [%3]                \n\t"
+            "ldrexb %2, [%3]                \n\t" /* ret = *ptr */
             "ldrb %0, =1                    \n\t" /* set temp */
-            "strexb %1, %0, [%3]            \n\t" /* set */
+            "strexb %1, %0, [%3]            \n\t" /* *ptr = 1 */
             "teq %1, #0                     \n\t" /* was atomic? */
             "bne 1b                         \n\t"
 
-            : "=&r"(tmp1), "=&r"(atomic), "=&r"(old)        /* output */
+            : "=&r"(tmp1), "=&r"(atomic), "=&r"(ret)        /* output */
             : "r"(ptr)                                      /* input */
             : "memory", "cc"                                /* clobbered */
             );
 
-    return old;
+    return ret == 1;
 }
 
 //atomic operations interface
@@ -174,7 +174,7 @@ static inline uint8_t tas_uint8(volatile uint8_t *ptr) {
 #define SWAP_U32(a,b) swap_uint32(a,b)
 #define SWAP_U64(a,b) swap_uint64(a,b)
 //Fetch-and-increment
-#define FAI_U8(a) __sync_fetch_and_add(a,1)
+//#define FAI_U8(a) __sync_fetch_and_add(a,1)
 #define FAI_U16(a) __sync_fetch_and_add(a,1)
 #define FAI_U32(a) __sync_fetch_and_add(a,1)
 #define FAI_U64(a) __sync_fetch_and_add(a,1)

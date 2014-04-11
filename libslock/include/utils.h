@@ -177,7 +177,6 @@ extern "C" {
     static inline ticks getticks() {
         uint32_t r;
         __asm__ __volatile__ ("mrc p15, 0, %0, c9, c13, 0" : "=r"(r) );
-        //printf("ticks: %u\n", r);
         return r;
     }
 #endif
