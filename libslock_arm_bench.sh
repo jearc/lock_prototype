@@ -40,14 +40,14 @@ touch $results
 echo "                Uncontested lock aquisition latency                  " >> $results
 echo "=====================================================================" >> $results
 
-./uncontended_mcss >> $results && echo -n "," >> $results
-./uncontended_ttass >> $results && echo -n "," >> $results
-./uncontended_tickets >> $results && echo -n "," >> $results
-./uncontended_htickets >> $results && echo -n "," >> $results
-./uncontended_arrays >> $results && echo -n "," >> $results
-./uncontended_spinlocks >> $results && echo -n "," >> $results
-./uncontended_clhs >> $results && echo -n "," >> $results
-./uncontended_hclhs >> $results && echo -n "," >> $results
+./uncontended_mcss >> $results && echo -n ";" >> $results
+./uncontended_ttass >> $results && echo -n ";" >> $results
+./uncontended_tickets >> $results && echo -n ";" >> $results
+./uncontended_htickets >> $results && echo -n ";" >> $results
+./uncontended_arrays >> $results && echo -n ";" >> $results
+./uncontended_spinlocks >> $results && echo -n ";" >> $results
+./uncontended_clhs >> $results && echo -n ";" >> $results
+./uncontended_hclhs >> $results && echo -n ";" >> $results
 ./uncontended_rws >> $results && echo -ne "\n" >> $results
 
 cd -

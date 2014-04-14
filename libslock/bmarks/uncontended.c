@@ -133,29 +133,26 @@ void *test(void *data)
         acquire_lock(&local_d[1],&the_locks[1]);
         COMPILER_BARRIER;
         ticks end = getticks() - begin - correction;
-        if (begin < end + begin + correction) { // haven't gone over INT_MAX
-            d->acquire_time+=end;
-            local_acq_time = end;
-        }
-        else {
-            release_lock(&local_d[1],&the_locks[1]);
+		if (end > 100000) { // cycle counter overflow
+        	release_lock(&local_d[1],&the_locks[1]);
             head++;
-            continue;
-        }
+			continue;
+		}
+		d->acquire_time+=end;
+		uint32_t local_acq_time = end;
+
         COMPILER_BARRIER;
         begin_release = getticks();
         release_lock(&local_d[1],&the_locks[1]);
         MEM_BARRIER;
         COMPILER_BARRIER;
         end = getticks() - begin - correction;
-        if (begin < end + begin + correction) { // haven't gone over INT_MAX
-            d->release_time+=end;
-        }
-        else {
+        if (end > 100000) { // cycle counter overflow
             head++;
             d->acquire_time -= local_acq_time;
             continue;
         }
+        d->release_time+=end;
 
 #ifdef PRINT_OUTPUT
         //fprintf(stderr, "%d %llu\n",d->id, (unsigned long long int) end);
