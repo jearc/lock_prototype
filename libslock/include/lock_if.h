@@ -34,6 +34,8 @@
 #include "mcs.h"
 #elif defined(USE_HCLH_LOCKS)
 #include "hclh.h"
+#elif defined(USE_TTAS_SIMP_LOCKS)
+#include "ttas_simp.h"
 #elif defined(USE_TTAS_LOCKS)
 #include "ttas.h"
 #elif defined(USE_SPINLOCK_LOCKS)
@@ -59,6 +61,8 @@
 typedef mcs_global_params lock_global_data;
 #elif defined(USE_HCLH_LOCKS)
 typedef hclh_global_params lock_global_data;
+#elif defined(USE_TTAS_SIMP_LOCKS)
+typedef ttas_simp_lock_t  lock_global_data;
 #elif defined(USE_TTAS_LOCKS)
 typedef ttas_lock_t  lock_global_data;
 #elif defined(USE_SPINLOCK_LOCKS)
@@ -95,6 +99,8 @@ typedef array_lock_t lock_local_data;
 typedef clh_local_params lock_local_data;
 #elif defined(USE_RW_LOCKS)
 typedef unsigned int  lock_local_data;
+#elif defined(USE_TTAS_SIMP_LOCKS)
+typedef void* lock_local_data;//no local data for simple ttas locks
 #elif defined(USE_TICKET_LOCKS)
 typedef void* lock_local_data;//no local data for ticket locks
 #elif defined(USE_MUTEX_LOCKS)
@@ -169,6 +175,8 @@ static inline void acquire_lock(lock_local_data* local_d, lock_global_data* glob
     local_d->my_pred= (qnode*) hclh_acquire(local_d->my_queue,global_d->shared_queue,local_d->my_qnode);
 #elif defined(USE_TTAS_LOCKS)
     ttas_lock(global_d, local_d);
+#elif defined(USE_TTAS_SIMP_LOCKS)
+    ttas_simp_lock(global_d);
 #elif defined(USE_SPINLOCK_LOCKS)
     spinlock_lock(global_d, local_d);
 #elif defined(USE_ARRAY_LOCKS)
@@ -192,6 +200,8 @@ static inline void acquire_write(lock_local_data* local_d, lock_global_data* glo
     local_d->my_pred= (qnode*) hclh_acquire(local_d->my_queue,global_d->shared_queue,local_d->my_qnode);
 #elif defined(USE_TTAS_LOCKS)
     ttas_lock(global_d, local_d);
+#elif defined(USE_TTAS_SIMP_LOCKS)
+    ttas_simp_lock(global_d);
 #elif defined(USE_SPINLOCK_LOCKS)
     spinlock_lock(global_d, local_d);
 #elif defined(USE_ARRAY_LOCKS)
@@ -216,6 +226,8 @@ static inline void acquire_read(lock_local_data* local_d, lock_global_data* glob
     local_d->my_pred= (qnode*) hclh_acquire(local_d->my_queue,global_d->shared_queue,local_d->my_qnode);
 #elif defined(USE_TTAS_LOCKS)
     ttas_lock(global_d, local_d);
+#elif defined(USE_TTAS_SIMP_LOCKS)
+    ttas_simp_lock(global_d);
 #elif defined(USE_SPINLOCK_LOCKS)
     spinlock_lock(global_d, local_d);
 #elif defined(USE_ARRAY_LOCKS)
@@ -241,6 +253,8 @@ static inline void release_lock(lock_local_data *local_d, lock_global_data *glob
     local_d->my_qnode=hclh_release(local_d->my_qnode,local_d->my_pred);
 #elif defined(USE_TTAS_LOCKS)
     ttas_unlock(global_d);
+#elif defined(USE_TTAS_SIMP_LOCKS)
+    ttas_simp_unlock(global_d);
 #elif defined(USE_SPINLOCK_LOCKS)
     spinlock_unlock(global_d);
 #elif defined(USE_ARRAY_LOCKS)
@@ -266,6 +280,8 @@ static inline void release_write(lock_local_data *local_d, lock_global_data *glo
     local_d->my_qnode=hclh_release(local_d->my_qnode,local_d->my_pred);
 #elif defined(USE_TTAS_LOCKS)
     ttas_unlock(global_d);
+#elif defined(USE_TTAS_SIMP_LOCKS)
+    ttas_simp_unlock(global_d);
 #elif defined(USE_SPINLOCK_LOCKS)
     spinlock_unlock(global_d);
 #elif defined(USE_ARRAY_LOCKS)
@@ -291,6 +307,8 @@ static inline void release_read(lock_local_data *local_d, lock_global_data *glob
     local_d->my_qnode=hclh_release(local_d->my_qnode,local_d->my_pred);
 #elif defined(USE_TTAS_LOCKS)
     ttas_unlock(global_d);
+#elif defined(USE_TTAS_SIMP_LOCKS)
+    ttas_simp_unlock(global_d);
 #elif defined(USE_SPINLOCK_LOCKS)
     spinlock_unlock(global_d);
 #elif defined(USE_ARRAY_LOCKS)
@@ -330,7 +348,7 @@ static inline local_data init_lock_array_local(int core_to_pin, int num_locks, g
 #elif defined(USE_TICKET_LOCKS)
     init_thread_ticketlocks(core_to_pin);
     return NULL;
-#elif defined(USE_MUTEX_LOCKS)
+#elif defined(USE_MUTEX_LOCKS) || defined(USE_TTAS_SIMP_LOCKS)
     //assign the thread to the correct core
     set_cpu(core_to_pin);
     return NULL;
@@ -358,7 +376,7 @@ static inline int init_lock_local(int core_to_pin,  lock_global_data* the_lock, 
 #elif defined(USE_TICKET_LOCKS)
     init_thread_ticketlocks(core_to_pin);
     return 0;
-#elif defined(USE_MUTEX_LOCKS)
+#elif defined(USE_MUTEX_LOCKS)  || defined(USE_TTAS_SIMP_LOCKS)
     //assign the thread to the correct core
     set_cpu(core_to_pin);
     return 0;
@@ -383,6 +401,8 @@ static inline void free_lock_local(lock_local_data local_d){
     end_clh_local(local_d);
 #elif defined(USE_RW_LOCKS)
     //    end_rw_ttaslocal(local_d);
+#elif defined(USE_TTAS_SIMP_LOCKS)
+    // nothing to be done
 #elif defined(USE_TICKET_LOCKS)
     //nothing to be done
 #elif defined(USE_MUTEX_LOCKS)
@@ -407,6 +427,8 @@ static inline void free_lock_array_local(local_data local_d, int num_locks){
     end_clh_array_local(local_d, num_locks);
 #elif defined(USE_RW_LOCKS)
     end_rw_ttas_array_local(local_d);
+#elif defined(USE_TTAS_SIMP_LOCKS)
+    // nothing to be done
 #elif defined(USE_TICKET_LOCKS)
     //nothing to be done
 #elif defined(USE_MUTEX_LOCKS)
@@ -423,6 +445,8 @@ static inline global_data init_lock_array_global(int num_locks, int num_threads)
     return init_hclh_array_global(num_locks);
 #elif defined(USE_TTAS_LOCKS)
     return init_ttas_array_global(num_locks);
+#elif defined(USE_TTAS_SIMP_LOCKS)
+    return init_ttas_simp_array_global(num_locks);
 #elif defined(USE_SPINLOCK_LOCKS)
     return init_spinlock_array_global(num_locks);
 #elif defined(USE_ARRAY_LOCKS)
@@ -453,6 +477,8 @@ static inline int init_lock_global(lock_global_data* the_lock){
     return init_hclh_global(the_lock);
 #elif defined(USE_TTAS_LOCKS)
     return init_ttas_global(the_lock);
+#elif defined(USE_TTAS_SIMP_LOCKS)
+    return init_ttas_simp_global(the_lock);
 #elif defined(USE_SPINLOCK_LOCKS)
     return init_spinlock_global(the_lock);
 #elif defined(USE_ARRAY_LOCKS)
@@ -487,6 +513,8 @@ static inline void free_lock_array_global(global_data the_locks, int num_locks) 
     end_hclh_array_global(the_locks, num_locks);
 #elif defined(USE_TTAS_LOCKS)
     end_ttas_array_global(the_locks);
+#elif defined(USE_TTAS_SIMP_LOCKS)
+    end_ttas_simp_array_global(the_locks);
 #elif defined(USE_SPINLOCK_LOCKS)
     end_spinlock_array_global(the_locks);
 #elif defined(USE_ARRAY_LOCKS)
@@ -514,6 +542,8 @@ static inline void free_lock_global(lock_global_data the_lock) {
     end_hclh_global(the_lock);
 #elif defined(USE_TTAS_LOCKS)
     end_ttas_global(the_lock);
+#elif defined(USE_TTAS_SIMP_LOCKS)
+    end_ttas_simp_global(the_lock);
 #elif defined(USE_SPINLOCK_LOCKS)
     end_spinlock_global(the_lock);
 #elif defined(USE_ARRAY_LOCKS)
@@ -548,6 +578,8 @@ static inline int acquire_trylock( lock_local_data* local_d, lock_global_data* g
     return 1;
 #elif defined(USE_TTAS_LOCKS)
     return ttas_trylock(global_d, local_d);
+#elif defined(USE_TTAS_SIMP_LOCKS)
+    return ttas_simp_trylock(global_d);
 #elif defined(USE_SPINLOCK_LOCKS)
     return spinlock_trylock(global_d, local_d);
 #elif defined(USE_ARRAY_LOCKS)
@@ -575,6 +607,8 @@ static inline void release_trylock(lock_local_data* local_d, lock_global_data* g
     local_d->my_qnode=hclh_release(local_d->my_qnode,local_d->my_pred);
 #elif defined(USE_TTAS_LOCKS)
     ttas_unlock(global_d);
+#elif defined(USE_TTAS_SIMP_LOCKS)
+    ttas_simp_unlock(global_d);
 #elif defined(USE_SPINLOCK_LOCKS)
     spinlock_unlock(global_d);
 #elif defined(USE_ARRAY_LOCKS)

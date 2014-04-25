@@ -14,9 +14,9 @@ ifndef PLATFORM
 PLATFORM=-DARM -DCORE_NUM=4
 # PLATFORM=-DSPARC
 # PLATFORM=-DTILERA
-# PLATFORM=-DXEON
+#PLATFORM=-DXEON
 # PLATFORM=-DOPTERON
-# PLATFORM=-DDEFAULT
+#PLATFORM=-DDEFAULT
 endif
 
 ifeq ($(PLATFORM), -DDEFAULT)
@@ -46,7 +46,7 @@ ifeq ($(PLATFORM),-DTILERA)
 	LIBS:=-lrt -lpthread -ltmc
 else
 ifeq ($(UNAME), Linux)
-	GCC:=gcc -g -marm
+	GCC:=arm-linux-gnueabi-gcc -mcpu=cortex-a9
 	LIBS := -lrt -lpthread # -lnuma (removed for ARM)
 endif
 endif
@@ -58,7 +58,8 @@ endif
 
 ifndef LOCK_VERSION
   # LOCK_VERSION=-DUSE_HCLH_LOCKS
-   LOCK_VERSION=-DUSE_TTAS_LOCKS       #
+#   LOCK_VERSION=-DUSE_TTAS_LOCKS       #
+   LOCK_VERSION=-DUSE_TTAS_SIMP_LOCKS       #
   # LOCK_VERSION=-DUSE_SPINLOCK_LOCKS
 # LOCK_VERSION=-DUSE_MCS_LOCKS        #
   # LOCK_VERSION=-DUSE_ARRAY_LOCKS

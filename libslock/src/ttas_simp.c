@@ -33,6 +33,8 @@
 #define UNLOCKED 0
 #define LOCKED 1
 
+__thread unsigned long * ttas_simp_seeds;
+
 int ttas_simp_trylock(ttas_simp_lock_t * the_lock) {
     if (TAS_U8(&(the_lock->lock))==0) return 0;
     return 1;
@@ -96,24 +98,7 @@ ttas_simp_lock_t* init_ttas_simp_array_global(uint32_t num_locks) {
     return the_locks;
 }
 
-uint32_t* init_ttas_simp_array_local(uint32_t thread_num, uint32_t size){
-    //assign the thread to the correct core
-    set_cpu(thread_num);
-    ttas_simp_seeds = seed_rand();
 
-    uint32_t* limits;
-    limits = (uint32_t*)malloc(size * sizeof(uint32_t));
-    uint32_t i;
-    for (i = 0; i < size; i++) {
-        limits[i]=1; 
-    }
-    MEM_BARRIER;
-    return limits;
-}
-
-void end_ttas_simp_array_local(uint32_t* limits) {
-    free(limits);
-}
 
 void end_ttas_simp_array_global(ttas_simp_lock_t* the_locks) {
     free(the_locks);
@@ -123,19 +108,6 @@ int init_ttas_simp_global(ttas_simp_lock_t* the_lock) {
     the_lock->lock=0;
     MEM_BARRIER;
     return 0;
-}
-
-int init_ttas_simp_local(uint32_t thread_num , uint32_t* limit){
-    //assign the thread to the correct core
-    set_cpu(thread_num);
-    *limit=1;
-    ttas_simp_seeds = seed_rand();
-    MEM_BARRIER;
-    return 0;
-}
-
-void end_ttas_simp_local() {
-    //function not needed
 }
 
 void end_ttas_simp_global() {
