@@ -64,6 +64,9 @@ ticket_trylock(ticketlock_t* lock)
     {
       return 0;
     }
+#if defined(__arm__)
+  MEM_BARRIER;
+#endif
   return 1;
 }
 
@@ -177,6 +180,9 @@ ticket_acquire(ticketlock_t* lock)
     {
       PAUSE;
     }
+#if defined(__arm__)
+  MEM_BARRIER;
+#endif
 #  endif
 #endif	/* OPTERON_OPTIMIZE */
 }

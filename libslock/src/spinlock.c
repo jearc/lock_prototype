@@ -37,6 +37,9 @@ __thread unsigned long* spinlock_seeds;
 
 int spinlock_trylock(spinlock_lock_t* the_lock, uint32_t* limits) {
     if (TAS_U8(&(the_lock->lock))==0) return 0;
+#if defined(__arm__)
+    MEM_BARRIER; //avoid prefetching data prior to aquiring lock 
+#endif
     return 1;
 }
     void
@@ -47,6 +50,9 @@ spinlock_lock(spinlock_lock_t* the_lock, uint32_t* limits)
     {
         PAUSE;
     } 
+#if defined(__arm__)
+    MEM_BARRIER; //avoid prefetching data prior to aquiring lock 
+#endif
 }
 
     void

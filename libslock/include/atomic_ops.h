@@ -157,7 +157,7 @@ static inline uint8_t tas_uint8(volatile uint8_t *ptr) {
             : "memory", "cc"                                /* clobbered */
             );
 
-    return ret == 1;
+    return ret;
 }
 
 //atomic operations interface

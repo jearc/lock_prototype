@@ -38,6 +38,9 @@ __thread unsigned long * ttas_seeds;
 
 int ttas_trylock(ttas_lock_t * the_lock, uint32_t * limits) {
     if (TAS_U8(&(the_lock->lock))==0) return 0;
+#ifdef __arm__
+    MEM_BARRIER;
+#endif
     return 1;
 }
 
@@ -66,6 +69,9 @@ void ttas_lock(ttas_lock_t * the_lock, uint32_t* limit) {
     while (1){
         while ((*l)==1) {}
         if (TAS_U8(l)==UNLOCKED) {
+#ifdef __arm__
+            MEM_BARRIER;
+#endif
             return;
         } else {
             //backoff

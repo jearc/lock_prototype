@@ -32,6 +32,10 @@
 #include "clh.h"
 
 int clh_trylock(clh_lock * L, clh_qnode_ptr I) {
+        // This is broken?
+#ifdef __arm__
+            MEM_BARRIER;
+#endif
     return 1;
 }
 
@@ -39,13 +43,16 @@ int clh_trylock(clh_lock * L, clh_qnode_ptr I) {
 volatile clh_qnode* clh_acquire(clh_lock *L, clh_qnode* I ) 
 {
     I->locked=1;
-#if defined(__tile__) || defined(__arm__)
+#if defined(__tile__)
     clh_qnode_ptr pred = (clh_qnode*) SWAP_PTR((volatile void*) (L), (void*) I);
 #else
     MEM_BARRIER;
     clh_qnode_ptr pred = (clh_qnode*) SWAP_PTR( L, I);
 #endif
     if (pred == NULL) 		/* lock was free */
+#ifdef __arm__
+            MEM_BARRIER;
+#endif
         return NULL;
 #if defined(OPTERON_OPTIMIZE)
     PREFETCHW(pred);
@@ -58,7 +65,9 @@ volatile clh_qnode* clh_acquire(clh_lock *L, clh_qnode* I )
         PREFETCHW(pred);
 #endif	/* OPTERON_OPTIMIZE */
     }
-
+#ifdef __arm__
+            MEM_BARRIER;
+#endif
     return pred;
 }
 

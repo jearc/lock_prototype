@@ -34,12 +34,15 @@
 
 int mcs_trylock(mcs_lock *L, mcs_qnode_ptr I) {
     I->next=NULL;
-#if defined(__tile__) || defined(__arm__)
+#if defined(__tile__)
     if (CAS_PTR(L, NULL, I)==NULL) return 0;
     return 1;
 #else
     MEM_BARRIER;
     if (CAS_PTR( L, NULL, I)==NULL) return 0;
+#ifdef __arm__
+    MEM_BARRIER;
+#endif
     return 1;
 #endif
 
@@ -48,13 +51,16 @@ int mcs_trylock(mcs_lock *L, mcs_qnode_ptr I) {
 void mcs_acquire(mcs_lock *L, mcs_qnode_ptr I) 
 {
     I->next = NULL;
-#if defined(__tile__) || defined(__arm__)
+#if defined(__tile__)
     mcs_qnode_ptr pred = (mcs_qnode*) SWAP_PTR((volatile void*) L, (void*) I);
 #else
     MEM_BARRIER;
     mcs_qnode_ptr pred = (mcs_qnode*) SWAP_PTR( L, I);
 #endif
     if (pred == NULL) 		/* lock was free */
+#ifdef __arm__
+        MEM_BARRIER;
+#endif
         return;
     I->waiting = 1; // word on which to spin
     MEM_BARRIER;
@@ -71,6 +77,10 @@ void mcs_acquire(mcs_lock *L, mcs_qnode_ptr I)
         PREFETCHW(I);
 #endif	/* OPTERON_OPTIMIZE */
     }
+#ifdef __arm__
+    MEM_BARRIER;
+#endif
+
 }
 
 void mcs_release(mcs_lock *L, mcs_qnode_ptr I) 

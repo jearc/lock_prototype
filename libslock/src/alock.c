@@ -46,6 +46,9 @@ int alock_trylock(array_lock_t* local_lock) {
             return 0;
         }
     }
+#ifdef __arm__
+    MEM_BARRIER;
+#endif
     return 1;
 }
 
@@ -77,6 +80,10 @@ void alock_lock(array_lock_t* local_lock)
         PREFETCHW(flag);
 #endif	/* OPTERON_OPTIMIZE */
     }
+#ifdef __arm__
+            MEM_BARRIER;
+#endif
+
 }
 
 void alock_unlock(array_lock_t* local_lock) 
@@ -87,6 +94,9 @@ void alock_unlock(array_lock_t* local_lock)
 #endif	/* OPTERON_OPTIMIZE */
     lock_shared_t *lock = local_lock->shared_data;
     uint32_t slot = local_lock->my_index;
+#ifdef __arm__
+    MEM_BARRIER;
+#endif
     lock->flags[slot].flag = 0;
 #if defined(__tile__) || defined(__arm__)
     MEM_BARRIER;
