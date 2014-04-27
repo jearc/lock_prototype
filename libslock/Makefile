@@ -46,7 +46,7 @@ ifeq ($(PLATFORM),-DTILERA)
 	LIBS:=-lrt -lpthread -ltmc
 else
 ifeq ($(UNAME), Linux)
-	GCC:=arm-linux-gnueabi-gcc -mcpu=cortex-a9
+	GCC:=gcc -O2 -mcpu=cortex-a9
 	LIBS := -lrt -lpthread # -lnuma (removed for ARM)
 endif
 endif

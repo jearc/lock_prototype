@@ -55,7 +55,7 @@ void mcs_acquire(mcs_lock *L, mcs_qnode_ptr I)
     mcs_qnode_ptr pred = (mcs_qnode*) SWAP_PTR((volatile void*) L, (void*) I);
 #else
     MEM_BARRIER;
-    mcs_qnode_ptr pred = (mcs_qnode*) SWAP_PTR( L, I);
+    mcs_qnode_ptr pred = (mcs_qnode*) SWAP_PTR( L, (void *)I);
 #endif
     if (pred == NULL) 		/* lock was free */
 #ifdef __arm__
@@ -69,7 +69,7 @@ void mcs_acquire(mcs_lock *L, mcs_qnode_ptr I)
 #if defined(OPTERON_OPTIMIZE)
     PREFETCHW(I);
 #endif	/* OPTERON_OPTIMIZE */
-    while (I->waiting != 0) 
+    while ((volatile uint8_t) I->waiting != 0) 
     {
         PAUSE;
 #if defined(OPTERON_OPTIMIZE)

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-LOCKS="USE_HCLH_LOCKS USE_SPINLOCK_LOCKS USE_TTAS_LOCKS USE_MCS_LOCKS USE_CLH_LOCKS USE_ARRAY_LOCKS USE_RW_LOCKS USE_TICKET_LOCKS USE_MUTEX_LOCKS USE_HTICKET_LOCKS"
+LOCKS="USE_HCLH_LOCKS USE_SPINLOCK_LOCKS USE_TTAS_LOCKS USE_MCS_LOCKS USE_CLH_LOCKS USE_ARRAY_LOCKS USE_RW_LOCKS USE_TICKET_LOCKS USE_MUTEX_LOCKS USE_HTICKET_LOCKS USE_TTAS_SIMP_LOCKS"
 # LOCKS="USE_TTAS_LOCKS USE_MCS_LOCKS USE_TICKET_LOCKS"
 
 MAKE="";
@@ -64,5 +64,5 @@ do
     mv stress_one stress_one_$suffix$USUFFIX;
     #mv stress_latency stress_latency_$suffix$USUFFIX;
     mv uncontended uncontended_$suffix$USUFFIX;
-    #mv test_correctness test_correctness_$suffix$USUFFIX;
+    mv test_correctness test_correctness_$suffix$USUFFIX;
 done;
