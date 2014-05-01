@@ -45,8 +45,8 @@
 //Swap pointers
 static inline void* swap_pointer(volatile void* ptr, void *x) {
     uint32_t atomic, ret;
-    volatile uint32_t* ptri = (uint32_t*)ptr;
-    uint32_t xi = (uint32_t)x;
+    /* volatile uint32_t* ptri = (uint32_t*)ptr;
+    uint32_t xi = (uint32_t)x; */
 
     __asm__ __volatile__ (
             "1:                             \n\t"
@@ -56,7 +56,7 @@ static inline void* swap_pointer(volatile void* ptr, void *x) {
             "bne 1b                         \n\t"
 
             : "=&r"(atomic), "=&r"(ret)     /* output */
-            : "r"(ptri), "r"(xi)              /* input */
+            : "r"(ptr), "r"(x)              /* input */
             : "memory", "cc"                /* clobbered */
             );
 

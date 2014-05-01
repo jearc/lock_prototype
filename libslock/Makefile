@@ -5,8 +5,8 @@ ifeq ($(DEBUG),1)
   COMPILE_FLAGS=-O0 -DADD_PADDING -fno-inline
 else
   DEBUG_FLAGS=-Wall
-  #COMPILE_FLAGS=-O3 -DADD_PADDING
-  COMPILE_FLAGS=-O0 -DADD_PADDING -fno-inline
+  COMPILE_FLAGS=-O3 -DADD_PADDING
+  #COMPILE_FLAGS=-O0 -DADD_PADDING -fno-inline
 #COMPILE_FLAGS=-O3 -DADD_PADDING -DALTERNATE_CORES
 endif
 
@@ -46,7 +46,7 @@ ifeq ($(PLATFORM),-DTILERA)
 	LIBS:=-lrt -lpthread -ltmc
 else
 ifeq ($(UNAME), Linux)
-	GCC:=gcc -O2 -mcpu=cortex-a9
+	GCC:=gcc -mcpu=cortex-a9
 	LIBS := -lrt -lpthread # -lnuma (removed for ARM)
 endif
 endif
