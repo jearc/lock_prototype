@@ -108,6 +108,9 @@ void ttas_unlock(ttas_lock_t *the_lock)
 ttas_lock_t* init_ttas_array_global(uint32_t num_locks) {
 
     ttas_lock_t* the_locks;
+#ifdef ADD_PADDING 
+    assert(sizeof(ttas_lock_t) == CACHE_LINE_SIZE);
+#endif
     the_locks = (ttas_lock_t*)malloc(num_locks * sizeof(ttas_lock_t));
     uint32_t i;
     for (i = 0; i < num_locks; i++) {

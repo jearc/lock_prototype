@@ -110,6 +110,9 @@ void alock_unlock(array_lock_t* local_lock)
  */
 lock_shared_t* init_alock_array_global(uint32_t num_locks, uint32_t num_processes) {
     uint32_t i;
+#ifdef ADD_PADDING
+    assert(sizeof(flag_t) == CACHE_LINE_SIZE);
+#endif
     lock_shared_t* the_locks = (lock_shared_t*) calloc(num_locks, sizeof(lock_shared_t));
     for (i = 0; i < num_locks; i++) {
 //        the_locks[i]=(lock_shared_t*)malloc(sizeof(lock_shared_t));

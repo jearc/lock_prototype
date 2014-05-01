@@ -86,6 +86,10 @@ clh_qnode* clh_release(clh_qnode *my_qnode, clh_qnode * my_pred) {
 
 clh_global_params* init_clh_array_global(uint32_t num_locks) {
     clh_global_params* the_params;
+#ifdef ADD_PADDING
+    assert(sizeof(clh_qnode) == CACHE_LINE_SIZE);
+    assert(sizeof(clh_global_params) == CACHE_LINE_SIZE);
+#endif
     the_params = (clh_global_params*)malloc(num_locks * sizeof(clh_global_params));
     uint32_t i;
     for (i=0;i<num_locks;i++) {

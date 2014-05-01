@@ -119,6 +119,9 @@ int is_free_mcs(mcs_lock *L ){
 
 mcs_global_params* init_mcs_array_global(uint32_t num_locks) {
     uint32_t i;
+#ifdef ADD_PADDING
+    assert(sizeof(mcs_global_params) == CACHE_LINE_SIZE);
+#endif    
     mcs_global_params* the_locks = (mcs_global_params*)malloc(num_locks * sizeof(mcs_global_params));
     for (i=0;i<num_locks;i++) {
         the_locks[i].the_lock=(mcs_lock*)malloc(sizeof(mcs_lock));
@@ -134,6 +137,9 @@ mcs_qnode** init_mcs_array_local(uint32_t thread_num, uint32_t num_locks) {
 
     //init its qnodes
     uint32_t i;
+#ifdef ADD_PADDING
+    assert(sizeof(mcs_qnode) == CACHE_LINE_SIZE);
+#endif 
     mcs_qnode** the_qnodes = (mcs_qnode**)malloc(num_locks * sizeof(mcs_qnode*));
     for (i=0;i<num_locks;i++) {
         the_qnodes[i]=(mcs_qnode*)malloc(sizeof(mcs_qnode));

@@ -78,6 +78,9 @@ int is_free_spinlock(spinlock_lock_t * the_lock){
 spinlock_lock_t* init_spinlock_array_global(uint32_t num_locks) 
 {
     spinlock_lock_t* the_locks;
+#ifdef ADD_PADDING
+    assert(sizeof(spinlock_lock_t) == CACHE_LINE_SIZE);
+#endif
     the_locks = (spinlock_lock_t*)malloc(num_locks * sizeof(spinlock_lock_t));
     uint32_t i;
     for (i = 0; i < num_locks; i++) 

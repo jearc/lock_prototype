@@ -228,6 +228,9 @@ ticketlock_t*
 init_ticketlocks(uint32_t num_locks) 
 {
   ticketlock_t* the_locks;
+#ifdef ADD_PADDING
+  assert(sizeof(ticketlock_t) == CACHE_LINE_SIZE);
+#endif
   the_locks = (ticketlock_t*) malloc(num_locks * sizeof(ticketlock_t));
   uint32_t i;
   for (i = 0; i < num_locks; i++) 
