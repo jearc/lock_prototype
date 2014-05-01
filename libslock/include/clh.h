@@ -68,6 +68,7 @@ typedef struct clh_global_params {
 #else
     uint8_t padding[CACHE_LINE_SIZE - 8];
 #endif
+#endif
 } clh_global_params;
 
 /*

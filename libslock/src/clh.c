@@ -49,6 +49,7 @@ volatile clh_qnode* clh_acquire(clh_lock *L, clh_qnode* I )
     MEM_BARRIER;
     clh_qnode_ptr pred = (clh_qnode*) SWAP_PTR( L, I);
 #endif
+#if 0
     if (pred == NULL) 		/* lock was free */
     {
 #ifdef __arm__
@@ -56,6 +57,7 @@ volatile clh_qnode* clh_acquire(clh_lock *L, clh_qnode* I )
 #endif
         return NULL;
     }
+#endif
 #if defined(OPTERON_OPTIMIZE)
     PREFETCHW(pred);
 #endif	/* OPTERON_OPTIMIZE */

@@ -73,6 +73,7 @@ typedef struct mcs_global_params {
 #else
     uint8_t padding[CACHE_LINE_SIZE - 8];
 #endif
+#endif
 } mcs_global_params;
 
 
