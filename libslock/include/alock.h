@@ -56,6 +56,8 @@
 #define MAX_NUM_PROCESSES 36
 #elif defined(OPTERON)
 #define MAX_NUM_PROCESSES 48
+#elif defined(ARM)
+#define MAX_NUM_PROCESSES 4
 #else
 #define MAX_NUM_PROCESSES 80
 #endif

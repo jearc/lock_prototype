@@ -55,6 +55,10 @@
 
 #define TICKET_ON_TW0_CLS 0	/* Put the head and the tail on separate 
                                cache lines (O: not, 1: do)*/
+
+#define NICTA 1
+
+#ifndef NICTA /* Original suspect padding? */
 typedef struct ticketlock_t 
 {
     volatile uint16_t head;
@@ -70,7 +74,24 @@ typedef struct ticketlock_t
 #endif
 } ticketlock_t;
 
+#else /* NICTA */
 
+typedef struct ticketlock_t 
+{
+    volatile uint16_t head;
+#if TICKET_ON_TW0_CLS == 1
+    uint8_t padding0[CACHE_LINE_SIZE - 2];
+#endif
+    volatile uint16_t tail;
+#ifdef ADD_PADDING
+    uint8_t padding1[CACHE_LINE_SIZE - 4];
+#  if TICKET_ON_TW0_CLS == 1
+    uint8_t padding2[2];
+#  endif
+#endif
+} ticketlock_t;
+
+#endif /* NICTA */
 
 int ticket_trylock(ticketlock_t* lock);
 void ticket_acquire(ticketlock_t* lock);

@@ -63,6 +63,9 @@ typedef struct clh_local_params {
 typedef struct clh_global_params {
     clh_lock* the_lock;
 #ifdef ADD_PADDING
+#ifdef __arm__
+    uint8_t padding[CACHE_LINE_SIZE - 4];
+#else
     uint8_t padding[CACHE_LINE_SIZE - 8];
 #endif
 } clh_global_params;

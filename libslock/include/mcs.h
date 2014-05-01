@@ -52,6 +52,8 @@ typedef struct mcs_qnode {
     volatile struct mcs_qnode *volatile next;
 #ifdef ADD_PADDING
 #if CACHE_LINE_SIZE == 16
+#elif defined(ARM)
+    uint8_t padding[CACHE_LINE_SIZE - 8];
 #else
     uint8_t padding[CACHE_LINE_SIZE - 16];
 #endif
@@ -66,6 +68,9 @@ typedef mcs_qnode* mcs_local_params;
 typedef struct mcs_global_params {
     mcs_lock* the_lock;
 #ifdef ADD_PADDING
+#if defined(ARM)
+    uint8_t padding[CACHE_LINE_SIZE - 4];
+#else
     uint8_t padding[CACHE_LINE_SIZE - 8];
 #endif
 } mcs_global_params;
