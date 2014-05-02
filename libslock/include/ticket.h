@@ -49,9 +49,15 @@
 #include "atomic_ops.h"
 
 /* setting of the back-off based on the length of the queue */
+#ifdef __arm__
+#define TICKET_BASE_WAIT 20
+#define TICKET_MAX_WAIT  4095
+#define TICKET_WAIT_NEXT 20
+#else
 #define TICKET_BASE_WAIT 512
 #define TICKET_MAX_WAIT  4095
 #define TICKET_WAIT_NEXT 128
+#endif
 
 #define TICKET_ON_TW0_CLS 0	/* Put the head and the tail on separate 
                                cache lines (O: not, 1: do)*/
