@@ -57,6 +57,8 @@
 #else
 #  include <emmintrin.h>
 #  include <xmmintrin.h>
+#endif
+#if !defined(__sparc__) && !defined(__arm__) && !defined(HASWELL)
 #  include <numa.h>
 #endif
 #include <pthread.h>
@@ -140,7 +142,7 @@ extern "C" {
         cpu_set_t mask;
         CPU_ZERO(&mask);
         CPU_SET(cpu, &mask);
-#ifndef __arm__
+#if !defined(__arm__) && !defined(HASWELL)
         numa_set_preferred(get_cluster(cpu));
 #endif
         pthread_t thread = pthread_self();
@@ -190,6 +192,7 @@ extern "C" {
 
     static inline void cpause(ticks cycles){
 #if defined(XEON)
+        //FIXME why the bit shift?
         cycles >>= 3;
         ticks i;
         for (i=0;i<cycles;i++) {

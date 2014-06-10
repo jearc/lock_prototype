@@ -158,8 +158,13 @@ extern "C" {
     };
 
 #elif defined(XEON)
+#ifdef HASWELL
+#  define NUMBER_OF_SOCKETS 1
+#  define CORES_PER_SOCKET 4
+#else
 #  define NUMBER_OF_SOCKETS 8
 #  define CORES_PER_SOCKET 10
+#endif /* HASWELL */
 #  define CACHE_LINE_SIZE 64
 # define NOP_DURATION 1
     static uint8_t   __attribute__ ((unused)) the_cores[] = {
@@ -204,7 +209,11 @@ extern "C" {
         }
         return thread_id/CORES_PER_SOCKET;
 #elif XEON
+#ifdef HASWELL
+        if (thread_id>=4){
+#else
         if (thread_id>=80){
+#endif
             perror("Thread id too high");
             return 0;
         }

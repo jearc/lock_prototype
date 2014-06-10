@@ -191,7 +191,8 @@ init_htlocks(uint32_t num_locks)
         assert(locals[n] != NULL);
     }
 
-#if defined(OPTERON) || defined(XEON)
+    // FIXME: not sure about this
+#if defined(OPTERON) || (defined(XEON) && !defined(HASWELL))
     numa_set_preferred(htlock_node_mine);
 #endif
 

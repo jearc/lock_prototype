@@ -41,7 +41,7 @@
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <fcntl.h>
-#if defined(PLATFORM_NUMA)
+#if defined(PLATFORM_NUMA) && !defined(HASWELL)
 #  include <numa.h>
 #endif
 #include <pthread.h>

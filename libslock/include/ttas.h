@@ -38,7 +38,7 @@
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <fcntl.h>
-#if !defined(__sparc__) && !defined(__arm__)
+#if !defined(__sparc__) && !defined(__arm__) && !defined(HASWELL)
 #include <numa.h>
 #endif
 #include <pthread.h>

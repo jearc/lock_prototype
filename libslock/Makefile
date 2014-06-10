@@ -11,10 +11,11 @@ else
 endif
 
 ifndef PLATFORM
-PLATFORM=-DARM -DCORE_NUM=4
+# PLATFORM=-DARM -DCORE_NUM=4
 # PLATFORM=-DSPARC
 # PLATFORM=-DTILERA
-#PLATFORM=-DXEON
+PLATFORM=-DXEON -DHASWELL
+#PLATFORM=-DXEON 
 # PLATFORM=-DOPTERON
 #PLATFORM=-DDEFAULT
 endif
@@ -46,7 +47,11 @@ ifeq ($(PLATFORM),-DTILERA)
 	LIBS:=-lrt -lpthread -ltmc
 else
 ifeq ($(UNAME), Linux)
-	GCC:=gcc -mcpu=cortex-a9
+    ifeq ($(PLATFORM), -DARM)
+        GCC:=gcc -mcpu=cortex-a9
+    else
+        GCC:=gcc
+    endif
 	LIBS := -lrt -lpthread # -lnuma (removed for ARM)
 endif
 endif

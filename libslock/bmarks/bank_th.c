@@ -9,7 +9,7 @@
 #include <sys/time.h>
 #include <time.h>
 #include <malloc.h>
-#if !defined(__sparc__) && !defined(__arm__)
+#if !defined(__sparc__) && !defined(__arm__) && !defined(HASWELL)
 #include <numa.h>
 #endif
 #include "gl_lock.h"
