@@ -132,7 +132,7 @@ extern "C" {
         processor_bind(P_LWPID,P_MYID, cpu, NULL);
 #elif defined(__tile__)
         if (cpu>=tmc_cpus_grid_total()) {
-            perror("Thread id too high");
+            perror("aThread id too high");
         }
         // cput_set_t cpus;
         if (tmc_cpus_set_my_cpu(cpu)<0) {
@@ -190,8 +190,15 @@ extern "C" {
         while (getticks() - __ts_start < (ticks) cycles); 
     }
 
-    static inline void cpause(ticks cycles){
-#if defined(XEON)
+    static inline void cpause(ticks cycles) {
+#if defined(HASWELL)
+        __asm__ __volatile__ (
+        "1:      \n"
+        "dec %0 \n"
+        "js 1b   \n"
+        : "+r" (cycles)
+        );
+#elif defined(XEON)
         //FIXME why the bit shift?
         cycles >>= 3;
         ticks i;
