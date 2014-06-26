@@ -204,17 +204,18 @@ extern "C" {
     static inline int get_cluster(int thread_id) {
 #ifdef __solaris__
         if (thread_id>64){
-            perror("Thread id too high");
+            perror("bThread id too high");
             return 0;
         }
         return thread_id/CORES_PER_SOCKET;
 #elif XEON
 #ifdef HASWELL
+        thread_id--; // HASWELL counts from 1
         if (thread_id>=4){
 #else
         if (thread_id>=80){
 #endif
-            perror("Thread id too high");
+            perror("cThread id too high");
             return 0;
         }
         return the_sockets[thread_id];    

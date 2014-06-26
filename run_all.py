@@ -1,6 +1,7 @@
 from subprocess import check_output
 from numpy import mean, std
-locks = ["clh","spinlock","mcs","array","ticket","ttas","ttas_simp"]
+# locks = ["clh","spinlock","mcs","array","ticket","ttas","ttas_simp"]
+locks = ["ttas","rw","rw_fair"]
 # (locks,lock holding time, pause time between aquisitionss)
 configs =[(1,0,0),(1,10,1000),(1,250,1000),(1,1000,1000),(1,10000,10000)]
 num_samples = 2 

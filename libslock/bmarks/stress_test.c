@@ -120,7 +120,7 @@ void *test(void *data)
 
     /* local initialization of locks */
 
-    local_th_data[d->id] = init_lock_array_local(phys_id, num_locks, the_locks);
+    local_th_data[d->id] = init_lock_array_local(phys_id-1, num_locks, the_locks);
 
     /* uint64_t trylock_acq = 0, trylock_fail = 0; */
 
