@@ -189,7 +189,7 @@ extern "C" {
         //ticks __ts_end = getticks() + (ticks) cycles;
         while (getticks() - __ts_start < (ticks) cycles); 
     }
-<<<<<<< local
+
 #if INLINE_CPAUSE
     static inline void cpause(ticks cycles){
 #if defined(HASWELL)
