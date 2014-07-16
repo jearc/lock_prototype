@@ -143,6 +143,7 @@ mcs_qnode** init_mcs_array_local(uint32_t thread_num, uint32_t num_locks) {
     mcs_qnode** the_qnodes = (mcs_qnode**)malloc(num_locks * sizeof(mcs_qnode*));
     for (i=0;i<num_locks;i++) {
         the_qnodes[i]=(mcs_qnode*)malloc(sizeof(mcs_qnode));
+	assert(((uint32_t)the_qnodes[i] % CACHE_LINE_SIZE) != (CACHE_LINE_SIZE - 4)); 
     }
     MEM_BARRIER;
     return the_qnodes;

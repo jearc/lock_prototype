@@ -73,7 +73,7 @@ ticket_trylock(ticketlock_t* lock)
 void
 ticket_acquire(ticketlock_t* lock) 
 {
-  uint16_t my_ticket = IAF_U32(&(lock->tail));
+  uint16_t my_ticket = IAF_U16(&(lock->tail));
 
 
 #if defined(OPTERON_OPTIMIZE)
@@ -229,7 +229,11 @@ init_ticketlocks(uint32_t num_locks)
 {
   ticketlock_t* the_locks;
 #ifdef ADD_PADDING
+#if TICKET_ON_TW0_CLS == 1
+  assert(sizeof(ticketlock_t) == (2 * CACHE_LINE_SIZE));
+#else
   assert(sizeof(ticketlock_t) == CACHE_LINE_SIZE);
+#endif
 #endif
   the_locks = (ticketlock_t*) malloc(num_locks * sizeof(ticketlock_t));
   uint32_t i;
