@@ -189,8 +189,9 @@ extern "C" {
         //ticks __ts_end = getticks() + (ticks) cycles;
         while (getticks() - __ts_start < (ticks) cycles); 
     }
-
-    static inline void cpause(ticks cycles) {
+<<<<<<< local
+#if INLINE_CPAUSE
+    static inline void cpause(ticks cycles){
 #if defined(HASWELL)
         __asm__ __volatile__ (
         "1:      \n"
@@ -220,7 +221,9 @@ extern "C" {
         }
 #endif
     }
-
+#else
+    void cpause(ticks cycles);
+#endif
     static inline void udelay(unsigned int micros)
     {
         double __ts_end = wtime() + ((double) micros / 1000000);

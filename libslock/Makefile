@@ -91,14 +91,14 @@ SRCPATH := $(TOP)/src
 MAININCLUDE := $(TOP)/include
 
 INCLUDES := -I$(MAININCLUDE)
-OBJ_FILES :=  mcs.o clh.o ttas_simp.o ttas.o spinlock.o rw_ttas.o rw_fair.o ticket.o alock.o hclh.o gl_lock.o htlock.o
+OBJ_FILES :=  mcs.o clh.o ttas_simp.o ttas.o spinlock.o rw_ttas.o rw_fair.o ticket.o alock.o hclh.o gl_lock.o htlock.o utils.o
 
 
 all:  bank bank_one bank_simple test_array_alloc test_trylock sample_generic sample_mcs test_correctness stress_one stress_test stress_latency atomic_bench individual_ops uncontended  htlock_test measure_contention libsync.a
 	@echo "############### Used: " $(LOCK_VERSION) " on " $(PLATFORM) " with " $(OPTIMIZE)
 
-libsync.a: ttas_simp.o ttas.o rw_ttas.o rw_fair.o ticket.o clh.o mcs.o hclh.o alock.o htlock.o include/atomic_ops.h include/utils.h include/lock_if.h
-	ar -r libsync.a ttas_simp.o ttas.o rw_ttas.o rw_fair.o ticket.o clh.o mcs.o alock.o hclh.o htlock.o spinlock.o include/atomic_ops.h include/utils.h
+libsync.a: ttas_simp.o ttas.o rw_ttas.o rw_fair.o ticket.o clh.o mcs.o hclh.o alock.o htlock.o utils.o include/atomic_ops.h include/utils.h include/lock_if.h
+	ar -r libsync.a ttas_simp.o ttas.o rw_ttas.o rw_fair.o ticket.o clh.o mcs.o alock.o hclh.o htlock.o spinlock.o utils.o include/atomic_ops.h include/utils.h
 
 ttas_simp.o: src/ttas_simp.c 
 	$(GCC) -D_GNU_SOURCE $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) -c src/ttas_simp.c $(LIBS)
@@ -119,17 +119,17 @@ ticket.o: src/ticket.c
 	$(GCC) -D_GNU_SOURCE $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) -c src/ticket.c $(LIBS)
 
 ticket_contention.o: src/ticket.c 
-	$(GCC) -D_GNU_SOURCE -DMEASURE_CONTENTION $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) -c src/ticket.c -o ticket_contention.o $(LIBS)
+	$(GCC) -D_GNU_SOURCE -DMEASURE_CONTENTION -DINLINE_CPAUSE $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) -c src/ticket.c -o ticket_contention.o $(LIBS)
 
 gl_lock.o: src/gl_lock.c 
 	$(GCC) -D_GNU_SOURCE $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) -c src/gl_lock.c $(LIBS)
 
 mcs.o: src/mcs.c 
 	$(GCC) -D_GNU_SOURCE $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) -c src/mcs.c $(LIBS)
-
+utils.o: src/utils.c
+	$(GCC) -D_GNU_SOURCE $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) -c src/utils.c $(LIBS)
 clh.o: src/clh.c 
 	$(GCC) -D_GNU_SOURCE $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) -c src/clh.c $(LIBS)
-
 hclh.o: src/hclh.c 
 	$(GCC) -D_GNU_SOURCE $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) -c src/hclh.c $(LIBS)
 
@@ -152,7 +152,7 @@ stress_test: bmarks/stress_test.c $(OBJ_FILES) Makefile
 	$(GCC) $(LOCK_VERSION) $(ALTERNATE_SOCKETS) $(NO_DELAYS) -D_GNU_SOURCE  $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) $(OBJ_FILES) bmarks/stress_test.c -o stress_test $(LIBS)
 
 measure_contention: bmarks/measure_contention.c $(OBJ_FILES) ticket_contention.o Makefile
-	$(GCC) -DUSE_TICKET_LOCKS $(ALTERNATE_SOCKETS) $(NO_DELAYS) -DMEASURE_CONTENTION -D_GNU_SOURCE  $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) ticket_contention.o bmarks/measure_contention.c -o measure_contention $(LIBS)
+	$(GCC) -DUSE_TICKET_LOCKS $(ALTERNATE_SOCKETS) $(NO_DELAYS) -DMEASURE_CONTENTION -DINLINE_CPAUSE -D_GNU_SOURCE  $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) ticket_contention.o bmarks/measure_contention.c -o measure_contention $(LIBS)
 
 stress_one: bmarks/stress_one.c $(OBJ_FILES) Makefile
 	$(GCC) $(LOCK_VERSION) $(ALTERNATE_SOCKETS) $(NO_DELAYS) -D_GNU_SOURCE  $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) $(OBJ_FILES) bmarks/stress_one.c -o stress_one $(LIBS)
@@ -185,7 +185,7 @@ uncontended: bmarks/uncontended.c $(OBJ_FILES) Makefile
 	$(GCC) $(LOCK_VERSION) $(ALTERNATE_SOCKETS) $(NO_DELAYS) -D_GNU_SOURCE  $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) $(OBJ_FILES) bmarks/uncontended.c -o uncontended $(LIBS)
 
 atomic_bench: bmarks/atomic_bench.c Makefile
-	$(GCC) $(ALTERNATE_SOCKETS) $(PRIMITIVE) -D_GNU_SOURCE  $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) bmarks/atomic_bench.c -o atomic_bench $(LIBS)
+	$(GCC) $(ALTERNATE_SOCKETS) $(PRIMITIVE) -D_GNU_SOURCE  -DINLINE_CPAUSE $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) bmarks/atomic_bench.c -o atomic_bench $(LIBS)
 
 htlock_test: htlock.o bmarks/htlock_test.c Makefile
 	$(GCC) -O0 -D_GNU_SOURCE $(COMPILE_FLAGS) $(PLATFORM) $(DEBUG_FLAGS) $(INCLUDES) bmarks/htlock_test.c -o htlock_test htlock.o $(LIBS)
