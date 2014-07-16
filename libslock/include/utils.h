@@ -141,7 +141,13 @@ extern "C" {
 #else
         cpu_set_t mask;
         CPU_ZERO(&mask);
+
+#if defined(__arm__)
+        CPU_SET(cpu+1, &mask);
+#else
         CPU_SET(cpu, &mask);
+#endif
+
 #if !defined(__arm__) && !defined(HASWELL)
         numa_set_preferred(get_cluster(cpu));
 #endif
