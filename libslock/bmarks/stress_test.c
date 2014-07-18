@@ -139,7 +139,11 @@ void *test(void *data)
         acquire_lock(&local_d[lock_to_acq],&the_locks[lock_to_acq]);
         if (acq_duration > 0)
         {
+#ifdef USE_CDELAY
+            cdelay(acq_duration);
+#else
             cpause(acq_duration);
+#endif
         }
         uint32_t i;
 #ifndef NO_DELAYS
@@ -161,11 +165,19 @@ void *test(void *data)
             MEM_BARRIER;
 #endif
             COMPILER_BARRIER;
+#ifdef USE_CDELAY
+            cdelay(acq_delay);
+#else
             cpause(acq_delay);
+#endif
         }
 #if defined(USE_MUTEX_LOCKS)
         if (acq_delay>0)
+#ifdef USE_CDELAY
+            cdelay(mutex_delay);
+#else
             cpause(mutex_delay);
+#endif
 #endif
         d->num_acquires++;
     }
