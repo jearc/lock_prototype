@@ -6,6 +6,7 @@ LOCKS="USE_SPINLOCK_LOCKS USE_TTAS_LOCKS USE_MCS_LOCKS USE_CLH_LOCKS USE_ARRAY_L
 
 MAKE="";
 UNAME=`uname`;
+PF='PLATFORM=-DARM -DCORE_NUM=4'
 if [ $UNAME = "Linux" ];
 then
     MAKE=make;
@@ -53,9 +54,9 @@ do
     echo "Building: $lock";
     touch Makefile;
     if [ $VERBOSE -eq 1 ]; then
-	$MAKE all LOCK_VERSION=-D$lock
+	$MAKE "$PF" all LOCK_VERSION=-D$lock
     else
-	$MAKE all LOCK_VERSION=-D$lock > /dev/null;
+	$MAKE "$PF" all LOCK_VERSION=-D$lock > /dev/null;
     fi
     suffix=`echo $lock | sed -e "s/USE_//g" -e "s/_LOCK\?//g" | tr "[:upper:]" "[:lower:]"`;
     #mv bank bank_$suffix$USUFFIX;
