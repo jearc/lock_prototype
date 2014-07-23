@@ -22,3 +22,9 @@ void cpause(ticks cycles){
         }
 #endif
 }
+
+void cdelay(ticks cycles){
+  ticks __ts_start = getticks();
+  //ticks __ts_end = getticks() + (ticks) cycles;
+  while (getticks() - __ts_start < (ticks) cycles); 
+}
