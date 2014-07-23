@@ -54,6 +54,8 @@
 #include "htlock.h"
 #elif defined(USE_RW_FAIR_LOCKS)
 #include "rw_fair.h"
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+#include "rw_scalable_fair.h"
 #else
 #error "No type of locks given"
 #endif
@@ -83,6 +85,8 @@ typedef pthread_mutex_t lock_global_data;
 typedef htlock_t lock_global_data;
 #elif defined(USE_RW_FAIR_LOCKS)
 typedef rw_fair lock_global_data;
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+typedef rw_scalable_fair lock_global_data;
 #endif
 
 typedef lock_global_data* global_data;
@@ -113,6 +117,8 @@ typedef void* lock_local_data;//no local data for mutexes
 typedef void* lock_local_data;//no local data for hticket locks
 #elif defined(USE_RW_FAIR_LOCKS)
 typedef unsigned int lock_local_data;
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+typedef rw_scalable_fair_qnode_t lock_local_data;
 #endif
 
 typedef lock_local_data* local_data;
@@ -199,6 +205,8 @@ static inline void acquire_lock(lock_local_data* local_d, lock_global_data* glob
     htlock_lock(global_d);
 #elif defined(USE_RW_FAIR_LOCKS)
     fair_write_acquire(global_d,local_d);
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+    scalable_fair_write_acquire(global_d, local_d);
 #endif
 }
 static inline void acquire_write(lock_local_data* local_d, lock_global_data* global_d) {
@@ -226,6 +234,8 @@ static inline void acquire_write(lock_local_data* local_d, lock_global_data* glo
     htlock_lock(global_d);
 #elif defined(USE_RW_FAIR_LOCKS)
     fair_write_acquire(global_d,local_d);
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+    scalable_fair_write_acquire(global_d,local_d);
 #endif
 }
 
@@ -254,6 +264,8 @@ static inline void acquire_read(lock_local_data* local_d, lock_global_data* glob
     htlock_lock(global_d);
 #elif defined(USE_RW_FAIR_LOCKS)
     fair_read_acquire(global_d,local_d);
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+    scalable_fair_read_acquire(global_d,local_d);
 #endif
 }
 
@@ -283,6 +295,8 @@ static inline void release_lock(lock_local_data *local_d, lock_global_data *glob
     htlock_release(global_d);
 #elif defined(USE_RW_FAIR_LOCKS)
     fair_write_release(global_d); 
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+    scalable_fair_write_release(global_d); 
 #endif
 
 }
@@ -312,6 +326,8 @@ static inline void release_write(lock_local_data *local_d, lock_global_data *glo
     htlock_release(global_d);
 #elif defined(USE_RW_FAIR_LOCKS)
     fair_write_release(global_d);
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+    scalable_fair_write_release(global_d);
 #endif
 
 }
@@ -341,6 +357,8 @@ static inline void release_read(lock_local_data *local_d, lock_global_data *glob
     htlock_release(global_d);
 #elif defined(USE_RW_FAIR_LOCKS)
     fair_read_release(global_d); 
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+    scalable_fair_read_release(global_d); 
 #endif
 
 }
@@ -375,6 +393,8 @@ static inline local_data init_lock_array_local(int core_to_pin, int num_locks, g
     return NULL;
 #elif defined(USE_RW_FAIR_LOCKS)
     return init_rw_fair_array_local(core_to_pin, num_locks);
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+    return init_rw_scalable_fair_array_local(core_to_pin, num_locks);
 #endif
 }
 
@@ -405,6 +425,8 @@ static inline int init_lock_local(int core_to_pin,  lock_global_data* the_lock, 
     return 0;
 #elif defined(USE_RW_FAIR_LOCKS)
     return init_rw_fair_local(core_to_pin, local_data);
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+    return init_rw_scalable_fair_local(core_to_pin, local_data);
 #endif
 }
 
@@ -433,6 +455,8 @@ static inline void free_lock_local(lock_local_data local_d){
     //nothing to be done
 #elif defined(USE_RW_FAIR_LOCKS)
     //    end_rw_fair_local(local_d);
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+    end_rw_scalable_fair_local(local_d);
 #endif
 }
 
@@ -461,6 +485,8 @@ static inline void free_lock_array_local(local_data local_d, int num_locks){
     //nothing to be done
 #elif defined(USE_RW_FAIR_LOCKS)
     end_rw_fair_array_local(local_d);
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+    end_rw_scalable_fair_array_local(local_d);
 #endif
 }
 
@@ -495,6 +521,8 @@ static inline global_data init_lock_array_global(int num_locks, int num_threads)
     return init_htlocks(num_locks);
 #elif defined(USE_RW_FAIR_LOCKS)
     return init_rw_fair_array_global(num_locks);
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+    return init_rw_scalable_fair_array_global(num_locks);
 #endif
 }
 
@@ -525,6 +553,8 @@ static inline int init_lock_global(lock_global_data* the_lock){
     return create_htlock(the_lock);
 #elif defined(USE_RW_FAIR_LOCKS)
     return init_rw_fair_global(the_lock);
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+    return init_rw_scalable_fair_global(the_lock);
 #endif
 }
 
@@ -564,6 +594,8 @@ static inline void free_lock_array_global(global_data the_locks, int num_locks) 
     free_htlocks(the_locks);
 #elif defined(USE_RW_FAIR_LOCKS)
     end_rw_fair_array_global(the_locks);
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+    end_rw_scalable_fair_array_global(the_locks);
 #endif
 }
 
@@ -592,6 +624,8 @@ static inline void free_lock_global(lock_global_data the_lock) {
     //
 #elif defined(USE_RW_FAIR_LOCKS)
     end_rw_fair_global(the_lock);
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+    end_rw_scalable_fair_global(the_lock);
 #endif
 }
 
@@ -633,6 +667,8 @@ static inline int acquire_trylock( lock_local_data* local_d, lock_global_data* g
     return 1;
 #elif defined(USE_RW_FAIR_LOCKS)
     return rw_fair_trylock(global_d,local_d);
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+    return rw_scalable_fair_trylock(global_d,local_d);
 #endif
 }
 
@@ -661,6 +697,8 @@ static inline void release_trylock(lock_local_data* local_d, lock_global_data* g
     htlock_release_try(global_d);
 #elif defined(USE_RW_FAIR_LOCKS)
     fair_write_release(global_d); 
+#elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
+    scalable_fair_write_release(global_d); 
 #endif
 }
 

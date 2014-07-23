@@ -64,6 +64,7 @@ do
     #mv bank_simple bank_simple_$suffix$USUFFIX;
     mv stress_test stress_test_$suffix$USUFFIX;
     mv stress_one stress_one_$suffix$USUFFIX;
+    mv core_transitions core_transitions_$suffix$USUFFIX;
     #mv stress_latency stress_latency_$suffix$USUFFIX;
     mv uncontended uncontended_$suffix$USUFFIX;
     mv test_correctness test_correctness_$suffix$USUFFIX;

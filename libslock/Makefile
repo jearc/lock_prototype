@@ -11,10 +11,10 @@ else
 endif
 
 ifndef PLATFORM
-PLATFORM=-DARM -DCORE_NUM=4
+# PLATFORM=-DARM -DCORE_NUM=4
 # PLATFORM=-DSPARC
 # PLATFORM=-DTILERA
-# PLATFORM=-DXEON -DHASWELL
+PLATFORM=-DXEON -DHASWELL
 #PLATFORM=-DXEON 
 # PLATFORM=-DOPTERON
 #PLATFORM=-DDEFAULT
@@ -63,13 +63,13 @@ endif
 
 ifndef LOCK_VERSION
 # LOCK_VERSION=-DUSE_HCLH_LOCKS
-# LOCK_VERSION=-DUSE_TTAS_LOCKS
+LOCK_VERSION=-DUSE_TTAS_LOCKS
 # LOCK_VERSION=-DUSE_TTAS_SIMP_LOCKS
 # LOCK_VERSION=-DUSE_SPINLOCK_LOCKS
 # LOCK_VERSION=-DUSE_MCS_LOCKS
 # LOCK_VERSION=-DUSE_ARRAY_LOCKS
 # LOCK_VERSION=-DUSE_RW_LOCKS
-LOCK_VERSION=-DUSE_RW_FAIR_LOCKS
+# LOCK_VERSION=-DUSE_RW_FAIR_LOCKS
 # LOCK_VERSION=-DUSE_CLH_LOCKS
 # LOCK_VERSION=-DUSE_TICKET_LOCKS
 # LOCK_VERSION=-DUSE_MUTEX_LOCKS
@@ -91,14 +91,14 @@ SRCPATH := $(TOP)/src
 MAININCLUDE := $(TOP)/include
 
 INCLUDES := -I$(MAININCLUDE)
-OBJ_FILES :=  mcs.o clh.o ttas_simp.o ttas.o spinlock.o rw_ttas.o rw_fair.o ticket.o alock.o hclh.o gl_lock.o htlock.o utils.o
+OBJ_FILES :=  mcs.o clh.o ttas_simp.o ttas.o spinlock.o rw_ttas.o rw_scalable_fair.o rw_fair.o ticket.o alock.o hclh.o gl_lock.o htlock.o utils.o
 
 
-all:  bank bank_one bank_simple test_array_alloc test_trylock sample_generic sample_mcs test_correctness stress_one stress_test stress_latency atomic_bench individual_ops uncontended  htlock_test measure_contention libsync.a
+all:  bank bank_one bank_simple test_array_alloc test_trylock sample_generic sample_mcs test_correctness stress_one stress_test core_transitions stress_latency atomic_bench individual_ops uncontended  htlock_test measure_contention libsync.a
 	@echo "############### Used: " $(LOCK_VERSION) " on " $(PLATFORM) " with " $(OPTIMIZE)
 
-libsync.a: ttas_simp.o ttas.o rw_ttas.o rw_fair.o ticket.o clh.o mcs.o hclh.o alock.o htlock.o utils.o include/atomic_ops.h include/utils.h include/lock_if.h
-	ar -r libsync.a ttas_simp.o ttas.o rw_ttas.o rw_fair.o ticket.o clh.o mcs.o alock.o hclh.o htlock.o spinlock.o utils.o include/atomic_ops.h include/utils.h
+libsync.a: ttas_simp.o ttas.o rw_ttas.o rw_scalable_fair.o rw_fair.o ticket.o clh.o mcs.o hclh.o alock.o htlock.o utils.o include/atomic_ops.h include/utils.h include/lock_if.h
+	ar -r libsync.a ttas_simp.o ttas.o rw_ttas.o rw_scalable_fair.o rw_fair.o ticket.o clh.o mcs.o alock.o hclh.o htlock.o spinlock.o utils.o include/atomic_ops.h include/utils.h
 
 ttas_simp.o: src/ttas_simp.c 
 	$(GCC) -D_GNU_SOURCE $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) -c src/ttas_simp.c $(LIBS)
@@ -114,6 +114,9 @@ rw_ttas.o: src/rw_ttas.c
 
 rw_fair.o: src/rw_fair.c 
 	$(GCC) -D_GNU_SOURCE $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) -c src/rw_fair.c $(LIBS)
+
+rw_scalable_fair.o: src/rw_scalable_fair.c 
+	$(GCC) -D_GNU_SOURCE $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) -c src/rw_scalable_fair.c $(LIBS)
 
 ticket.o: src/ticket.c 
 	$(GCC) -D_GNU_SOURCE $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) -c src/ticket.c $(LIBS)
@@ -150,6 +153,9 @@ bank_simple: bmarks/bank_simple.c $(OBJ_FILES) Makefile
 
 stress_test: bmarks/stress_test.c $(OBJ_FILES) Makefile
 	$(GCC) $(LOCK_VERSION) $(ALTERNATE_SOCKETS) $(NO_DELAYS) -D_GNU_SOURCE  $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) $(OBJ_FILES) bmarks/stress_test.c -o stress_test $(LIBS)
+
+stress_test: bmarks/core_transitions.c $(OBJ_FILES) Makefile
+	$(GCC) $(LOCK_VERSION) $(ALTERNATE_SOCKETS) $(NO_DELAYS) -D_GNU_SOURCE  $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) $(OBJ_FILES) bmarks/core_transitions.c -o core_transitions $(LIBS)
 
 measure_contention: bmarks/measure_contention.c $(OBJ_FILES) ticket_contention.o Makefile
 	$(GCC) -DUSE_TICKET_LOCKS $(ALTERNATE_SOCKETS) $(NO_DELAYS) -DMEASURE_CONTENTION -DINLINE_CPAUSE -D_GNU_SOURCE  $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) ticket_contention.o bmarks/measure_contention.c -o measure_contention $(LIBS)
@@ -191,4 +197,4 @@ htlock_test: htlock.o bmarks/htlock_test.c Makefile
 	$(GCC) -O0 -D_GNU_SOURCE $(COMPILE_FLAGS) $(PLATFORM) $(DEBUG_FLAGS) $(INCLUDES) bmarks/htlock_test.c -o htlock_test htlock.o $(LIBS)
 
 clean:
-	rm -f *.o locks mcs_test hclh_test bank_one bank_simple bank* stress_latency* test_array_alloc test_trylock sample_generic test_correctness* stress_one* stress_test*  atomic_bench uncontended* individual_ops trylock_test htlock_test measure_contention sample_mcs libsync.a
+	rm -f *.o locks mcs_test hclh_test bank_one bank_simple bank* stress_latency* test_array_alloc test_trylock sample_generic test_correctness* stress_one* core_transitions* stress_test*  atomic_bench uncontended* individual_ops trylock_test htlock_test measure_contention sample_mcs libsync.a

@@ -197,6 +197,8 @@ static inline uint8_t tas_uint8(volatile uint8_t *ptr) {
 #define TAS_U8(a) tas_uint8(a)
 //Memory barrier
 #define MEM_BARRIER __sync_synchronize()
+//Fetch-and-And
+#define FAA_U32(a,b) __sync_fetch_and_and(a,b)
 
 /*End of ARM code*/
 
@@ -288,6 +290,8 @@ static inline unsigned long xchg64(volatile unsigned long *m, unsigned long val)
 #define TAS_U8(a) tas_uint8(a)
 //Memory barrier
 #define MEM_BARRIER asm volatile("membar #LoadLoad | #LoadStore | #StoreLoad | #StoreStore"); 
+//Fetch-and-And
+#define FAA_U32(a,b) __sync_fetch_and_and(a,b)
 //end of sparc code
 #elif defined(__tile__)
 /*
@@ -334,6 +338,8 @@ static inline unsigned long xchg64(volatile unsigned long *m, unsigned long val)
 #define MEM_BARRIER arch_atomic_full_barrier()
 //Relax CPU
 //define PAUSE cycle_relax()
+//Fetch-and-And
+#define FAA_U32(a,b) __sync_fetch_and_and(a,b)
 
 //end of tilera code
 #else
@@ -450,6 +456,8 @@ static inline uint8_t tas_uint8(volatile uint8_t *addr) {
 #define MEM_BARRIER __sync_synchronize()
 //Relax CPU
 //#define PAUSE _mm_pause()
+//Fetch-and-And
+#define FAA_U32(a,b) __sync_fetch_and_and(a,b)
 
 /*End of x86 code*/
 #endif
