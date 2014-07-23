@@ -190,11 +190,15 @@ extern "C" {
     }
 #endif
 
+#if INLINE_CDELAY
     static inline void cdelay(ticks cycles){
         ticks __ts_start = getticks();
         //ticks __ts_end = getticks() + (ticks) cycles;
         while (getticks() - __ts_start < (ticks) cycles); 
     }
+#else
+  extern void cdelay(ticks cycles);
+#endif
 
 #if INLINE_CPAUSE
     static inline void cpause(ticks cycles){
