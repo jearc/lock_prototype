@@ -61,6 +61,7 @@ scalable_fair_write_acquire(rw_scalable_fair* lock, rw_scalable_fair_qnode_t* I)
     I->blocked = 1;
     I->succ_type = RW_SCALABLE_FAIR_QNODE_NONE;
     rw_scalable_fair_qnode_t* pred; 
+    __sync_synchronize();
 
     if (lock->rw.tail != NULL) {
         printf("a %x %x %x\n", 0, lock->rw.tail, I);
@@ -68,23 +69,32 @@ scalable_fair_write_acquire(rw_scalable_fair* lock, rw_scalable_fair_qnode_t* I)
         printf("b %x %x %x\n", pred, lock->rw.tail, I);
     } else
         pred = SWAP_PTR(&lock->rw.tail, I);
+    __sync_synchronize();
 
     if (pred == NULL) {
         lock->rw.next_writer = I;
+        __sync_synchronize();
         if (lock->rw.reader_count == 0 
                 && ((rw_scalable_fair_qnode_t*) FAA_U32((uint32_t*)&lock->rw.next_writer, 0)) == I) {
             assert(lock->rw.next_writer == NULL);
+        __sync_synchronize();
             I->blocked = 0;
         }
+        __sync_synchronize();
     } else {
         pred->succ_type = RW_SCALABLE_FAIR_QNODE_WRIT;
+        __sync_synchronize();
         pred->next = I;
+        __sync_synchronize();
+        printf("pred %x\n", pred);
+        printf("pred->next %x\n", pred->next);
     }
 
     printf("%x is blocked\n", I);
     while (I->blocked);
     printf("%x has lock\n", I);
 
+    __sync_synchronize();
     //printf("A %x %x %u\n", lock->rw.tail, lock->rw.next_writer, lock->rw.reader_count);
 }
 
@@ -94,15 +104,22 @@ scalable_fair_write_release(rw_scalable_fair* lock, rw_scalable_fair_qnode_t* I)
     //printf("r %x %x %u\n", lock->rw.tail, lock->rw.next_writer, lock->rw.reader_count);
 
     //printf("%x loses lock\n", I);
+    __sync_synchronize();
     if (I->next != NULL || !CASB_PTR(&lock->rw.tail, I, NULL)) {
         printf("z %x %x\n", I, I->next);
+        __sync_synchronize();
         while (I->next == NULL);
+        __sync_synchronize();
         if (I->next->type == RW_SCALABLE_FAIR_QNODE_READ) {
             FAI_U32(&lock->rw.reader_count);
         }
+    __sync_synchronize();
         printf("%x is free\n", I->next);
         I->next->blocked = 0;
+    __sync_synchronize();
     }
+
+    __sync_synchronize();
 
     //printf("R %x %x %u\n", lock->rw.tail, lock->rw.next_writer, lock->rw.reader_count);
 }

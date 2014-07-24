@@ -47,7 +47,7 @@ typedef struct rw_scalable_fair_data {
 
 typedef struct rw_scalable_fair {
     union {
-        rw_scalable_fair_data rw;
+        volatile rw_scalable_fair_data rw;
         volatile uint32_t lock_data [3];
 #ifdef ADD_PADDING
         uint8_t padding[CACHE_LINE_SIZE];

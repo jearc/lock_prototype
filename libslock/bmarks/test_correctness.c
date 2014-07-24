@@ -54,6 +54,8 @@ uint64_t c[2] = {0, 0};
 
 #define XSTR(s) #s
 
+#define PRINT_OUTPUT 1
+
 //number of concurrent threads
 #define DEFAULT_NUM_THREADS 1
 //total duration of the test, in milliseconds
@@ -132,6 +134,7 @@ void *test_correctness(void *data)
 
     lock_local_data* local_d = &(local_th_data[d->id]);
     while (stop == 0) {
+        //printf("acquiring\n");
         acquire_lock(local_d,&the_lock);
         protected_data->counter++;
         release_lock(local_d,&the_lock);
