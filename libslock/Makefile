@@ -63,13 +63,14 @@ endif
 
 ifndef LOCK_VERSION
 # LOCK_VERSION=-DUSE_HCLH_LOCKS
-LOCK_VERSION=-DUSE_TTAS_LOCKS
+# LOCK_VERSION=-DUSE_TTAS_LOCKS
 # LOCK_VERSION=-DUSE_TTAS_SIMP_LOCKS
 # LOCK_VERSION=-DUSE_SPINLOCK_LOCKS
 # LOCK_VERSION=-DUSE_MCS_LOCKS
 # LOCK_VERSION=-DUSE_ARRAY_LOCKS
 # LOCK_VERSION=-DUSE_RW_LOCKS
 # LOCK_VERSION=-DUSE_RW_FAIR_LOCKS
+LOCK_VERSION=-DUSE_RW_SCALABLE_FAIR_LOCKS
 # LOCK_VERSION=-DUSE_CLH_LOCKS
 # LOCK_VERSION=-DUSE_TICKET_LOCKS
 # LOCK_VERSION=-DUSE_MUTEX_LOCKS
@@ -154,7 +155,7 @@ bank_simple: bmarks/bank_simple.c $(OBJ_FILES) Makefile
 stress_test: bmarks/stress_test.c $(OBJ_FILES) Makefile
 	$(GCC) $(LOCK_VERSION) $(ALTERNATE_SOCKETS) $(NO_DELAYS) -D_GNU_SOURCE  $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) $(OBJ_FILES) bmarks/stress_test.c -o stress_test $(LIBS)
 
-stress_test: bmarks/core_transitions.c $(OBJ_FILES) Makefile
+core_transitions: bmarks/core_transitions.c $(OBJ_FILES) Makefile
 	$(GCC) $(LOCK_VERSION) $(ALTERNATE_SOCKETS) $(NO_DELAYS) -D_GNU_SOURCE  $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) $(OBJ_FILES) bmarks/core_transitions.c -o core_transitions $(LIBS)
 
 measure_contention: bmarks/measure_contention.c $(OBJ_FILES) ticket_contention.o Makefile

@@ -199,6 +199,8 @@ static inline uint8_t tas_uint8(volatile uint8_t *ptr) {
 #define MEM_BARRIER __sync_synchronize()
 //Fetch-and-And
 #define FAA_U32(a,b) __sync_fetch_and_and(a,b)
+//Compare-and-swap-bool
+#define CASB_PTR(a,b,c) __sync_bool_compare_and_swap(a,b,c)
 
 /*End of ARM code*/
 
@@ -292,6 +294,8 @@ static inline unsigned long xchg64(volatile unsigned long *m, unsigned long val)
 #define MEM_BARRIER asm volatile("membar #LoadLoad | #LoadStore | #StoreLoad | #StoreStore"); 
 //Fetch-and-And
 #define FAA_U32(a,b) __sync_fetch_and_and(a,b)
+//Compare-and-swap-bool
+#define CASB_PTR(a,b,c) __sync_bool_compare_and_swap(a,b,c)
 //end of sparc code
 #elif defined(__tile__)
 /*
@@ -340,6 +344,8 @@ static inline unsigned long xchg64(volatile unsigned long *m, unsigned long val)
 //define PAUSE cycle_relax()
 //Fetch-and-And
 #define FAA_U32(a,b) __sync_fetch_and_and(a,b)
+//Compare-and-swap-bool
+#define CASB_PTR(a,b,c) __sync_bool_compare_and_swap(a,b,c)
 
 //end of tilera code
 #else
@@ -458,6 +464,8 @@ static inline uint8_t tas_uint8(volatile uint8_t *addr) {
 //#define PAUSE _mm_pause()
 //Fetch-and-And
 #define FAA_U32(a,b) __sync_fetch_and_and(a,b)
+//Compare-and-swap-bool
+#define CASB_PTR(a,b,c) __sync_bool_compare_and_swap(a,b,c)
 
 /*End of x86 code*/
 #endif

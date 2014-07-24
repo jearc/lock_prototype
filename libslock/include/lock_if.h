@@ -296,7 +296,7 @@ static inline void release_lock(lock_local_data *local_d, lock_global_data *glob
 #elif defined(USE_RW_FAIR_LOCKS)
     fair_write_release(global_d); 
 #elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
-    scalable_fair_write_release(global_d); 
+    scalable_fair_write_release(global_d, local_d); 
 #endif
 
 }
@@ -327,7 +327,7 @@ static inline void release_write(lock_local_data *local_d, lock_global_data *glo
 #elif defined(USE_RW_FAIR_LOCKS)
     fair_write_release(global_d);
 #elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
-    scalable_fair_write_release(global_d);
+    scalable_fair_write_release(global_d, local_d);
 #endif
 
 }
@@ -358,7 +358,7 @@ static inline void release_read(lock_local_data *local_d, lock_global_data *glob
 #elif defined(USE_RW_FAIR_LOCKS)
     fair_read_release(global_d); 
 #elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
-    scalable_fair_read_release(global_d); 
+    scalable_fair_read_release(global_d, local_d); 
 #endif
 
 }
@@ -698,7 +698,7 @@ static inline void release_trylock(lock_local_data* local_d, lock_global_data* g
 #elif defined(USE_RW_FAIR_LOCKS)
     fair_write_release(global_d); 
 #elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
-    scalable_fair_write_release(global_d); 
+    scalable_fair_write_release(global_d, local_d); 
 #endif
 }
 
