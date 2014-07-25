@@ -54,7 +54,7 @@ scalable_fair_read_release(rw_scalable_fair* lock, rw_scalable_fair_qnode_t* I)
 void 
 scalable_fair_write_acquire(rw_scalable_fair* lock, rw_scalable_fair_qnode_t* I) 
 {
-    MEM_BARRIER;
+  /* MEM_BARRIER; */
 
     I->type = RW_SCALABLE_FAIR_QNODE_WRIT;
     I->next = NULL;
@@ -62,16 +62,17 @@ scalable_fair_write_acquire(rw_scalable_fair* lock, rw_scalable_fair_qnode_t* I)
     I->succ_type = RW_SCALABLE_FAIR_QNODE_NONE;
     rw_scalable_fair_qnode_t* pred; 
 
-    MEM_BARRIER;
+    MEM_BARRIER; /* ensure I is visible before swap */
     pred = SWAP_PTR(&lock->rw.tail, I);
-    MEM_BARRIER;
+    /* MEM_BARRIER; */
 
     if (pred == NULL) {
-        MEM_BARRIER;
+      /* MEM_BARRIER; */
         lock->rw.next_writer = I;
         if (lock->rw.reader_count == 0 
-                && ((unsigned int) FAA_U32((uint32_t*)&lock->rw.next_writer, 0)) == (unsigned int) I) {
-            I->blocked = 0;
+                && (SWAP_PTR(&lock->rw.next_writer, 0)) == I) {
+          MEM_BARRIER;
+          I->blocked = 0;
         }
     } else {
         pred->succ_type = RW_SCALABLE_FAIR_QNODE_WRIT;
@@ -81,7 +82,7 @@ scalable_fair_write_acquire(rw_scalable_fair* lock, rw_scalable_fair_qnode_t* I)
 
     while (I->blocked);
 
-    MEM_BARRIER;
+    MEM_BARRIER; /* make sure memory does not leak around the lock */
 }
 
 void 
@@ -94,10 +95,10 @@ scalable_fair_write_release(rw_scalable_fair* lock, rw_scalable_fair_qnode_t* I)
         if (I->next->type == RW_SCALABLE_FAIR_QNODE_READ) {
             FAI_U32(&lock->rw.reader_count);
         }
+        MEM_BARRIER;
         I->next->blocked = 0;
     }
 
-    MEM_BARRIER;
 }
 
 int 
