@@ -35,13 +35,13 @@
 typedef struct rw_scalable_fair_qnode {
     volatile uint32_t type;
     volatile uint32_t blocked;
-    volatile struct rw_scalable_fair_qnode *next;
+    volatile struct rw_scalable_fair_qnode *volatile next;
     volatile uint32_t succ_type;
 } rw_scalable_fair_qnode_t;
 
 typedef struct rw_scalable_fair_data {
-    volatile rw_scalable_fair_qnode_t *tail;
-    volatile rw_scalable_fair_qnode_t *next_writer;
+    volatile rw_scalable_fair_qnode_t *volatile tail;
+    volatile rw_scalable_fair_qnode_t *volatile next_writer;
     volatile uint32_t reader_count;
 } rw_scalable_fair_data;
 

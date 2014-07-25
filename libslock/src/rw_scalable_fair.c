@@ -54,7 +54,7 @@ scalable_fair_read_release(rw_scalable_fair* lock, rw_scalable_fair_qnode_t* I)
 void 
 scalable_fair_write_acquire(rw_scalable_fair* lock, rw_scalable_fair_qnode_t* I) 
 {
-    //printf("a %x %x %u\n", lock->rw.tail, lock->rw.next_writer, lock->rw.reader_count);
+    MEM_BARRIER;
 
     I->type = RW_SCALABLE_FAIR_QNODE_WRIT;
     I->next = NULL;
@@ -62,16 +62,15 @@ scalable_fair_write_acquire(rw_scalable_fair* lock, rw_scalable_fair_qnode_t* I)
     I->succ_type = RW_SCALABLE_FAIR_QNODE_NONE;
     rw_scalable_fair_qnode_t* pred; 
 
-#ifdef __arm__
-    MEM_BARRIER
-#endif
+    MEM_BARRIER;
     pred = SWAP_PTR(&lock->rw.tail, I);
+    MEM_BARRIER;
 
     if (pred == NULL) {
+        MEM_BARRIER;
         lock->rw.next_writer = I;
         if (lock->rw.reader_count == 0 
-                && ((rw_scalable_fair_qnode_t*) FAA_U32((uint32_t*)&lock->rw.next_writer, 0)) == I) {
-            //assert(lock->rw.next_writer == NULL);
+                && ((unsigned int) FAA_U32((uint32_t*)&lock->rw.next_writer, 0)) == (unsigned int) I) {
             I->blocked = 0;
         }
     } else {
@@ -88,6 +87,8 @@ scalable_fair_write_acquire(rw_scalable_fair* lock, rw_scalable_fair_qnode_t* I)
 void 
 scalable_fair_write_release(rw_scalable_fair* lock, rw_scalable_fair_qnode_t* I)
 {
+    MEM_BARRIER;
+
     if (I->next != NULL || !CASB_PTR(&lock->rw.tail, I, NULL)) {
         while (I->next == NULL);
         if (I->next->type == RW_SCALABLE_FAIR_QNODE_READ) {
@@ -115,7 +116,9 @@ init_rw_scalable_fair_array_global(uint32_t num_locks)
     the_locks = (rw_scalable_fair*) malloc (num_locks * sizeof(rw_scalable_fair));
     uint32_t i;
     for (i = 0; i < num_locks; i++) {
-        //the_locks[i].lock_data = {0};
+        the_locks[i].rw.tail = NULL;
+        the_locks[i].rw.next_writer = NULL;
+        the_locks[i].rw.reader_count = 0;
     }
     MEM_BARRIER;
     return the_locks;
