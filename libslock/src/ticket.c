@@ -129,7 +129,7 @@ ticket_acquire(ticketlock_t* lock)
   /* backoff proportional to the distance would make sense even without the PREFETCHW */
   /* however, I did some tests on the Niagara and it performed worse */
 
-#  if defined(__x86_64__)
+#  if defined(__x86_64__) && !defined(NO_TICKET_BACKOFF)
 #    if defined(MEASURE_CONTENTION)
   uint8_t once = 1;
   ticket_acquires++;
