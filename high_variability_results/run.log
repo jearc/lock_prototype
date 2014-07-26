@@ -1,0 +1,1339 @@
+nohup: ignoring input
+locks: 1 acquire time: 0 pause time: 0
+clh tmp: 37678580
+clh tmp: 37659436
+clh tmp: 37675464
+clh tmp: 37663287
+clh tmp: 37653981
+clh tmp: 37663127
+clh tmp: 37663859
+clh tmp: 37664440
+clh tmp: 37663166
+clh tmp: 37663867
+clh:37664920.7,0.000189589877005
+spinlock tmp: 75180047
+spinlock tmp: 75179533
+spinlock tmp: 75174349
+spinlock tmp: 75175723
+spinlock tmp: 75177115
+spinlock tmp: 75178145
+spinlock tmp: 75177280
+spinlock tmp: 75178620
+spinlock tmp: 75189283
+spinlock tmp: 75182245
+spinlock:75179234.0,5.55312631426e-05
+mcs tmp: 32508154
+mcs tmp: 32508167
+mcs tmp: 32507994
+mcs tmp: 32508019
+mcs tmp: 32508054
+mcs tmp: 32507789
+mcs tmp: 32508268
+mcs tmp: 32508071
+mcs tmp: 32507931
+mcs tmp: 32507188
+mcs:32507963.5,9.32533512266e-06
+array tmp: 37208260
+array tmp: 37208204
+array tmp: 37208027
+array tmp: 37196005
+array tmp: 37208072
+array tmp: 37207247
+array tmp: 37207572
+array tmp: 37207555
+array tmp: 37207453
+array tmp: 37207530
+array:37206592.5,0.000100425762451
+ticket tmp: 78469927
+ticket tmp: 78489586
+ticket tmp: 78476535
+ticket tmp: 78474768
+ticket tmp: 78487667
+ticket tmp: 78532512
+ticket tmp: 78510307
+ticket tmp: 78510879
+ticket tmp: 78467703
+ticket tmp: 78530578
+ticket:78495046.2,0.000311087886536
+ttas tmp: 73529571
+ttas tmp: 73530153
+ttas tmp: 73530253
+ttas tmp: 73529364
+ttas tmp: 73530038
+ttas tmp: 73530039
+ttas tmp: 73529330
+ttas tmp: 73530092
+ttas tmp: 73530042
+ttas tmp: 73520716
+ttas:73528959.8,3.96534489394e-05
+ttas_simp tmp: 69899261
+ttas_simp tmp: 69399132
+ttas_simp tmp: 69988974
+ttas_simp tmp: 69441840
+ttas_simp tmp: 69541419
+ttas_simp tmp: 69247117
+ttas_simp tmp: 69635106
+ttas_simp tmp: 69607819
+ttas_simp tmp: 69470846
+ttas_simp tmp: 70345072
+ttas_simp:69657658.6,0.00472278618895
+rw tmp: 73529456
+rw tmp: 73529643
+rw tmp: 73521892
+rw tmp: 73529815
+rw tmp: 73529904
+rw tmp: 73529268
+rw tmp: 73522274
+rw tmp: 73529727
+rw tmp: 73529504
+rw tmp: 73529497
+rw:73528098.0,4.32058179735e-05
+rw_fair tmp: 54179974
+rw_fair tmp: 54180138
+rw_fair tmp: 54179716
+rw_fair tmp: 54179989
+rw_fair tmp: 54174729
+rw_fair tmp: 54179540
+rw_fair tmp: 54179945
+rw_fair tmp: 54180312
+rw_fair tmp: 54173940
+rw_fair tmp: 54179488
+rw_fair:54178777.1,4.36030964815e-05
+rw_scalable_fair tmp: 11441697
+rw_scalable_fair tmp: 11441627
+rw_scalable_fair tmp: 11441778
+rw_scalable_fair tmp: 11438054
+rw_scalable_fair tmp: 11441616
+rw_scalable_fair tmp: 11441739
+rw_scalable_fair tmp: 11441777
+rw_scalable_fair tmp: 11441764
+rw_scalable_fair tmp: 11441658
+rw_scalable_fair tmp: 11441812
+rw_scalable_fair:11441352.2,0.000101460261551
+['threads', 'clh', 'spinlock', 'mcs', 'array', 'ticket', 'ttas', 'ttas_simp', 'rw', 'rw_fair', 'rw_scalable_fair']
+results: [1, 37664920.700000003, 0.00018958987700495804, 75179234.0, 5.5531263142552555e-05, 32507963.5, 9.3253351226590726e-06, 37206592.5, 0.0001004257624513883, 78495046.200000003, 0.00031108788653590825, 73528959.799999997, 3.9653448939426976e-05, 69657658.599999994, 0.0047227861889535009, 73528098.0, 4.3205817973524279e-05, 54178777.100000001, 4.3603096481538046e-05, 11441352.199999999, 0.00010146026155075963]
+clh tmp: 7848525
+clh tmp: 7590625
+clh tmp: 7658328
+clh tmp: 7612420
+clh tmp: 7655800
+clh tmp: 7648252
+clh tmp: 7938136
+clh tmp: 7857856
+clh tmp: 7859317
+clh tmp: 7807163
+clh:7747642.2,0.0163182443787
+spinlock tmp: 14842795
+spinlock tmp: 9915504
+spinlock tmp: 12317985
+spinlock tmp: 9715090
+spinlock tmp: 10686644
+spinlock tmp: 14122182
+spinlock tmp: 9772635
+spinlock tmp: 12568482
+spinlock tmp: 9749911
+spinlock tmp: 14878433
+spinlock:11856966.1,0.183068775156
+mcs tmp: 5241996
+mcs tmp: 5253441
+mcs tmp: 5336593
+mcs tmp: 5301071
+mcs tmp: 5389257
+mcs tmp: 5269881
+mcs tmp: 5198626
+mcs tmp: 5125262
+mcs tmp: 5305412
+mcs tmp: 5447466
+mcs:5286900.5,0.0174516800762
+array tmp: 7707148
+array tmp: 7906364
+array tmp: 7945462
+array tmp: 7764882
+array tmp: 7701425
+array tmp: 7964547
+array tmp: 7739698
+array tmp: 7720934
+array tmp: 7937953
+array tmp: 7722129
+array:7811054.2,0.014337684485
+ticket tmp: 8744845
+ticket tmp: 8853519
+ticket tmp: 9096756
+ticket tmp: 8759974
+ticket tmp: 8918720
+ticket tmp: 8901540
+ticket tmp: 9046240
+ticket tmp: 8883527
+ticket tmp: 8711507
+ticket tmp: 9010807
+ticket:8892743.5,0.0147022939186
+ttas tmp: 40997796
+ttas tmp: 40620719
+ttas tmp: 44609659
+ttas tmp: 41403209
+ttas tmp: 44789389
+ttas tmp: 41652997
+ttas tmp: 40895480
+ttas tmp: 44644326
+ttas tmp: 41662394
+ttas tmp: 40876330
+ttas:42215229.9,0.0411051179479
+ttas_simp tmp: 8942799
+ttas_simp tmp: 11948866
+ttas_simp tmp: 8679426
+ttas_simp tmp: 11780193
+ttas_simp tmp: 13108376
+ttas_simp tmp: 12216769
+ttas_simp tmp: 16342984
+ttas_simp tmp: 9958576
+ttas_simp tmp: 8600473
+ttas_simp tmp: 9959137
+ttas_simp:11153759.9,0.218159966286
+rw tmp: 33112323
+rw tmp: 38438410
+rw tmp: 28988712
+rw tmp: 32674132
+rw tmp: 33252360
+rw tmp: 37902927
+rw tmp: 30268794
+rw tmp: 31353853
+rw tmp: 29878451
+rw tmp: 26830958
+rw:32270092.0,0.114340738492
+rw_fair tmp: 7759173
+rw_fair tmp: 8107454
+rw_fair tmp: 8188064
+rw_fair tmp: 7913352
+rw_fair tmp: 8115082
+rw_fair tmp: 7895874
+rw_fair tmp: 7884456
+rw_fair tmp: 8172947
+rw_fair tmp: 8222701
+rw_fair tmp: 8179573
+rw_fair:8043867.6,0.020400902063
+rw_scalable_fair tmp: 4225639
+rw_scalable_fair tmp: 4242450
+rw_scalable_fair tmp: 4245439
+rw_scalable_fair tmp: 4326650
+rw_scalable_fair tmp: 4351310
+rw_scalable_fair tmp: 4334278
+rw_scalable_fair tmp: 4210053
+rw_scalable_fair tmp: 4173511
+rw_scalable_fair tmp: 4351626
+rw_scalable_fair tmp: 4263701
+rw_scalable_fair:4272465.7,0.0149722832928
+results: [2, 7747642.2000000002, 0.016318244378701271, 11856966.1, 0.18306877515576406, 5286900.5, 0.017451680076237909, 7811054.2000000002, 0.014337684485027574, 8892743.5, 0.014702293918638924, 42215229.899999999, 0.0411051179478975, 11153759.9, 0.21815996628596421, 32270092.0, 0.11434073849177245, 8043867.5999999996, 0.020400902063038361, 4272465.7000000002, 0.014972283292802284]
+clh tmp: 7384288
+clh tmp: 7578185
+clh tmp: 7363414
+clh tmp: 7386406
+clh tmp: 7534498
+clh tmp: 7549291
+clh tmp: 7549888
+clh tmp: 7438763
+clh tmp: 7319394
+clh tmp: 7422919
+clh:7452704.6,0.0124200765464
+spinlock tmp: 8017710
+spinlock tmp: 10146048
+spinlock tmp: 7883848
+spinlock tmp: 10069486
+spinlock tmp: 8089538
+spinlock tmp: 7817190
+spinlock tmp: 8108095
+spinlock tmp: 10420873
+spinlock tmp: 10126616
+spinlock tmp: 8072247
+spinlock:8875165.1,0.1283825282
+mcs tmp: 6972288
+mcs tmp: 6940940
+mcs tmp: 6975714
+mcs tmp: 6904472
+mcs tmp: 6685509
+mcs tmp: 6952438
+mcs tmp: 6956078
+mcs tmp: 7017977
+mcs tmp: 6928831
+mcs tmp: 6789656
+mcs:6912390.3,0.0144623967625
+array tmp: 7782282
+array tmp: 7775560
+array tmp: 7726791
+array tmp: 7817511
+array tmp: 7785128
+array tmp: 7807419
+array tmp: 7759382
+array tmp: 7826636
+array tmp: 7731636
+array tmp: 7710549
+array:7772289.4,0.00511229660096
+ticket tmp: 8288435
+ticket tmp: 7930934
+ticket tmp: 8210315
+ticket tmp: 8198797
+ticket tmp: 8215930
+ticket tmp: 7904136
+ticket tmp: 8288293
+ticket tmp: 8305738
+ticket tmp: 8327462
+ticket tmp: 8356672
+ticket:8202671.2,0.0193959755344
+ttas tmp: 28126271
+ttas tmp: 28060559
+ttas tmp: 29306321
+ttas tmp: 28599398
+ttas tmp: 28459337
+ttas tmp: 27691965
+ttas tmp: 27915475
+ttas tmp: 28545842
+ttas tmp: 28732508
+ttas tmp: 29840035
+ttas:28527771.1,0.0228766138156
+ttas_simp tmp: 14282045
+ttas_simp tmp: 16073755
+ttas_simp tmp: 9166761
+ttas_simp tmp: 8985260
+ttas_simp tmp: 13663776
+ttas_simp tmp: 9334717
+ttas_simp tmp: 9239297
+ttas_simp tmp: 8895496
+ttas_simp tmp: 15768857
+ttas_simp tmp: 14834606
+ttas_simp:12024457.0,0.260467514603
+rw tmp: 22670849
+rw tmp: 22643187
+rw tmp: 22679923
+rw tmp: 20468235
+rw tmp: 22494385
+rw tmp: 22706178
+rw tmp: 21568500
+rw tmp: 22702010
+rw tmp: 21964321
+rw tmp: 21542773
+rw:22144036.1,0.0339853977274
+rw_fair tmp: 7262253
+rw_fair tmp: 7146347
+rw_fair tmp: 7317158
+rw_fair tmp: 7379020
+rw_fair tmp: 7243070
+rw_fair tmp: 7266535
+rw_fair tmp: 7215683
+rw_fair tmp: 7235042
+rw_fair tmp: 7286084
+rw_fair tmp: 7151318
+rw_fair:7250251.0,0.00973255542736
+rw_scalable_fair tmp: 4990612
+rw_scalable_fair tmp: 4990458
+rw_scalable_fair tmp: 4991283
+rw_scalable_fair tmp: 5021380
+rw_scalable_fair tmp: 4982925
+rw_scalable_fair tmp: 4971588
+rw_scalable_fair tmp: 4972399
+rw_scalable_fair tmp: 4987310
+rw_scalable_fair tmp: 4960326
+rw_scalable_fair tmp: 4992781
+rw_scalable_fair:4986106.2,0.00329528042647
+results: [3, 7452704.5999999996, 0.012420076546378798, 8875165.0999999996, 0.12838252820022297, 6912390.2999999998, 0.014462396762475837, 7772289.4000000004, 0.0051122966009591571, 8202671.2000000002, 0.019395975534360635, 28527771.100000001, 0.022876613815591768, 12024457.0, 0.26046751460320394, 22144036.100000001, 0.033985397727447561, 7250251.0, 0.0097325554273557692, 4986106.2000000002, 0.0032952804264674354]
+clh tmp: 7391747
+clh tmp: 7273485
+clh tmp: 7385810
+clh tmp: 7432213
+clh tmp: 7464430
+clh tmp: 7369337
+clh tmp: 7475732
+clh tmp: 7498974
+clh tmp: 7373398
+clh tmp: 6304952
+clh:7297007.8,0.0485958889884
+spinlock tmp: 7023262
+spinlock tmp: 7255237
+spinlock tmp: 7269443
+spinlock tmp: 7152965
+spinlock tmp: 7029270
+spinlock tmp: 7113803
+spinlock tmp: 7218368
+spinlock tmp: 7148111
+spinlock tmp: 6993674
+spinlock tmp: 7221481
+spinlock:7142561.4,0.0140758637048
+mcs tmp: 7055392
+mcs tmp: 7140034
+mcs tmp: 7111337
+mcs tmp: 7098920
+mcs tmp: 7113924
+mcs tmp: 7194352
+mcs tmp: 7112199
+mcs tmp: 7030200
+mcs tmp: 6877757
+mcs tmp: 7162748
+mcs:7089686.3,0.0124487513057
+array tmp: 7397289
+array tmp: 7698894
+array tmp: 7655597
+array tmp: 7530994
+array tmp: 7533494
+array tmp: 7597858
+array tmp: 7596005
+array tmp: 7593680
+array tmp: 7607991
+array tmp: 6291932
+array:7450373.4,0.0557092316254
+ticket tmp: 8501572
+ticket tmp: 8325719
+ticket tmp: 8346328
+ticket tmp: 8361926
+ticket tmp: 8217202
+ticket tmp: 8360303
+ticket tmp: 8348235
+ticket tmp: 8374341
+ticket tmp: 8314063
+ticket tmp: 8279476
+ticket:8342916.5,0.00873704389849
+ttas tmp: 17921833
+ttas tmp: 20054187
+ttas tmp: 20106085
+ttas tmp: 18012091
+ttas tmp: 18021898
+ttas tmp: 20704458
+ttas tmp: 20318847
+ttas tmp: 19630807
+ttas tmp: 17765657
+ttas tmp: 20394223
+ttas:19293008.6,0.0624888521821
+ttas_simp tmp: 5966444
+ttas_simp tmp: 5856413
+ttas_simp tmp: 5769690
+ttas_simp tmp: 6081523
+ttas_simp tmp: 5855500
+ttas_simp tmp: 5856895
+ttas_simp tmp: 6165739
+ttas_simp tmp: 6217888
+ttas_simp tmp: 6216223
+ttas_simp tmp: 5708923
+ttas_simp:5969523.8,0.0315837612249
+rw tmp: 12127419
+rw tmp: 13538017
+rw tmp: 12465806
+rw tmp: 12253904
+rw tmp: 12123633
+rw tmp: 13093952
+rw tmp: 12616198
+rw tmp: 11127159
+rw tmp: 13228141
+rw tmp: 12450306
+rw:12502453.5,0.0546608316753
+rw_fair tmp: 6677084
+rw_fair tmp: 6734362
+rw_fair tmp: 6727582
+rw_fair tmp: 6684209
+rw_fair tmp: 6735591
+rw_fair tmp: 6664728
+rw_fair tmp: 6644371
+rw_fair tmp: 6709008
+rw_fair tmp: 6704038
+rw_fair tmp: 6733890
+rw_fair:6701486.3,0.00485962666191
+rw_scalable_fair tmp: 4830207
+rw_scalable_fair tmp: 4923787
+rw_scalable_fair tmp: 4932652
+rw_scalable_fair tmp: 5103905
+rw_scalable_fair tmp: 4898719
+rw_scalable_fair tmp: 4936461
+rw_scalable_fair tmp: 5115686
+rw_scalable_fair tmp: 5083494
+rw_scalable_fair tmp: 4088510
+rw_scalable_fair tmp: 4894064
+rw_scalable_fair:4880748.5,0.0604886771629
+results: [4, 7297007.7999999998, 0.048595888988391789, 7142561.4000000004, 0.014075863704842389, 7089686.2999999998, 0.012448751305728671, 7450373.4000000004, 0.055709231625378955, 8342916.5, 0.00873704389848649, 19293008.600000001, 0.062488852182129996, 5969523.7999999998, 0.031583761224932901, 12502453.5, 0.054660831675342976, 6701486.2999999998, 0.0048596266619103223, 4880748.5, 0.060488677162863297]
+locks: 1 acquire time: 250 pause time: 1000
+clh tmp: 2221894
+clh tmp: 2221894
+clh tmp: 2221925
+clh tmp: 2221882
+clh tmp: 2221911
+clh tmp: 2221676
+clh tmp: 2221904
+clh tmp: 2221889
+clh tmp: 2221913
+clh tmp: 2221886
+clh:2221877.4,3.24246087451e-05
+spinlock tmp: 2274614
+spinlock tmp: 2274648
+spinlock tmp: 2274632
+spinlock tmp: 2274630
+spinlock tmp: 2274632
+spinlock tmp: 2274656
+spinlock tmp: 2274637
+spinlock tmp: 2274630
+spinlock tmp: 2274417
+spinlock tmp: 2274424
+spinlock:2274592.0,4.00471465528e-05
+mcs tmp: 2156616
+mcs tmp: 2156757
+mcs tmp: 2156695
+mcs tmp: 2156505
+mcs tmp: 2156631
+mcs tmp: 2156598
+mcs tmp: 2156504
+mcs tmp: 2156749
+mcs tmp: 2156655
+mcs tmp: 2156760
+mcs:2156647.0,4.42249529453e-05
+array tmp: 2239633
+array tmp: 2239654
+array tmp: 2239651
+array tmp: 2239653
+array tmp: 2239648
+array tmp: 2239652
+array tmp: 2239651
+array tmp: 2239637
+array tmp: 2239657
+array tmp: 2239659
+array:2239649.5,3.70740115275e-06
+ticket tmp: 2274213
+ticket tmp: 2274246
+ticket tmp: 2274218
+ticket tmp: 2274212
+ticket tmp: 2274232
+ticket tmp: 2274219
+ticket tmp: 2274218
+ticket tmp: 2274212
+ticket tmp: 2274200
+ticket tmp: 2273544
+ticket:2274151.4,9.40049129757e-05
+ttas tmp: 2267613
+ttas tmp: 2267623
+ttas tmp: 2267610
+ttas tmp: 2267638
+ttas tmp: 2267609
+ttas tmp: 2267565
+ttas tmp: 2267552
+ttas tmp: 2267582
+ttas tmp: 2267581
+ttas tmp: 2267591
+ttas:2267596.4,1.18408204111e-05
+ttas_simp tmp: 2284339
+ttas_simp tmp: 2284342
+ttas_simp tmp: 2284139
+ttas_simp tmp: 2284145
+ttas_simp tmp: 2284376
+ttas_simp tmp: 2284344
+ttas_simp tmp: 2284352
+ttas_simp tmp: 2284355
+ttas_simp tmp: 2284345
+ttas_simp tmp: 2284336
+ttas_simp:2284307.3,3.84584626598e-05
+rw tmp: 2270681
+rw tmp: 2270898
+rw tmp: 2270882
+rw tmp: 2270897
+rw tmp: 2270908
+rw tmp: 2270902
+rw tmp: 2270889
+rw tmp: 2270914
+rw tmp: 2270880
+rw tmp: 2270340
+rw:2270819.1,8.00287636002e-05
+rw_fair tmp: 2220238
+rw_fair tmp: 2220222
+rw_fair tmp: 2220224
+rw_fair tmp: 2220217
+rw_fair tmp: 2220218
+rw_fair tmp: 2220225
+rw_fair tmp: 2220187
+rw_fair tmp: 2220189
+rw_fair tmp: 2220203
+rw_fair tmp: 2220224
+rw_fair:2220214.7,7.44058006058e-06
+rw_scalable_fair tmp: 1916851
+rw_scalable_fair tmp: 1916842
+rw_scalable_fair tmp: 1916857
+rw_scalable_fair tmp: 1916827
+rw_scalable_fair tmp: 1916819
+rw_scalable_fair tmp: 1916866
+rw_scalable_fair tmp: 1916854
+rw_scalable_fair tmp: 1916847
+rw_scalable_fair tmp: 1916870
+rw_scalable_fair tmp: 1916861
+rw_scalable_fair:1916849.4,8.52341062586e-06
+['threads', 'clh', 'spinlock', 'mcs', 'array', 'ticket', 'ttas', 'ttas_simp', 'rw', 'rw_fair', 'rw_scalable_fair']
+results: [1, 2221877.3999999999, 3.2424608745129737e-05, 2274592.0, 4.0047146552769436e-05, 2156647.0, 4.4224952945340411e-05, 2239649.5, 3.7074011527491687e-06, 2274151.3999999999, 9.4004912975733184e-05, 2267596.3999999999, 1.1840820411115938e-05, 2284307.2999999998, 3.845846265978491e-05, 2270819.1000000001, 8.002876360024853e-05, 2220214.7000000002, 7.4405800605794396e-06, 1916849.3999999999, 8.5234106258646753e-06]
+clh tmp: 3911308
+clh tmp: 3842999
+clh tmp: 3844838
+clh tmp: 3893520
+clh tmp: 3915398
+clh tmp: 3856254
+clh tmp: 3837551
+clh tmp: 3851346
+clh tmp: 3831533
+clh tmp: 3840571
+clh:3862531.8,0.0082145750674
+spinlock tmp: 4239038
+spinlock tmp: 4230086
+spinlock tmp: 4236252
+spinlock tmp: 4211144
+spinlock tmp: 4264893
+spinlock tmp: 4239521
+spinlock tmp: 4252693
+spinlock tmp: 4229445
+spinlock tmp: 4260886
+spinlock tmp: 4272145
+spinlock:4243610.3,0.00442779640292
+mcs tmp: 3149690
+mcs tmp: 3168273
+mcs tmp: 3197100
+mcs tmp: 3371878
+mcs tmp: 3319242
+mcs tmp: 3366388
+mcs tmp: 3367010
+mcs tmp: 3173025
+mcs tmp: 3192849
+mcs tmp: 3283957
+mcs:3258941.2,0.0281920224065
+array tmp: 4228012
+array tmp: 4210671
+array tmp: 4173302
+array tmp: 4204888
+array tmp: 4209162
+array tmp: 4185128
+array tmp: 4204010
+array tmp: 4201358
+array tmp: 4192935
+array tmp: 4223452
+array:4203291.8,0.00392514396963
+ticket tmp: 4190813
+ticket tmp: 4198291
+ticket tmp: 4215352
+ticket tmp: 4187656
+ticket tmp: 4217631
+ticket tmp: 4179796
+ticket tmp: 4226001
+ticket tmp: 4185478
+ticket tmp: 4181944
+ticket tmp: 4194535
+ticket:4197749.7,0.00387930508732
+ttas tmp: 4084664
+ttas tmp: 4095599
+ttas tmp: 4074971
+ttas tmp: 4073139
+ttas tmp: 4093312
+ttas tmp: 4099101
+ttas tmp: 4085034
+ttas tmp: 4092335
+ttas tmp: 4093090
+ttas tmp: 4082867
+ttas:4087411.2,0.00213798864186
+ttas_simp tmp: 4118993
+ttas_simp tmp: 4092248
+ttas_simp tmp: 4092551
+ttas_simp tmp: 4088023
+ttas_simp tmp: 4094849
+ttas_simp tmp: 4120172
+ttas_simp tmp: 4091529
+ttas_simp tmp: 4115017
+ttas_simp tmp: 4084094
+ttas_simp tmp: 4117772
+ttas_simp:4101524.8,0.00353883616693
+rw tmp: 4083305
+rw tmp: 4088968
+rw tmp: 4096456
+rw tmp: 4079676
+rw tmp: 4092512
+rw tmp: 4078174
+rw tmp: 4079183
+rw tmp: 4094270
+rw tmp: 4066926
+rw tmp: 4095541
+rw:4085501.1,0.00235942616063
+rw_fair tmp: 3395127
+rw_fair tmp: 3417900
+rw_fair tmp: 3447068
+rw_fair tmp: 3490805
+rw_fair tmp: 3418516
+rw_fair tmp: 3403535
+rw_fair tmp: 3426702
+rw_fair tmp: 3264677
+rw_fair tmp: 3419712
+rw_fair tmp: 3418812
+rw_fair:3410285.4,0.0168930429218
+rw_scalable_fair tmp: 3058284
+rw_scalable_fair tmp: 3042052
+rw_scalable_fair tmp: 3076375
+rw_scalable_fair tmp: 3052321
+rw_scalable_fair tmp: 3068482
+rw_scalable_fair tmp: 3064076
+rw_scalable_fair tmp: 3077907
+rw_scalable_fair tmp: 3092694
+rw_scalable_fair tmp: 3062024
+rw_scalable_fair tmp: 3092940
+rw_scalable_fair:3068715.5,0.00538735462755
+results: [2, 3862531.7999999998, 0.0082145750673961061, 4243610.2999999998, 0.0044277964029182989, 3258941.2000000002, 0.02819202240645579, 4203291.7999999998, 0.0039251439696349269, 4197749.7000000002, 0.003879305087321816, 4087411.2000000002, 0.0021379886418587762, 4101524.7999999998, 0.0035388361669283987, 4085501.1000000001, 0.0023594261606280946, 3410285.3999999999, 0.01689304292176633, 3068715.5, 0.0053873546275462888]
+clh tmp: 4692184
+clh tmp: 4686176
+clh tmp: 4626199
+clh tmp: 4670528
+clh tmp: 4641470
+clh tmp: 4613672
+clh tmp: 4672693
+clh tmp: 4644165
+clh tmp: 4601635
+clh tmp: 4648034
+clh:4649675.6,0.00655462786591
+spinlock tmp: 4691863
+spinlock tmp: 4686321
+spinlock tmp: 4692175
+spinlock tmp: 4654226
+spinlock tmp: 4642097
+spinlock tmp: 4717334
+spinlock tmp: 4690508
+spinlock tmp: 4674024
+spinlock tmp: 4677883
+spinlock tmp: 4646322
+spinlock:4677275.3,0.00505654246176
+mcs tmp: 3814225
+mcs tmp: 3801533
+mcs tmp: 3810062
+mcs tmp: 3761247
+mcs tmp: 3760529
+mcs tmp: 3809881
+mcs tmp: 3795620
+mcs tmp: 3776722
+mcs tmp: 3825102
+mcs tmp: 3826319
+mcs:3798124.0,0.00639643831922
+array tmp: 4858577
+array tmp: 4904290
+array tmp: 4862012
+array tmp: 4859598
+array tmp: 4901092
+array tmp: 4877224
+array tmp: 4905784
+array tmp: 4913074
+array tmp: 4873014
+array tmp: 4853182
+array:4880784.7,0.00471279909071
+ticket tmp: 4940496
+ticket tmp: 4889327
+ticket tmp: 4925362
+ticket tmp: 4891836
+ticket tmp: 4945408
+ticket tmp: 4935528
+ticket tmp: 4902514
+ticket tmp: 4911784
+ticket tmp: 4915887
+ticket tmp: 4943713
+ticket:4920185.5,0.0042963785249
+ttas tmp: 4070191
+ttas tmp: 4077179
+ttas tmp: 4044726
+ttas tmp: 4056363
+ttas tmp: 4071264
+ttas tmp: 4073246
+ttas tmp: 4078093
+ttas tmp: 4057150
+ttas tmp: 4054181
+ttas tmp: 4072560
+ttas:4065495.3,0.00280804152818
+ttas_simp tmp: 4324510
+ttas_simp tmp: 4246675
+ttas_simp tmp: 4352822
+ttas_simp tmp: 4145642
+ttas_simp tmp: 4251222
+ttas_simp tmp: 4325752
+ttas_simp tmp: 4219344
+ttas_simp tmp: 4317733
+ttas_simp tmp: 4331890
+ttas_simp tmp: 4306086
+ttas_simp:4282167.6,0.0151336975824
+rw tmp: 3995890
+rw tmp: 4001142
+rw tmp: 4059590
+rw tmp: 3997952
+rw tmp: 4044180
+rw tmp: 3985757
+rw tmp: 4008497
+rw tmp: 4063857
+rw tmp: 3999118
+rw tmp: 3999483
+rw:4015546.6,0.00717074421547
+rw_fair tmp: 4553662
+rw_fair tmp: 4600535
+rw_fair tmp: 4566336
+rw_fair tmp: 4613924
+rw_fair tmp: 4558782
+rw_fair tmp: 4621637
+rw_fair tmp: 4560338
+rw_fair tmp: 4551052
+rw_fair tmp: 4543179
+rw_fair tmp: 4539054
+rw_fair:4570849.9,0.00654566750375
+rw_scalable_fair tmp: 3133613
+rw_scalable_fair tmp: 3151345
+rw_scalable_fair tmp: 3127102
+rw_scalable_fair tmp: 3141545
+rw_scalable_fair tmp: 3126923
+rw_scalable_fair tmp: 3156258
+rw_scalable_fair tmp: 3163507
+rw_scalable_fair tmp: 3127052
+rw_scalable_fair tmp: 3176508
+rw_scalable_fair tmp: 3181021
+rw_scalable_fair:3148487.4,0.0065168750915
+results: [3, 4649675.5999999996, 0.0065546278659097323, 4677275.2999999998, 0.0050565424617644798, 3798124.0, 0.0063964383192199005, 4880784.7000000002, 0.0047127990907144821, 4920185.5, 0.0042963785249010081, 4065495.2999999998, 0.0028080415281821667, 4282167.5999999996, 0.015133697582357119, 4015546.6000000001, 0.0071707442154650709, 4570849.9000000004, 0.006545667503754413, 3148487.3999999999, 0.0065168750914994444]
+clh tmp: 4119933
+clh tmp: 4603044
+clh tmp: 4619025
+clh tmp: 4622923
+clh tmp: 4626510
+clh tmp: 4625578
+clh tmp: 4591256
+clh tmp: 4633335
+clh tmp: 4614089
+clh tmp: 4623232
+clh:4567892.5,0.0345629972964
+spinlock tmp: 4042637
+spinlock tmp: 4051660
+spinlock tmp: 4099398
+spinlock tmp: 4052510
+spinlock tmp: 4051780
+spinlock tmp: 4076793
+spinlock tmp: 4020086
+spinlock tmp: 4014748
+spinlock tmp: 4060865
+spinlock tmp: 4036861
+spinlock:4050733.8,0.00618394999057
+mcs tmp: 4475124
+mcs tmp: 4448782
+mcs tmp: 4453235
+mcs tmp: 4447394
+mcs tmp: 4476365
+mcs tmp: 4471841
+mcs tmp: 4463358
+mcs tmp: 4445720
+mcs tmp: 4456403
+mcs tmp: 4452876
+mcs:4459109.8,0.00263046533166
+array tmp: 4227430
+array tmp: 4810241
+array tmp: 4713503
+array tmp: 4788873
+array tmp: 4784482
+array tmp: 4698261
+array tmp: 4703680
+array tmp: 4849873
+array tmp: 4824211
+array tmp: 4713193
+array:4711374.7,0.0379345816781
+ticket tmp: 4897421
+ticket tmp: 4859015
+ticket tmp: 4857324
+ticket tmp: 4881027
+ticket tmp: 4905691
+ticket tmp: 4880887
+ticket tmp: 4830314
+ticket tmp: 4836819
+ticket tmp: 4854185
+ticket tmp: 4860830
+ticket:4866351.3,0.00504481922766
+ttas tmp: 4097233
+ttas tmp: 4083747
+ttas tmp: 4088625
+ttas tmp: 4099670
+ttas tmp: 4089630
+ttas tmp: 4093989
+ttas tmp: 4079627
+ttas tmp: 4097420
+ttas tmp: 4070832
+ttas tmp: 4077924
+ttas:4087869.7,0.00235398337947
+ttas_simp tmp: 4015027
+ttas_simp tmp: 4133008
+ttas_simp tmp: 4062090
+ttas_simp tmp: 4145642
+ttas_simp tmp: 4150015
+ttas_simp tmp: 4142590
+ttas_simp tmp: 4135832
+ttas_simp tmp: 4121121
+ttas_simp tmp: 4044421
+ttas_simp tmp: 4092636
+ttas_simp:4104238.2,0.0117243410811
+rw tmp: 4084482
+rw tmp: 4109657
+rw tmp: 4082908
+rw tmp: 4092333
+rw tmp: 4081075
+rw tmp: 4118590
+rw tmp: 4061068
+rw tmp: 4103259
+rw tmp: 4107350
+rw tmp: 4093234
+rw:4093395.6,0.00413516645869
+rw_fair tmp: 4392570
+rw_fair tmp: 4395873
+rw_fair tmp: 4396331
+rw_fair tmp: 4402860
+rw_fair tmp: 4396684
+rw_fair tmp: 4409914
+rw_fair tmp: 4415173
+rw_fair tmp: 4389385
+rw_fair tmp: 4416086
+rw_fair tmp: 4392098
+rw_fair:4400697.4,0.00222438951391
+rw_scalable_fair tmp: 3041745
+rw_scalable_fair tmp: 3510254
+rw_scalable_fair tmp: 3524009
+rw_scalable_fair tmp: 3497239
+rw_scalable_fair tmp: 3512855
+rw_scalable_fair tmp: 3527654
+rw_scalable_fair tmp: 3507796
+rw_scalable_fair tmp: 3560720
+rw_scalable_fair tmp: 3542435
+rw_scalable_fair tmp: 3527252
+rw_scalable_fair:3475195.9,0.0441384223713
+results: [4, 4567892.5, 0.034562997296430691, 4050733.7999999998, 0.0061839499905677704, 4459109.7999999998, 0.0026304653316581521, 4711374.7000000002, 0.037934581678121811, 4866351.2999999998, 0.0050448192276555297, 4087869.7000000002, 0.0023539833794707522, 4104238.2000000002, 0.011724341081064567, 4093395.6000000001, 0.0041351664586921355, 4400697.4000000004, 0.0022243895139055802, 3475195.8999999999, 0.044138422371325078]
+locks: 1 acquire time: 1000 pause time: 1000
+clh tmp: 1447347
+clh tmp: 1447342
+clh tmp: 1447338
+clh tmp: 1447341
+clh tmp: 1447348
+clh tmp: 1447206
+clh tmp: 1447117
+clh tmp: 1447341
+clh tmp: 1447334
+clh tmp: 1447336
+clh:1447305.0,5.43119167973e-05
+spinlock tmp: 1469572
+spinlock tmp: 1469551
+spinlock tmp: 1469565
+spinlock tmp: 1469570
+spinlock tmp: 1469558
+spinlock tmp: 1469573
+spinlock tmp: 1469574
+spinlock tmp: 1469564
+spinlock tmp: 1469554
+spinlock tmp: 1469573
+spinlock:1469565.4,5.77578914434e-06
+mcs tmp: 1419246
+mcs tmp: 1419243
+mcs tmp: 1419254
+mcs tmp: 1419265
+mcs tmp: 1419244
+mcs tmp: 1419134
+mcs tmp: 1419218
+mcs tmp: 1419234
+mcs tmp: 1419099
+mcs tmp: 1419210
+mcs:1419214.7,3.86062880574e-05
+array tmp: 1454819
+array tmp: 1454835
+array tmp: 1454836
+array tmp: 1454824
+array tmp: 1454819
+array tmp: 1454402
+array tmp: 1454817
+array tmp: 1454816
+array tmp: 1454831
+array tmp: 1454821
+array:1454782.0,9.19177387938e-05
+ticket tmp: 1469169
+ticket tmp: 1469323
+ticket tmp: 1469327
+ticket tmp: 1469316
+ticket tmp: 1469193
+ticket tmp: 1469325
+ticket tmp: 1469318
+ticket tmp: 1469322
+ticket tmp: 1469325
+ticket tmp: 1469328
+ticket:1469294.6,4.1008480119e-05
+ttas tmp: 1465107
+ttas tmp: 1465152
+ttas tmp: 1465157
+ttas tmp: 1465154
+ttas tmp: 1465174
+ttas tmp: 1465158
+ttas tmp: 1465143
+ttas tmp: 1465153
+ttas tmp: 1465157
+ttas tmp: 1465140
+ttas:1465149.5,1.19577080937e-05
+ttas_simp tmp: 1472712
+ttas_simp tmp: 1472763
+ttas_simp tmp: 1472788
+ttas_simp tmp: 1472843
+ttas_simp tmp: 1472821
+ttas_simp tmp: 1472406
+ttas_simp tmp: 1472856
+ttas_simp tmp: 1472779
+ttas_simp tmp: 1472899
+ttas_simp tmp: 1472870
+ttas_simp:1472773.7,9.55275076146e-05
+rw tmp: 1467956
+rw tmp: 1467949
+rw tmp: 1467939
+rw tmp: 1467947
+rw tmp: 1467967
+rw tmp: 1467937
+rw tmp: 1467954
+rw tmp: 1467950
+rw tmp: 1467944
+rw tmp: 1467949
+rw:1467949.2,5.88468285726e-06
+rw_fair tmp: 1446640
+rw_fair tmp: 1446671
+rw_fair tmp: 1446662
+rw_fair tmp: 1446688
+rw_fair tmp: 1446670
+rw_fair tmp: 1446667
+rw_fair tmp: 1446680
+rw_fair tmp: 1446672
+rw_fair tmp: 1446667
+rw_fair tmp: 1446679
+rw_fair:1446669.6,8.89530432776e-06
+rw_scalable_fair tmp: 1326088
+rw_scalable_fair tmp: 1326085
+rw_scalable_fair tmp: 1326090
+rw_scalable_fair tmp: 1326103
+rw_scalable_fair tmp: 1326082
+rw_scalable_fair tmp: 1325709
+rw_scalable_fair tmp: 1326084
+rw_scalable_fair tmp: 1326095
+rw_scalable_fair tmp: 1326071
+rw_scalable_fair tmp: 1326090
+rw_scalable_fair:1326049.7,9.04957771441e-05
+['threads', 'clh', 'spinlock', 'mcs', 'array', 'ticket', 'ttas', 'ttas_simp', 'rw', 'rw_fair', 'rw_scalable_fair']
+results: [1, 1447305.0, 5.4311916797291027e-05, 1469565.3999999999, 5.7757891443376801e-06, 1419214.7, 3.8606288057351141e-05, 1454782.0, 9.1917738793814775e-05, 1469294.6000000001, 4.1008480119031911e-05, 1465149.5, 1.1957708093740968e-05, 1472773.7, 9.5527507614585614e-05, 1467949.2, 5.8846828572589817e-06, 1446669.6000000001, 8.8953043277582727e-06, 1326049.7, 9.0495777144051253e-05]
+clh tmp: 2226576
+clh tmp: 2210671
+clh tmp: 2227885
+clh tmp: 2214812
+clh tmp: 2207587
+clh tmp: 2210907
+clh tmp: 2221370
+clh tmp: 2221406
+clh tmp: 2227976
+clh tmp: 2216720
+clh:2218591.0,0.00340796991377
+spinlock tmp: 2164265
+spinlock tmp: 2169827
+spinlock tmp: 2164664
+spinlock tmp: 2153168
+spinlock tmp: 2160971
+spinlock tmp: 2156310
+spinlock tmp: 2157583
+spinlock tmp: 2169835
+spinlock tmp: 2166571
+spinlock tmp: 2155622
+spinlock:2161881.6,0.00278927941294
+mcs tmp: 2125773
+mcs tmp: 2123809
+mcs tmp: 2109097
+mcs tmp: 2111808
+mcs tmp: 2127721
+mcs tmp: 2126034
+mcs tmp: 2123969
+mcs tmp: 2122452
+mcs tmp: 2128378
+mcs tmp: 2128579
+mcs:2122762.0,0.00321471596974
+array tmp: 2244379
+array tmp: 2239421
+array tmp: 2240335
+array tmp: 2236450
+array tmp: 2246529
+array tmp: 2237697
+array tmp: 2243592
+array tmp: 2244249
+array tmp: 2243854
+array tmp: 2239752
+array:2241625.8,0.00148401127218
+ticket tmp: 2267061
+ticket tmp: 2259332
+ticket tmp: 2245643
+ticket tmp: 2261488
+ticket tmp: 2271554
+ticket tmp: 2266171
+ticket tmp: 2270709
+ticket tmp: 2270475
+ticket tmp: 2261829
+ticket tmp: 2266712
+ticket:2264097.4,0.0034057710282
+ttas tmp: 1714933
+ttas tmp: 1716598
+ttas tmp: 1708884
+ttas tmp: 1709874
+ttas tmp: 1714405
+ttas tmp: 1712842
+ttas tmp: 1718303
+ttas tmp: 1708660
+ttas tmp: 1711045
+ttas tmp: 1700697
+ttas:1711624.1,0.00294452184885
+ttas_simp tmp: 2091363
+ttas_simp tmp: 2097378
+ttas_simp tmp: 2086407
+ttas_simp tmp: 2101197
+ttas_simp tmp: 2080330
+ttas_simp tmp: 2100063
+ttas_simp tmp: 2100144
+ttas_simp tmp: 2099577
+ttas_simp tmp: 2087603
+ttas_simp tmp: 2084542
+ttas_simp:2092860.4,0.00369319378818
+rw tmp: 2079098
+rw tmp: 2071508
+rw tmp: 2055864
+rw tmp: 2046875
+rw tmp: 2055549
+rw tmp: 2053537
+rw tmp: 2058730
+rw tmp: 2065141
+rw tmp: 2057330
+rw tmp: 2069206
+rw:2061283.8,0.00471899107548
+rw_fair tmp: 2140930
+rw_fair tmp: 2162819
+rw_fair tmp: 2142458
+rw_fair tmp: 2146973
+rw_fair tmp: 2153747
+rw_fair tmp: 2151891
+rw_fair tmp: 2149899
+rw_fair tmp: 2163338
+rw_fair tmp: 2147378
+rw_fair tmp: 2144704
+rw_fair:2150413.7,0.00360666687252
+rw_scalable_fair tmp: 1761595
+rw_scalable_fair tmp: 1767562
+rw_scalable_fair tmp: 1757341
+rw_scalable_fair tmp: 1755244
+rw_scalable_fair tmp: 1745342
+rw_scalable_fair tmp: 1771124
+rw_scalable_fair tmp: 1751319
+rw_scalable_fair tmp: 1748492
+rw_scalable_fair tmp: 1756287
+rw_scalable_fair tmp: 1756381
+rw_scalable_fair:1757068.7,0.00455608065523
+results: [2, 2218591.0, 0.0034079699137699766, 2161881.6000000001, 0.0027892794129413161, 2122762.0, 0.0032147159697371824, 2241625.7999999998, 0.0014840112721767455, 2264097.3999999999, 0.0034057710281952735, 1711624.1000000001, 0.0029445218488457657, 2092860.3999999999, 0.0036931937881790429, 2061283.8, 0.0047189910754819875, 2150413.7000000002, 0.0036066668725246139, 1757068.7, 0.0045560806552327991]
+clh tmp: 2128544
+clh tmp: 2137656
+clh tmp: 2143669
+clh tmp: 2141748
+clh tmp: 2152962
+clh tmp: 2152642
+clh tmp: 2144766
+clh tmp: 2149177
+clh tmp: 2138467
+clh tmp: 2138763
+clh:2142839.4,0.0035173578559
+spinlock tmp: 2036889
+spinlock tmp: 2036194
+spinlock tmp: 2064907
+spinlock tmp: 2067384
+spinlock tmp: 2093884
+spinlock tmp: 2067467
+spinlock tmp: 2080915
+spinlock tmp: 2042353
+spinlock tmp: 2091460
+spinlock tmp: 2069410
+spinlock:2065086.3,0.0101469527231
+mcs tmp: 2135362
+mcs tmp: 2129959
+mcs tmp: 2132023
+mcs tmp: 2148716
+mcs tmp: 2132784
+mcs tmp: 2145384
+mcs tmp: 2151005
+mcs tmp: 2147783
+mcs tmp: 2144773
+mcs tmp: 2142666
+mcs:2141045.5,0.00363000113145
+array tmp: 2173349
+array tmp: 2172723
+array tmp: 2173530
+array tmp: 2182286
+array tmp: 2163574
+array tmp: 2174335
+array tmp: 2183808
+array tmp: 2182622
+array tmp: 2180391
+array tmp: 2170637
+array:2175725.5,0.00295755793464
+ticket tmp: 2201239
+ticket tmp: 2205410
+ticket tmp: 2193095
+ticket tmp: 2216743
+ticket tmp: 2208634
+ticket tmp: 2216419
+ticket tmp: 2195109
+ticket tmp: 2209323
+ticket tmp: 2211234
+ticket tmp: 2211049
+ticket:2206825.5,0.00368809936429
+ttas tmp: 1899032
+ttas tmp: 1884056
+ttas tmp: 1894529
+ttas tmp: 1900294
+ttas tmp: 1894267
+ttas tmp: 1892273
+ttas tmp: 1890355
+ttas tmp: 1898889
+ttas tmp: 1891646
+ttas tmp: 1895281
+ttas:1894062.2,0.00255931334415
+ttas_simp tmp: 2078300
+ttas_simp tmp: 2052509
+ttas_simp tmp: 2044641
+ttas_simp tmp: 2073507
+ttas_simp tmp: 2051399
+ttas_simp tmp: 2053621
+ttas_simp tmp: 2071404
+ttas_simp tmp: 2047690
+ttas_simp tmp: 2048427
+ttas_simp tmp: 2082414
+ttas_simp:2060391.2,0.00694039283335
+rw tmp: 2037549
+rw tmp: 2040907
+rw tmp: 2034810
+rw tmp: 2023085
+rw tmp: 2031210
+rw tmp: 2042491
+rw tmp: 2037719
+rw tmp: 2037397
+rw tmp: 2028804
+rw tmp: 2036313
+rw:2035028.5,0.0028705191771
+rw_fair tmp: 2117646
+rw_fair tmp: 2114878
+rw_fair tmp: 2113556
+rw_fair tmp: 2118408
+rw_fair tmp: 2117609
+rw_fair tmp: 2121541
+rw_fair tmp: 2114120
+rw_fair tmp: 2113300
+rw_fair tmp: 2118096
+rw_fair tmp: 2104027
+rw_fair:2115318.1,0.00224491316372
+rw_scalable_fair tmp: 1882734
+rw_scalable_fair tmp: 1896443
+rw_scalable_fair tmp: 1884117
+rw_scalable_fair tmp: 1882827
+rw_scalable_fair tmp: 1881531
+rw_scalable_fair tmp: 1887620
+rw_scalable_fair tmp: 1888861
+rw_scalable_fair tmp: 1885033
+rw_scalable_fair tmp: 1901029
+rw_scalable_fair tmp: 1903393
+rw_scalable_fair:1889358.8,0.00425120733099
+results: [3, 2142839.3999999999, 0.00351735785589649, 2065086.3, 0.010146952723097, 2141045.5, 0.0036300011314533915, 2175725.5, 0.0029575579346362182, 2206825.5, 0.003688099364294217, 1894062.2, 0.0025593133441518855, 2060391.2, 0.0069403928333464284, 2035028.5, 0.0028705191770954127, 2115318.1000000001, 0.0022449131637244609, 1889358.8, 0.0042512073309918423]
+clh tmp: 2154104
+clh tmp: 2151547
+clh tmp: 2108947
+clh tmp: 2148951
+clh tmp: 2149604
+clh tmp: 2152455
+clh tmp: 2142857
+clh tmp: 2147159
+clh tmp: 2150066
+clh tmp: 2146081
+clh:2145177.1,0.00612494596604
+spinlock tmp: 1973142
+spinlock tmp: 1975377
+spinlock tmp: 2008926
+spinlock tmp: 2009520
+spinlock tmp: 1992081
+spinlock tmp: 1991405
+spinlock tmp: 1991962
+spinlock tmp: 2010627
+spinlock tmp: 1994734
+spinlock tmp: 2008173
+spinlock:1995594.7,0.00691236125478
+mcs tmp: 2142562
+mcs tmp: 2144373
+mcs tmp: 1790128
+mcs tmp: 2140075
+mcs tmp: 2145121
+mcs tmp: 2144114
+mcs tmp: 2139588
+mcs tmp: 2143232
+mcs tmp: 2138618
+mcs tmp: 2136531
+mcs:2106434.2,0.0527783550376
+array tmp: 2158639
+array tmp: 2186455
+array tmp: 2125420
+array tmp: 2159643
+array tmp: 2160644
+array tmp: 2159282
+array tmp: 2184721
+array tmp: 2186400
+array tmp: 2164336
+array tmp: 2159159
+array:2164469.9,0.00847201525298
+ticket tmp: 2173138
+ticket tmp: 2176758
+ticket tmp: 2177004
+ticket tmp: 2165672
+ticket tmp: 2173629
+ticket tmp: 2174869
+ticket tmp: 2169491
+ticket tmp: 2174173
+ticket tmp: 2173872
+ticket tmp: 2175270
+ticket:2173387.6,0.0015780164957
+ttas tmp: 1949479
+ttas tmp: 1960707
+ttas tmp: 1860438
+ttas tmp: 1958056
+ttas tmp: 1956522
+ttas tmp: 1960936
+ttas tmp: 1953534
+ttas tmp: 1960968
+ttas tmp: 1961092
+ttas tmp: 1951459
+ttas:1947319.1,0.0158273671286
+ttas_simp tmp: 1994358
+ttas_simp tmp: 1996250
+ttas_simp tmp: 2013300
+ttas_simp tmp: 1995075
+ttas_simp tmp: 2021125
+ttas_simp tmp: 1994867
+ttas_simp tmp: 2015082
+ttas_simp tmp: 2010983
+ttas_simp tmp: 2010512
+ttas_simp tmp: 1995570
+ttas_simp:2004712.2,0.00519412939825
+rw tmp: 2040742
+rw tmp: 2043547
+rw tmp: 2047684
+rw tmp: 1928747
+rw tmp: 2044023
+rw tmp: 2043013
+rw tmp: 2038232
+rw tmp: 2040196
+rw tmp: 2040026
+rw tmp: 2036618
+rw:2030282.8,0.017640860652
+rw_fair tmp: 2097869
+rw_fair tmp: 2099116
+rw_fair tmp: 2100674
+rw_fair tmp: 2105809
+rw_fair tmp: 2099440
+rw_fair tmp: 2101734
+rw_fair tmp: 2104165
+rw_fair tmp: 2100773
+rw_fair tmp: 2106100
+rw_fair tmp: 2100051
+rw_fair:2101573.1,0.00135751898317
+rw_scalable_fair tmp: 1869500
+rw_scalable_fair tmp: 1861658
+rw_scalable_fair tmp: 1872100
+rw_scalable_fair tmp: 1882909
+rw_scalable_fair tmp: 1879501
+rw_scalable_fair tmp: 1915632
+rw_scalable_fair tmp: 1886779
+rw_scalable_fair tmp: 1884010
+rw_scalable_fair tmp: 1881885
+rw_scalable_fair tmp: 1886286
+rw_scalable_fair:1882026.0,0.00762104249361
+results: [4, 2145177.1000000001, 0.0061249459660403767, 1995594.7, 0.0069123612547823286, 2106434.2000000002, 0.052778355037612537, 2164469.8999999999, 0.0084720152529763424, 2173387.6000000001, 0.0015780164956958264, 1947319.1000000001, 0.015827367128588975, 2004712.2, 0.0051941293982521348, 2030282.8, 0.017640860652044305, 2101573.1000000001, 0.0013575189831691904, 1882026.0, 0.0076210424936074524]
