@@ -462,15 +462,14 @@ int main(int argc, char **argv)
     //printf("%lu\n", (unsigned long) (acquires * 1000.0 / duration));
 
     int transitions = 0;
-    int cur_length = 1; /* skip first elem */
+    lengths[transitions] = 1;
     for (i = 1; i < lock_acq_ids_entry - 1; ++i) {
         assert(lock_acq_ids[i] != TRANSITIONS_ARR_SIZE);
         if (lock_acq_ids[i] != lock_acq_ids[i-1]) {
             transitions++;
-            lengths[cur_length]++;
-            cur_length = 1;
+	    lengths[transitions] = 1;
         } else {
-            cur_length++;
+            lengths[transitions]++;
         }
     }
 
