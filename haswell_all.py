@@ -5,7 +5,7 @@ locks = ["clh","spinlock","mcs","array","ticket","ttas","ttas_simp","rw","rw_fai
 # (locks,lock holding time, pause time between aquisitionss)
 configs =[(1,0,0),(1,250,1000),(1,1000,1000)]
 #configs =[(1,100,1000),(1,0,0),(1,10,1000),(1,250,1000),(1,1000,1000),(1,10000,10000)]
-num_samples = 2 
+num_samples = 10 
 
 for (l,h,p) in configs: 
     print ("locks: " + str(l) + " acquire time: " + str(h) + " pause time: " +
