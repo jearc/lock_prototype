@@ -68,12 +68,14 @@ void read_acquire(rw_ttas* lock, uint32_t* limit) {
         if (CAS_U16(&lock->lock_data,aux,aux+1)==aux) {
             return;
         }
+#ifndef NO_RW_BACKOFF
         else 
         {
             delay = my_random(&(rw_seeds[0]),&(rw_seeds[1]),&(rw_seeds[2]))%(*limit);
             *limit = MAX_DELAY > 2*(*limit) ? 2*(*limit) : MAX_DELAY;
             cdelay(delay);
         }
+#endif
     }
 }
 
@@ -106,12 +108,13 @@ void write_acquire(rw_ttas* lock, uint32_t* limit) {
         if (CAS_U16(&lock->lock_data,0,W_MASK)==0) {
             return;
         } 
+#ifndef NO_RW_BACKOFF
         else {
             delay = my_random(&(rw_seeds[0]),&(rw_seeds[1]),&(rw_seeds[2]))%(*limit);
             *limit = MAX_DELAY > 2*(*limit) ? 2*(*limit) : MAX_DELAY;
             cdelay(delay);
         }
-
+#endif
     }
 }
 
