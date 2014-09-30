@@ -3,14 +3,14 @@ from numpy import mean, std
 locks = ["clh","spinlock","mcs","array","ticket","ttas","ttas_simp","rw","rw_fair","rw_scalable_fair"]
 # locks = ["ttas","rw","rw_fair"]
 # (locks,lock holding time, pause time between aquisitionss)
-configs =[(1,0,0),(1,250,1000),(1,1000,1000)]
+configs =[(1,0,0),(1,300,300),(1,300,1250),(1,300,5000)]
 #configs =[(1,100,1000),(1,0,0),(1,10,1000),(1,250,1000),(1,1000,1000),(1,10000,10000)]
-num_samples = 2 
+num_samples = 10 
 
 for (l,h,p) in configs: 
     print ("locks: " + str(l) + " acquire time: " + str(h) + " pause time: " +
 		str(p))
-    fname = "arm9"+str(l)+"a"+str(h)+"p"+str(p)+".dat"
+    fname = "tdelayarm9"+str(l)+"a"+str(h)+"p"+str(p)+".dat"
     file = open(fname,'w')
     legend = ["threads"]
     for t in [1,2,3,4]:
