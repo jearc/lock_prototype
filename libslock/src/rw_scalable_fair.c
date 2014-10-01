@@ -67,8 +67,8 @@ scalable_fair_write_acquire(rw_scalable_fair* lock, rw_scalable_fair_qnode_t* I)
     /* MEM_BARRIER; */
 
     if (pred == NULL) {
-      /* MEM_BARRIER; */
         lock->rw.next_writer = I;
+        MEM_BARRIER;
         if (lock->rw.reader_count == 0 
                 && (SWAP_PTR(&lock->rw.next_writer, 0)) == I) {
           MEM_BARRIER;
