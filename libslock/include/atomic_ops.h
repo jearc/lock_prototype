@@ -186,7 +186,7 @@ static inline uint8_t tas_uint8(volatile uint8_t *ptr) {
 //Increment-and-fetch
 //#define IAF_U8(a) __sync_add_and_fetch(a,1)
 //#define IAF_U16(a) __sync_add_and_fetch(a,1)
-//#define IAF_U32(a) __sync_add_and_fetch(a,1)
+#define IAF_U32(a) __atomic_add_and_fetch(a,1,__ATOMIC_RELAXED)
 //#define IAF_U64(a) __sync_add_and_fetch(a,1)
 //Decrement-and-fetch
 //#define DAF_U8(a) __sync_sub_and_fetch(a,1)
