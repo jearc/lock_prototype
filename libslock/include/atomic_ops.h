@@ -210,7 +210,7 @@ static inline uint32_t CAS_U32(volatile void* ptr, uint32_t old, uint32_t new) {
             );
 
     return ret;
-
+}
 //#define CAS_U64(a,b,c) __sync_val_compare_and_swap(a,b,c)
 //Swap
 #define SWAP_PTR(a,b) swap_pointer(a,b)
