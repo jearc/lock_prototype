@@ -186,6 +186,26 @@ static inline uint8_t tas_uint8(volatile uint8_t *ptr) {
 //Increment-and-fetch
 //#define IAF_U8(a) __sync_add_and_fetch(a,1)
 //#define IAF_U16(a) __sync_add_and_fetch(a,1)
+//IAF_U16
+static inline uint16_t IAF_U16(volatile uint16_t* ptr) {
+  uint16_t atomic, x = 1, ret;
+
+    __asm__ __volatile__ (
+            "1:                             \n\t"
+            "ldrexh %1, [%2]                \n\t" /* ret = *ptr */
+            "add %1, %3                     \n\t" /* ret = ret + 1 */
+            "strexh %0, %1, [%2]            \n\t" /* *ptr = ret */
+            "teq %0, #0                     \n\t" /* was atomic? */
+            "bne 1b                         \n\t"
+
+            : "=&r"(atomic), "=&r"(ret)     /* output */
+            : "r"(ptr), "r"(x)              /* input */
+            : "memory", "cc"                /* clobbered */
+            );
+
+    return ret;
+}
+
 #define IAF_U32(a) __atomic_add_and_fetch(a,1,__ATOMIC_RELAXED)
 //#define IAF_U64(a) __sync_add_and_fetch(a,1)
 //Decrement-and-fetch
