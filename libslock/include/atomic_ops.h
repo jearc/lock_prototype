@@ -381,7 +381,7 @@ static inline uint32_t DAF_U32(volatile uint32_t* ptr) {
 //#define CASB_PTR(a,b,c) __sync_bool_compare_and_swap(a,b,c)
 static inline uint32_t CASB_PTR(volatile void* ptr, void *old, void *new) {
     uint32_t atomic;
-    uint32 ret;
+    uint32_t ret;
     /* volatile uint32_t* ptri = (uint32_t*)ptr;
     uint32_t xi = (uint32_t)x; */
 
