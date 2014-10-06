@@ -163,9 +163,54 @@ static inline uint8_t tas_uint8(volatile uint8_t *ptr) {
 //atomic operations interface
 //Compare-and-swap
 //#define CAS_PTR(a,b,c) __sync_val_compare_and_swap(a,b,c)
+static inline void* CAS_PTR(volatile void* ptr, void *old, void *new) {
+    uint32_t atomic;
+    void * ret;
+    /* volatile uint32_t* ptri = (uint32_t*)ptr;
+    uint32_t xi = (uint32_t)x; */
+
+    __asm__ __volatile__ (
+            "1:                             \n\t"
+            "ldrex %1, [%2]                \n\t" /* ret = *ptr */
+            "cmp %3, %1                    \n\t" /* ret == old ?*/ 
+            "bne 2f                        \n\t" /* exit if not eq */
+            "strex %0, %4, [%2]            \n\t" /* *ptr = x */
+            "teq %0, #0                     \n\t" /* was atomic? */
+            "bne 1b                         \n\t"
+            "2:                             \n\t"
+
+            : "=&r"(atomic), "=&r"(ret)     /* output */
+            : "r"(ptr), "r"(old), "r" (new) /* input */
+            : "memory", "cc"                /* clobbered */
+            );
+
+    return (void*)ret;
+}
 //#define CAS_U8(a,b,c) __sync_val_compare_and_swap(a,b,c)
 //#define CAS_U16(a,b,c) __sync_val_compare_and_swap(a,b,c)
 //#define CAS_U32(a,b,c) __sync_val_compare_and_swap(a,b,c)
+static inline uint32_t CAS_U32(volatile void* ptr, uint32_t old, uint32_t new) {
+  uint32_t atomic, ret;
+    /* volatile uint32_t* ptri = (uint32_t*)ptr;
+    uint32_t xi = (uint32_t)x; */
+
+    __asm__ __volatile__ (
+            "1:                             \n\t"
+            "ldrex %1, [%2]                \n\t" /* ret = *ptr */
+            "cmp %3, %1                    \n\t" /* ret == old ?*/ 
+            "bne 2f                        \n\t" /* exit if not eq */
+            "strex %0, %4, [%2]            \n\t" /* *ptr = x */
+            "teq %0, #0                     \n\t" /* was atomic? */
+            "bne 1b                         \n\t"
+            "2:                             \n\t"
+
+            : "=&r"(atomic), "=&r"(ret)     /* output */
+            : "r"(ptr), "r"(old), "r" (new) /* input */
+            : "memory", "cc"                /* clobbered */
+            );
+
+    return ret;
+
 //#define CAS_U64(a,b,c) __sync_val_compare_and_swap(a,b,c)
 //Swap
 #define SWAP_PTR(a,b) swap_pointer(a,b)
