@@ -379,7 +379,29 @@ static inline uint32_t DAF_U32(volatile uint32_t* ptr) {
 //#define FAA_U32(a,b) __sync_fetch_and_and(a,b)
 //Compare-and-swap-bool
 //#define CASB_PTR(a,b,c) __sync_bool_compare_and_swap(a,b,c)
+static inline uint32_t CASB_PTR(volatile void* ptr, void *old, void *new) {
+    uint32_t atomic;
+    uint32 ret;
+    /* volatile uint32_t* ptri = (uint32_t*)ptr;
+    uint32_t xi = (uint32_t)x; */
 
+    __asm__ __volatile__ (
+            "1:                             \n\t"
+            "ldrex %1, [%2]                \n\t" /* ret = *ptr */
+            "cmp %3, %1                    \n\t" /* ret == old ?*/ 
+            "bne 2f                        \n\t" /* exit if not eq */
+            "strex %0, %4, [%2]            \n\t" /* *ptr = x */
+            "teq %0, #0                     \n\t" /* was atomic? */
+            "bne 1b                         \n\t"
+            "2:                             \n\t"
+
+            : "=&r"(atomic), "=&r"(ret)     /* output */
+            : "r"(ptr), "r"(old), "r" (new) /* input */
+            : "memory", "cc"                /* clobbered */
+            );
+
+    return (ret == (uint32_t)old);
+}
 /*End of ARM code*/
 
 #elif defined(__sparc__)
