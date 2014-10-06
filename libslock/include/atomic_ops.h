@@ -162,11 +162,11 @@ static inline uint8_t tas_uint8(volatile uint8_t *ptr) {
 
 //atomic operations interface
 //Compare-and-swap
-#define CAS_PTR(a,b,c) __sync_val_compare_and_swap(a,b,c)
-#define CAS_U8(a,b,c) __sync_val_compare_and_swap(a,b,c)
-#define CAS_U16(a,b,c) __sync_val_compare_and_swap(a,b,c)
-#define CAS_U32(a,b,c) __sync_val_compare_and_swap(a,b,c)
-#define CAS_U64(a,b,c) __sync_val_compare_and_swap(a,b,c)
+//#define CAS_PTR(a,b,c) __sync_val_compare_and_swap(a,b,c)
+//#define CAS_U8(a,b,c) __sync_val_compare_and_swap(a,b,c)
+//#define CAS_U16(a,b,c) __sync_val_compare_and_swap(a,b,c)
+//#define CAS_U32(a,b,c) __sync_val_compare_and_swap(a,b,c)
+//#define CAS_U64(a,b,c) __sync_val_compare_and_swap(a,b,c)
 //Swap
 #define SWAP_PTR(a,b) swap_pointer(a,b)
 #define SWAP_U8(a,b) swap_uint8(a,b)
@@ -175,32 +175,32 @@ static inline uint8_t tas_uint8(volatile uint8_t *ptr) {
 #define SWAP_U64(a,b) swap_uint64(a,b)
 //Fetch-and-increment
 //#define FAI_U8(a) __sync_fetch_and_add(a,1)
-#define FAI_U16(a) __sync_fetch_and_add(a,1)
-#define FAI_U32(a) __sync_fetch_and_add(a,1)
-#define FAI_U64(a) __sync_fetch_and_add(a,1)
+//#define FAI_U16(a) __sync_fetch_and_add(a,1)
+//#define FAI_U32(a) __sync_fetch_and_add(a,1)
+//#define FAI_U64(a) __sync_fetch_and_add(a,1)
 //Fetch-and-decrement
-#define FAD_U8(a) __sync_fetch_and_sub(a,1)
-#define FAD_U16(a) __sync_fetch_and_sub(a,1)
-#define FAD_U32(a) __sync_fetch_and_sub(a,1)
-#define FAD_U64(a) __sync_fetch_and_sub(a,1)
+//#define FAD_U8(a) __sync_fetch_and_sub(a,1)
+//#define FAD_U16(a) __sync_fetch_and_sub(a,1)
+//#define FAD_U32(a) __sync_fetch_and_sub(a,1)
+//#define FAD_U64(a) __sync_fetch_and_sub(a,1)
 //Increment-and-fetch
-#define IAF_U8(a) __sync_add_and_fetch(a,1)
-#define IAF_U16(a) __sync_add_and_fetch(a,1)
-#define IAF_U32(a) __sync_add_and_fetch(a,1)
-#define IAF_U64(a) __sync_add_and_fetch(a,1)
+//#define IAF_U8(a) __sync_add_and_fetch(a,1)
+//#define IAF_U16(a) __sync_add_and_fetch(a,1)
+//#define IAF_U32(a) __sync_add_and_fetch(a,1)
+//#define IAF_U64(a) __sync_add_and_fetch(a,1)
 //Decrement-and-fetch
-#define DAF_U8(a) __sync_sub_and_fetch(a,1)
-#define DAF_U16(a) __sync_sub_and_fetch(a,1)
-#define DAF_U32(a) __sync_sub_and_fetch(a,1)
-#define DAF_U64(a) __sync_sub_and_fetch(a,1)
+//#define DAF_U8(a) __sync_sub_and_fetch(a,1)
+//#define DAF_U16(a) __sync_sub_and_fetch(a,1)
+//#define DAF_U32(a) __sync_sub_and_fetch(a,1)
+//#define DAF_U64(a) __sync_sub_and_fetch(a,1)
 //Test-and-set
 #define TAS_U8(a) tas_uint8(a)
 //Memory barrier
-#define MEM_BARRIER __sync_synchronize()
+#define MEM_BARRIER __sync_synchronize() // dmb sy
 //Fetch-and-And
-#define FAA_U32(a,b) __sync_fetch_and_and(a,b)
+//#define FAA_U32(a,b) __sync_fetch_and_and(a,b)
 //Compare-and-swap-bool
-#define CASB_PTR(a,b,c) __sync_bool_compare_and_swap(a,b,c)
+//#define CASB_PTR(a,b,c) __sync_bool_compare_and_swap(a,b,c)
 
 /*End of ARM code*/
 
