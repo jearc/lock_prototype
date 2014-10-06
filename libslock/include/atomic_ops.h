@@ -188,6 +188,28 @@ static inline void* CAS_PTR(volatile void* ptr, void *old, void *new) {
 }
 //#define CAS_U8(a,b,c) __sync_val_compare_and_swap(a,b,c)
 //#define CAS_U16(a,b,c) __sync_val_compare_and_swap(a,b,c)
+static inline uint16_t CAS_U16(volatile void* ptr, uint16_t old, uint16_t new) {
+  uint16_t atomic, ret;
+    /* volatile uint32_t* ptri = (uint32_t*)ptr;
+    uint32_t xi = (uint32_t)x; */
+
+    __asm__ __volatile__ (
+            "1:                             \n\t"
+            "ldrexh %1, [%2]                \n\t" /* ret = *ptr */
+            "cmp %3, %1                    \n\t" /* ret == old ?*/ 
+            "bne 2f                        \n\t" /* exit if not eq */
+            "strexh %0, %4, [%2]            \n\t" /* *ptr = x */
+            "teq %0, #0                     \n\t" /* was atomic? */
+            "bne 1b                         \n\t"
+            "2:                             \n\t"
+
+            : "=&r"(atomic), "=&r"(ret)     /* output */
+            : "r"(ptr), "r"(old), "r" (new) /* input */
+            : "memory", "cc"                /* clobbered */
+            );
+
+    return ret;
+}
 //#define CAS_U32(a,b,c) __sync_val_compare_and_swap(a,b,c)
 static inline uint32_t CAS_U32(volatile void* ptr, uint32_t old, uint32_t new) {
   uint32_t atomic, ret;
@@ -222,11 +244,47 @@ static inline uint32_t CAS_U32(volatile void* ptr, uint32_t old, uint32_t new) {
 //#define FAI_U8(a) __sync_fetch_and_add(a,1)
 //#define FAI_U16(a) __sync_fetch_and_add(a,1)
 //#define FAI_U32(a) __sync_fetch_and_add(a,1)
+static inline uint32_t FAI_U32(volatile uint32_t* ptr) {
+  uint32_t atomic, x = 1, y , ret;
+
+    __asm__ __volatile__ (
+            "1:                            \n\t"
+            "ldrex %1, [%3]                \n\t" /* ret = *ptr */
+            "add %2, %1, %4                \n\t" /* y = ret + x */
+            "strex %0, %2, [%3]            \n\t" /* *ptr = y */
+            "teq %0, #0                    \n\t" /* was atomic? */
+            "bne 1b                        \n\t"
+
+            : "=&r"(atomic), "=&r"(ret), "=&r" (y) /* output */
+            : "r"(ptr), "r"(x)              /* input */
+            : "memory", "cc"                /* clobbered */
+            );
+
+    return ret;
+}
 //#define FAI_U64(a) __sync_fetch_and_add(a,1)
 //Fetch-and-decrement
 //#define FAD_U8(a) __sync_fetch_and_sub(a,1)
 //#define FAD_U16(a) __sync_fetch_and_sub(a,1)
 //#define FAD_U32(a) __sync_fetch_and_sub(a,1)
+static inline uint32_t FAD_U32(volatile uint32_t* ptr) {
+  uint32_t atomic, x = 1, y , ret;
+
+    __asm__ __volatile__ (
+            "1:                            \n\t"
+            "ldrex %1, [%3]                \n\t" /* ret = *ptr */
+            "sub %2, %1, %4                \n\t" /* y = ret - x */
+            "strex %0, %2, [%3]            \n\t" /* *ptr = y */
+            "teq %0, #0                    \n\t" /* was atomic? */
+            "bne 1b                        \n\t"
+
+            : "=&r"(atomic), "=&r"(ret), "=&r" (y) /* output */
+            : "r"(ptr), "r"(x)              /* input */
+            : "memory", "cc"                /* clobbered */
+            );
+
+    return ret;
+}
 //#define FAD_U64(a) __sync_fetch_and_sub(a,1)
 //Increment-and-fetch
 //#define IAF_U8(a) __sync_add_and_fetch(a,1)
@@ -251,12 +309,67 @@ static inline uint16_t IAF_U16(volatile uint16_t* ptr) {
     return ret;
 }
 
-#define IAF_U32(a) __atomic_add_and_fetch(a,1,__ATOMIC_RELAXED)
+//#define IAF_U32(a) __sync_add_and_fetch(a,1)
+static inline uint32_t IAF_U32(volatile uint32_t* ptr) {
+  uint32_t atomic, x = 1, ret;
+
+    __asm__ __volatile__ (
+            "1:                             \n\t"
+            "ldrex %1, [%2]                \n\t" /* ret = *ptr */
+            "add %1, %3                     \n\t" /* ret = ret + 1 */
+            "strex %0, %1, [%2]            \n\t" /* *ptr = ret */
+            "teq %0, #0                     \n\t" /* was atomic? */
+            "bne 1b                         \n\t"
+
+            : "=&r"(atomic), "=&r"(ret)     /* output */
+            : "r"(ptr), "r"(x)              /* input */
+            : "memory", "cc"                /* clobbered */
+            );
+
+    return ret;
+}
 //#define IAF_U64(a) __sync_add_and_fetch(a,1)
 //Decrement-and-fetch
 //#define DAF_U8(a) __sync_sub_and_fetch(a,1)
 //#define DAF_U16(a) __sync_sub_and_fetch(a,1)
+static inline uint16_t DAF_U16(volatile uint16_t* ptr) {
+  uint16_t atomic, x = 1, ret;
+
+    __asm__ __volatile__ (
+            "1:                             \n\t"
+            "ldrexh %1, [%2]                \n\t" /* ret = *ptr */
+            "sub %1, %3                     \n\t" /* ret = ret + 1 */
+            "strexh %0, %1, [%2]            \n\t" /* *ptr = ret */
+            "teq %0, #0                     \n\t" /* was atomic? */
+            "bne 1b                         \n\t"
+
+            : "=&r"(atomic), "=&r"(ret)     /* output */
+            : "r"(ptr), "r"(x)              /* input */
+            : "memory", "cc"                /* clobbered */
+            );
+
+    return ret;
+}
+
 //#define DAF_U32(a) __sync_sub_and_fetch(a,1)
+static inline uint32_t DAF_U32(volatile uint32_t* ptr) {
+  uint32_t atomic, x = 1, ret;
+
+    __asm__ __volatile__ (
+            "1:                             \n\t"
+            "ldrex %1, [%2]                \n\t" /* ret = *ptr */
+            "sub %1, %3                     \n\t" /* ret = ret - 1 */
+            "strex %0, %1, [%2]            \n\t" /* *ptr = ret */
+            "teq %0, #0                     \n\t" /* was atomic? */
+            "bne 1b                         \n\t"
+
+            : "=&r"(atomic), "=&r"(ret)     /* output */
+            : "r"(ptr), "r"(x)              /* input */
+            : "memory", "cc"                /* clobbered */
+            );
+
+    return ret;
+}
 //#define DAF_U64(a) __sync_sub_and_fetch(a,1)
 //Test-and-set
 #define TAS_U8(a) tas_uint8(a)
