@@ -5,8 +5,8 @@ import subprocess
 locks = ["clh","spinlock","mcs","array","ticket","ttas","ttas_simp","rw","rw_fair","rw_scalable_fair"]
 #locks = ["clh"]
 # (locks,lock holding time, pause time between aquisitionss)
-configs =[(1,0,0),(1,300,300),(1,300,1250),(1,300,5000)]
-#configs =[(1,300,1250)]
+configs =[(1,0,0),(1,300,300),(1,300,1250)]
+#configs =[(1,0,0),(1,300,300),(1,300,1250),(1,300,5000)]
 #configs =[(1,100,1000),(1,0,0),(1,10,1000),(1,250,1000),(1,1000,1000),(1,10000,10000)]
 num_samples = 10 
 
