@@ -184,9 +184,16 @@ extern "C" {
     }
 #elif defined(__arm__)
     static inline ticks getticks() {
-        uint32_t r;
-        __asm__ __volatile__ ("mrc p15, 0, %0, c9, c13, 0" : "=r"(r) );
-        return r;
+        // uint32_t r;
+        // __asm__ __volatile__ ("mrc p15, 0, %0, c9, c13, 0" : "=r"(r) );
+        // return r;
+
+        struct timespec ts;
+        clock_gettime(CLOCK_MONOTONIC, &ts);
+
+        ticks now = (ticks)1000000000 * (ticks)ts.tv_sec + (ticks)ts.tv_nsec;
+
+        return now;
     }
 #endif
 
