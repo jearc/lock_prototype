@@ -37,8 +37,8 @@ __thread unsigned long* spinlock_seeds;
 
 int spinlock_trylock(spinlock_lock_t* the_lock, uint32_t* limits) {
     if (TAS_U8(&(the_lock->lock))==0) return 0;
-#if defined(__arm__)
-    MEM_BARRIER; //avoid prefetching data prior to aquiring lock 
+#if defined(__arm__) || defined(__aarch64__)
+    MEM_BARRIER; //avoid prefetching data prior to aquiring lock
 #endif
     return 1;
 }
@@ -49,9 +49,9 @@ spinlock_lock(spinlock_lock_t* the_lock, uint32_t* limits)
     while (TAS_U8(l)) 
     {
         PAUSE;
-    } 
-#if defined(__arm__)
-    MEM_BARRIER; //avoid prefetching data prior to aquiring lock 
+    }
+#if defined(__arm__) || defined(__aarch64__)
+    MEM_BARRIER; //avoid prefetching data prior to aquiring lock
 #endif
 }
 
@@ -59,7 +59,7 @@ spinlock_lock(spinlock_lock_t* the_lock, uint32_t* limits)
 spinlock_unlock(spinlock_lock_t *the_lock) 
 {
     COMPILER_BARRIER;
-#if defined(__tile__) || defined(__arm__)
+#if defined(__tile__) || defined(__arm__) || defined(__aarch64__)
     MEM_BARRIER;
 #endif
     the_lock->lock = UNLOCKED;
@@ -136,13 +136,12 @@ int init_spinlock_local(uint32_t thread_num, uint32_t* limit)
     return 0;
 }
 
-void end_spinlock_local() 
+void end_spinlock_local()
 {
     //function not needed
 }
 
-void end_spinlock_global() 
+void end_spinlock_global()
 {
     //function not needed
 }
-

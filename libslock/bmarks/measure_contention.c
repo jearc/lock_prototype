@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <time.h>
-#if !defined(__sparc__) && !defined(__arm__) && !defined(HASWELL)
+#if !defined(__sparc__) && !defined(__arm__) && !defined(HASWELL) && !defined(__aarch64__)
 #include <numa.h>
 #endif
 #include "gl_lock.h"
@@ -30,7 +30,7 @@ uint64_t c[2] = {0, 0};
 #define STR(s)   #s
 #define XSTR(s) STR(s)
 
-#define PRINT_OUTPUT 1
+/* #define PRINT_OUTPUT 1 */
 
 //number of concurres threads
 #define DEFAULT_NUM_THREADS 1

@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <time.h>
-#if !defined(__sparc__) && !defined(__arm__) && !defined(HASWELL)
+#if !defined(__sparc__) && !defined(__arm__) && !defined(HASWELL) && !defined(__aarch64__)
 #include <numa.h>
 #endif
 #include "gl_lock.h"
@@ -382,7 +382,7 @@ int main(int argc, char **argv)
 #endif
     duration = (end.tv_sec * 1000 + end.tv_usec / 1000) - (start.tv_sec * 1000 + start.tv_usec / 1000);
 
-    unsigned long acquires = 0;
+    uint64_t acquires = 0;
     ticks total_acquire = 0;
     ticks total_release = 0;
     for (i = 0; i < num_threads; i++) {
@@ -398,9 +398,9 @@ int main(int argc, char **argv)
 
 #ifdef PRINT_OUTPUT
     printf("Duration      : %d (ms)\n", duration);
-    printf("Average acquire duration: %lu (cycles)\n", total_acquire/acquires);
-    printf("Average release duration: %lu (cycles)\n", total_release/acquires);
-    printf("#acquires     : %lu (%f / s)\n", acquires, acquires * 1000.0 / duration);
+    printf("Average acquire duration: %llu (cycles)\n", total_acquire/acquires);
+    printf("Average release duration: %llu (cycles)\n", total_release/acquires);
+    printf("#acquires     : %llu (%f / s)\n", acquires, acquires * (1000.0 / duration));
 
 #endif
     //printf("Avg acq: %llu (cycles), Avg rel: %llu (cycles)\n", (total_acquire/acquires), (total_release/acquires));

@@ -41,9 +41,9 @@
 #include <inttypes.h>
 #include <sys/time.h>
 #include <unistd.h>
-#if defined(__arm__)
+#if defined(__arm__) || defined(__aarch64__)
 #  include <sys/types.h>
-#if defined(__sparc__) 
+#if defined(__sparc__)
 #  include <sys/processor.h>
 #  include <sys/procset.h>
 #endif
@@ -58,7 +58,7 @@
 #  include <emmintrin.h>
 #  include <xmmintrin.h>
 #endif
-#if !defined(__sparc__) && !defined(__arm__) && !defined(HASWELL)
+#if !defined(__sparc__) && !defined(__arm__) && !defined(HASWELL) && !defined(__aarch64__)
 #  include <numa.h>
 #endif
 #include <pthread.h>
@@ -75,6 +75,8 @@ extern "C" {
 #  define PAUSE    asm volatile("rd    %%ccr, %%g0\n\t" \
         ::: "memory")
 #elif defined(__arm__)
+#define PAUSE asm volatile("nop\n\t" :::)
+#elif defined(__aarch64__)
 #define PAUSE asm volatile("nop\n\t" :::)
 #elif defined(__tile__)
 #define PAUSE cycle_relax()
@@ -195,6 +197,15 @@ extern "C" {
 
         return now;
     }
+#elif defined(__aarch64__)
+    static inline ticks getticks() {
+        struct timespec ts;
+        clock_gettime(CLOCK_MONOTONIC, &ts);
+
+        ticks now = (ticks)1000000000 * (ticks)ts.tv_sec + (ticks)ts.tv_nsec;
+
+        return CLOCK_GHZ * now;
+    }
 #endif
 
 #if INLINE_CDELAY
@@ -260,6 +271,7 @@ extern "C" {
         }
         //    printf("corr in float %f\n", (t_dur / (double) GETTICKS_CALC_REPS));
         ticks getticks_correction = (ticks)(t_dur / (double) GETTICKS_CALC_REPS);
+        printf("getticks_correction = %llu\n", getticks_correction);
         return getticks_correction;
     }
 

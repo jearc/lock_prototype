@@ -50,6 +50,8 @@ else
 ifeq ($(UNAME), Linux)
     ifeq (DARM,$(findstring DARM, $(PLATFORM)))
         GCC:=gcc -mcpu=cortex-a9
+    else ifeq (DAARCH64,$(findstring DAARCH64, $(PLATFORM)))
+	GCC:=gcc -g -mcpu=cortex-a53
     else
         GCC:=gcc
     endif
@@ -93,10 +95,12 @@ SRCPATH := $(TOP)/src
 MAININCLUDE := $(TOP)/include
 
 INCLUDES := -I$(MAININCLUDE)
-OBJ_FILES :=  mcs.o clh.o ttas_simp.o ttas.o spinlock.o rw_ttas.o rw_scalable_fair.o rw_fair.o ticket.o alock.o hclh.o gl_lock.o htlock.o utils.o
+# OBJ_FILES :=  mcs.o clh.o ttas_simp.o ttas.o spinlock.o rw_ttas.o rw_scalable_fair.o rw_fair.o ticket.o alock.o hclh.o gl_lock.o htlock.o utils.o
+OBJ_FILES :=  clh.o spinlock.o utils.o
 
 
-all:  bank bank_one bank_simple test_array_alloc test_trylock sample_generic sample_mcs test_correctness stress_one stress_test core_transitions stress_latency atomic_bench individual_ops uncontended  htlock_test measure_contention libsync.a
+# all:  bank bank_one bank_simple test_array_alloc test_trylock sample_generic sample_mcs test_correctness stress_one stress_test core_transitions stress_latency atomic_bench individual_ops uncontended  htlock_test measure_contention libsync.a
+all:  stress_test stress_one core_transitions uncontended test_correctness
 	@echo "############### Used: " $(LOCK_VERSION) " on " $(PLATFORM) " with " $(OPTIMIZE)
 
 libsync.a: ttas_simp.o ttas.o rw_ttas.o rw_scalable_fair.o rw_fair.o ticket.o clh.o mcs.o hclh.o alock.o htlock.o utils.o include/atomic_ops.h include/utils.h include/lock_if.h

@@ -34,6 +34,7 @@
 #define _ATOMIC_OPS_H_INCLUDED_
 
 #include <inttypes.h>
+#include <assert.h>
 
 #define COMPILER_BARRIER asm volatile("" ::: "memory")
 
@@ -403,6 +404,190 @@ static inline uint32_t CASB_PTR(volatile void* ptr, void *old, void *new) {
     return (ret == (uint32_t)old);
 }
 /*End of ARM code*/
+
+#elif defined(__aarch64__)
+/*
+ *  aarch64 code
+ */
+
+static inline void* swap_pointer(volatile void* ptr, void *x) {
+    uint32_t atomic;
+    uint64_t ret;
+    /* volatile uint32_t* ptri = (uint32_t*)ptr;
+    uint32_t xi = (uint32_t)x; */
+
+    __asm__ __volatile__ (
+            "1:                             \n\t"
+            "ldxr %1, [%2]                  \n\t" /* ret = *ptr */
+            "stxr %w0, %3, [%2]              \n\t" /* *ptr = x */
+            "cmp %0, #0                     \n\t" /* was atomic? */
+            "bne 1b                         \n\t"
+
+            : "=&r"(atomic), "=&r"(ret)     /* output */
+            : "r"(ptr), "r"(x)              /* input */
+            : "memory", "cc"                /* clobbered */
+            );
+
+    return (void*)ret;
+}
+
+//Swap uint64_t
+static inline uint64_t swap_uint64(volatile uint64_t* ptr,  uint64_t x) {
+    assert(!"Not used by benches or CLH/spinlocks\n");
+    return 0;
+}
+
+//Swap uint32_t
+static inline uint32_t swap_uint32(volatile uint32_t* ptr,  uint32_t x) {
+    assert(!"Not used by benches or CLH/spinlocks\n");
+    return 0;
+}
+
+//Swap uint16_t
+static inline uint16_t swap_uint16(volatile uint16_t* ptr,  uint16_t x) {
+    assert(!"Not used by benches or CLH/spinlocks\n");
+    return 0;
+}
+
+//Swap uint8_t
+static inline uint8_t swap_uint8(volatile uint8_t* ptr,  uint8_t x) {
+    uint32_t atomic;
+    uint8_t ret;
+
+    __asm__ __volatile__ (
+            "1:                             \n\t"
+            "ldxrb %w1, [%2]                 \n\t" /* ret = *ptr */
+            "stxrb %w0, %w3, [%2]             \n\t" /* *ptr = x */
+            "cmp %0, #0                     \n\t" /* was atomic? */
+            "bne 1b                         \n\t"
+
+            : "=&r"(atomic), "=&r"(ret)     /* output */
+            : "r"(ptr), "r"(x)              /* input */
+            : "memory", "cc"                /* clobbered */
+            );
+
+    return ret;
+}
+
+//test-and-set uint8_t
+static inline uint8_t tas_uint8(volatile uint8_t *ptr) {
+    uint8_t atomic, ret, tmp1;
+
+    __asm__ __volatile__ (
+            "1:                             \n\t"
+            "ldxrb %w2, [%3]                 \n\t" /* ret = *ptr */
+            "ldr %w0, =1                  \n\t" /* set temp */
+            "stxrb %w1, %w0, [%3]             \n\t" /* *ptr = 1 */
+            "cmp %w1, #0                     \n\t" /* was atomic? */
+            "bne 1b                         \n\t"
+
+            : "=&r"(tmp1), "=&r"(atomic), "=&r"(ret)        /* output */
+            : "r"(ptr)                                      /* input */
+            : "memory", "cc"                                /* clobbered */
+            );
+
+    return ret;
+}
+
+//atomic operations interface
+//Compare-and-swap
+//#define CAS_PTR(a,b,c) __sync_val_compare_and_swap(a,b,c)
+static inline void* CAS_PTR(volatile void* ptr, void *old, void *new) {
+    assert(!"Not used by benches or CLH/spinlocks\n");
+    return NULL;
+}
+//#define CAS_U8(a,b,c) __sync_val_compare_and_swap(a,b,c)
+//#define CAS_U16(a,b,c) __sync_val_compare_and_swap(a,b,c)
+static inline uint16_t CAS_U16(volatile void* ptr, uint16_t old, uint16_t new) {
+    assert(!"Not used by benches or CLH/spinlocks\n");
+    return 0;
+}
+//#define CAS_U32(a,b,c) __sync_val_compare_and_swap(a,b,c)
+static inline uint32_t CAS_U32(volatile void* ptr, uint32_t old, uint32_t new) {
+    assert(!"Not used by benches or CLH/spinlocks\n");
+    return 0;
+}
+//#define CAS_U64(a,b,c) __sync_val_compare_and_swap(a,b,c)
+//Swap
+#define SWAP_PTR(a,b) swap_pointer(a,b)
+#define SWAP_U8(a,b) swap_uint8(a,b)
+#define SWAP_U16(a,b) swap_uint16(a,b)
+#define SWAP_U32(a,b) swap_uint32(a,b)
+#define SWAP_U64(a,b) swap_uint64(a,b)
+//Fetch-and-increment
+//#define FAI_U8(a) __sync_fetch_and_add(a,1)
+//#define FAI_U16(a) __sync_fetch_and_add(a,1)
+//#define FAI_U32(a) __sync_fetch_and_add(a,1)
+static inline uint32_t FAI_U32(volatile uint32_t* ptr) {
+    assert(!"Not used by benches or CLH/spinlocks\n");
+    return 0;
+}
+//#define FAI_U64(a) __sync_fetch_and_add(a,1)
+//Fetch-and-decrement
+//#define FAD_U8(a) __sync_fetch_and_sub(a,1)
+//#define FAD_U16(a) __sync_fetch_and_sub(a,1)
+//#define FAD_U32(a) __sync_fetch_and_sub(a,1)
+static inline uint32_t FAD_U32(volatile uint32_t* ptr) {
+    assert(!"Not used by benches or CLH/spinlocks\n");
+    return 0;
+}
+//#define FAD_U64(a) __sync_fetch_and_sub(a,1)
+//Increment-and-fetch
+//#define IAF_U8(a) __sync_add_and_fetch(a,1)
+//#define IAF_U16(a) __sync_add_and_fetch(a,1)
+//IAF_U16
+static inline uint16_t IAF_U16(volatile uint16_t* ptr) {
+    assert(!"Not used by benches or CLH/spinlocks\n");
+    return 0;
+}
+
+#define IAF_U32(a) __sync_add_and_fetch(a,1)
+static inline uint32_t IAF_U32(volatile uint32_t* ptr) {
+  uint32_t atomic, x = 1, ret;
+
+    __asm__ __volatile__ (
+            "1:                             \n\t"
+            "ldxrh %w1, [%2]                 \n\t" /* ret = *ptr */
+            "add %w1, %w1, %3                     \n\t" /* ret = ret + 1 */
+            "stxrh %w0, %w1, [%2]             \n\t" /* *ptr = ret */
+            "cmp %0, #0                     \n\t" /* was atomic? */
+            "bne 1b                         \n\t"
+
+            : "=&r"(atomic), "=&r"(ret)     /* output */
+            : "r"(ptr), "r"(x)              /* input */
+            : "memory", "cc"                /* clobbered */
+            );
+
+    return ret;
+}
+//#define IAF_U64(a) __sync_add_and_fetch(a,1)
+//Decrement-and-fetch
+//#define DAF_U8(a) __sync_sub_and_fetch(a,1)
+//#define DAF_U16(a) __sync_sub_and_fetch(a,1)
+static inline uint16_t DAF_U16(volatile uint16_t* ptr) {
+    assert(!"Not used by benches or CLH/spinlocks\n");
+    return 0;
+}
+
+//#define DAF_U32(a) __sync_sub_and_fetch(a,1)
+static inline uint32_t DAF_U32(volatile uint32_t* ptr) {
+    assert(!"Not used by benches or CLH/spinlocks\n");
+    return 0;
+}
+//#define DAF_U64(a) __sync_sub_and_fetch(a,1)
+//Test-and-set
+#define TAS_U8(a) tas_uint8(a)
+//Memory barrier
+#define MEM_BARRIER __sync_synchronize() // dmb sy
+//Fetch-and-And
+//#define FAA_U32(a,b) __sync_fetch_and_and(a,b)
+//Compare-and-swap-bool
+//#define CASB_PTR(a,b,c) __sync_bool_compare_and_swap(a,b,c)
+static inline uint32_t CASB_PTR(volatile void* ptr, void *old, void *new) {
+    assert(!"Not used by benches or CLH/spinlocks\n");
+    return 0;
+}
+/*End of aarch64 code*/
 
 #elif defined(__sparc__)
 /*

@@ -68,12 +68,28 @@ extern "C" {
 #  define CACHE_LINE_SIZE 32
 #  define NOP_DURATION 1 // FIXME
   static uint8_t  __attribute__ ((unused)) the_cores[] = {
-        0, 1, 2, 3, 4, 5, 6, 7, 
-        8, 9, 10, 11, 12, 13, 14, 15, 
-        16, 17, 18, 19, 20, 21, 22, 23, 
-        24, 25, 26, 27, 28, 29, 30, 31, 
-        32, 33, 34, 35, 36, 37, 38, 39, 
-        40, 41, 42, 43, 44, 45, 46, 47  
+        0, 1, 2, 3, 4, 5, 6, 7,
+        8, 9, 10, 11, 12, 13, 14, 15,
+        16, 17, 18, 19, 20, 21, 22, 23,
+        24, 25, 26, 27, 28, 29, 30, 31,
+        32, 33, 34, 35, 36, 37, 38, 39,
+        40, 41, 42, 43, 44, 45, 46, 47
+    };
+#endif
+
+#ifdef AARCH64
+#  define NUMBER_OF_SOCKETS 1
+#  define CORES_PER_SOCKET CORE_NUM
+#  define CACHE_LINE_SIZE 64
+#  define CLOCK_GHZ 1.9
+#  define NOP_DURATION 1 // FIXME
+  static uint8_t  __attribute__ ((unused)) the_cores[] = {
+        0, 1, 2, 3, 4, 5, 6, 7,
+        8, 9, 10, 11, 12, 13, 14, 15,
+        16, 17, 18, 19, 20, 21, 22, 23,
+        24, 25, 26, 27, 28, 29, 30, 31,
+        32, 33, 34, 35, 36, 37, 38, 39,
+        40, 41, 42, 43, 44, 45, 46, 47
     };
 #endif
 

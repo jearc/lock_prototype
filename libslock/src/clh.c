@@ -33,7 +33,7 @@
 
 int clh_trylock(clh_lock * L, clh_qnode_ptr I) {
         // This is broken?
-#ifdef __arm__
+#if defined(__arm__) || defined(__aarch64__)
             MEM_BARRIER;
 #endif
     return 1;
@@ -52,7 +52,7 @@ volatile clh_qnode* clh_acquire(clh_lock *L, clh_qnode* I )
 #if 0
     if (pred == NULL) 		/* lock was free */
     {
-#ifdef __arm__
+#if defined(__arm__) || defined(__aarch64__)
             MEM_BARRIER;
 #endif
         return NULL;
@@ -69,7 +69,7 @@ volatile clh_qnode* clh_acquire(clh_lock *L, clh_qnode* I )
         PREFETCHW(pred);
 #endif	/* OPTERON_OPTIMIZE */
     }
-#ifdef __arm__
+#if defined(__arm__) || defined(__aarch64__)
             MEM_BARRIER;
 #endif
     return pred;
@@ -77,7 +77,7 @@ volatile clh_qnode* clh_acquire(clh_lock *L, clh_qnode* I )
 
 clh_qnode* clh_release(clh_qnode *my_qnode, clh_qnode * my_pred) {
     COMPILER_BARRIER;
-#if defined(__tile__) || defined(__arm__)
+#if defined(__tile__) || defined(__arm__) || defined(__aarch64__)
     MEM_BARRIER;
 #endif
     my_qnode->locked=0;

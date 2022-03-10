@@ -45,7 +45,7 @@
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <fcntl.h>
-#if !defined(__sparc__) && !defined(__arm__) && !defined(__tile__) && !defined(HASWELL)
+#if !defined(__sparc__) && !defined(__arm__) && !defined(__tile__) && !defined(HASWELL) && !defined(__aarch64__)
 #    include <numa.h>
 #    include <emmintrin.h>
 #endif
