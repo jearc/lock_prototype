@@ -96,11 +96,11 @@ MAININCLUDE := $(TOP)/include
 
 INCLUDES := -I$(MAININCLUDE)
 # OBJ_FILES :=  mcs.o clh.o ttas_simp.o ttas.o spinlock.o rw_ttas.o rw_scalable_fair.o rw_fair.o ticket.o alock.o hclh.o gl_lock.o htlock.o utils.o
-OBJ_FILES :=  clh.o spinlock.o utils.o
+OBJ_FILES :=  clh.o spinlock.o utils.o rw_ttas.o rw_scalable_fair.o rw_fair.o
 
 
 # all:  bank bank_one bank_simple test_array_alloc test_trylock sample_generic sample_mcs test_correctness stress_one stress_test core_transitions stress_latency atomic_bench individual_ops uncontended  htlock_test measure_contention libsync.a
-all:  stress_test stress_one core_transitions uncontended test_correctness
+all:  stress_test stress_one core_transitions uncontended test_correctness test_correctness_rw
 	@echo "############### Used: " $(LOCK_VERSION) " on " $(PLATFORM) " with " $(OPTIMIZE)
 
 libsync.a: ttas_simp.o ttas.o rw_ttas.o rw_scalable_fair.o rw_fair.o ticket.o clh.o mcs.o hclh.o alock.o htlock.o utils.o include/atomic_ops.h include/utils.h include/lock_if.h
@@ -171,6 +171,9 @@ stress_one: bmarks/stress_one.c $(OBJ_FILES) Makefile
 
 test_correctness: bmarks/test_correctness.c $(OBJ_FILES) Makefile
 	$(GCC) $(LOCK_VERSION) $(ALTERNATE_SOCKETS) $(NO_DELAYS) -D_GNU_SOURCE  $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) $(OBJ_FILES) bmarks/test_correctness.c -o test_correctness $(LIBS)
+
+test_correctness_rw: bmarks/test_correctness_rw.c $(OBJ_FILES) Makefile
+	$(GCC) $(LOCK_VERSION) $(ALTERNATE_SOCKETS) $(NO_DELAYS) -D_GNU_SOURCE  $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) $(OBJ_FILES) bmarks/test_correctness_rw.c -o test_correctness_rw $(LIBS)
 
 sample_generic: samples/sample_generic.c $(OBJ_FILES) Makefile
 	$(GCC) $(LOCK_VERSION) $(ALTERNATE_SOCKETS) $(NO_DELAYS) -D_GNU_SOURCE  $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) $(OBJ_FILES) samples/sample_generic.c -o sample_generic $(LIBS)
