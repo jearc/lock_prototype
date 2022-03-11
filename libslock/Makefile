@@ -2,10 +2,10 @@ PLATFORM_NUMA=1
 
 ifeq ($(DEBUG),1)
   DEBUG_FLAGS=-Wall -ggdb -DDEBUG
-  COMPILE_FLAGS=-O0 -DADD_PADDING -fno-inline
+  COMPILE_FLAGS=-O0 -DADD_PADDING -fno-inline -std=gnu99
 else
   DEBUG_FLAGS=-Wall
-  COMPILE_FLAGS=-O3 -DADD_PADDING
+  COMPILE_FLAGS=-O3 -DADD_PADDING -std=gnu99
   #COMPILE_FLAGS=-O3 -DADD_PADDING -DXEON -DHASWELL -DCORE_NUM=4 -DUSE_CDELAY -g
   #COMPILE_FLAGS=-O0 -DADD_PADDING -fno-inline
 #COMPILE_FLAGS=-O3 -DADD_PADDING -DALTERNATE_CORES
@@ -96,15 +96,15 @@ MAININCLUDE := $(TOP)/include
 
 INCLUDES := -I$(MAININCLUDE)
 # OBJ_FILES :=  mcs.o clh.o ttas_simp.o ttas.o spinlock.o rw_ttas.o rw_scalable_fair.o rw_fair.o ticket.o alock.o hclh.o gl_lock.o htlock.o utils.o
-OBJ_FILES :=  clh.o spinlock.o utils.o rw_ttas.o rw_scalable_fair.o rw_fair.o
+OBJ_FILES :=  clh.o spinlock.o utils.o rw_ttas.o rw_scalable_fair.o rw_fair.o rw_bounded.o gl_lock.o
 
 
 # all:  bank bank_one bank_simple test_array_alloc test_trylock sample_generic sample_mcs test_correctness stress_one stress_test core_transitions stress_latency atomic_bench individual_ops uncontended  htlock_test measure_contention libsync.a
-all:  stress_test stress_one core_transitions uncontended test_correctness test_correctness_rw
+all:  stress_test stress_one core_transitions uncontended test_correctness test_correctness_rw bank bank_one bank_simple
 	@echo "############### Used: " $(LOCK_VERSION) " on " $(PLATFORM) " with " $(OPTIMIZE)
 
-libsync.a: ttas_simp.o ttas.o rw_ttas.o rw_scalable_fair.o rw_fair.o ticket.o clh.o mcs.o hclh.o alock.o htlock.o utils.o include/atomic_ops.h include/utils.h include/lock_if.h
-	ar -r libsync.a ttas_simp.o ttas.o rw_ttas.o rw_scalable_fair.o rw_fair.o ticket.o clh.o mcs.o alock.o hclh.o htlock.o spinlock.o utils.o include/atomic_ops.h include/utils.h
+libsync.a: ttas_simp.o ttas.o rw_ttas.o rw_scalable_fair.o rw_fair.o rw_bounded.o ticket.o clh.o mcs.o hclh.o alock.o htlock.o utils.o include/atomic_ops.h include/utils.h include/lock_if.h
+	ar -r libsync.a ttas_simp.o ttas.o rw_ttas.o rw_scalable_fair.o rw_fair.o rw_bounded.o ticket.o clh.o mcs.o alock.o hclh.o htlock.o spinlock.o utils.o include/atomic_ops.h include/utils.h
 
 ttas_simp.o: src/ttas_simp.c 
 	$(GCC) -D_GNU_SOURCE $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) -c src/ttas_simp.c $(LIBS)
@@ -123,6 +123,9 @@ rw_fair.o: src/rw_fair.c
 
 rw_scalable_fair.o: src/rw_scalable_fair.c 
 	$(GCC) -D_GNU_SOURCE $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) -c src/rw_scalable_fair.c $(LIBS)
+
+rw_bounded.o: src/rw_bounded.c
+	$(GCC) -D_GNU_SOURCE $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) -c src/rw_bounded.c $(LIBS)
 
 ticket.o: src/ticket.c 
 	$(GCC) -D_GNU_SOURCE $(COMPILE_FLAGS) $(DEBUG_FLAGS) $(INCLUDES) -c src/ticket.c $(LIBS)
