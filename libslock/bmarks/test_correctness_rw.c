@@ -171,6 +171,8 @@ void *reader_thread(void *data)
         }
     }
 
+    printf("reader %u not deadlocked\n", d->id);
+
     free_lock_local(local_th_data[d->id]);
     return NULL;
 }
@@ -192,6 +194,8 @@ void *writer_thread(void *data)
         protected_data->writer_counter[1]++;
         release_write(local_d, &the_lock);
     }
+
+    printf("Writer %u not deadlocked\n", d->id);
 
     free_lock_local(local_th_data[d->id]);
     return NULL;
