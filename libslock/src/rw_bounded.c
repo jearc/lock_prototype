@@ -78,12 +78,12 @@ int is_free_rw_bounded(rw_bounded_global_params *G){
 rw_bounded_global_params* init_rw_bounded_array_global(uint32_t num_locks) {
     uint32_t i;
 #ifdef ADD_PADDING
+    printf("sizeof(rw_bounded_global_params) == %u\n", sizeof(rw_bounded_global_params));
     assert(sizeof(rw_bounded_global_params) == CACHE_LINE_SIZE);
 #endif    
-    rw_bounded_global_params* the_locks = (rw_bounded_global_params*)malloc(num_locks * sizeof(rw_bounded_global_params));
+    rw_bounded_global_params *the_locks = calloc(num_locks, sizeof *the_locks);
     for (i=0;i<num_locks;i++) {
-        the_locks[i].the_lock=(rw_bounded_lock*)malloc(sizeof(rw_bounded_lock));
-        *(the_locks[i].the_lock)=0;
+        the_locks[i].the_lock = calloc(1, sizeof *the_locks[i].the_lock);
     }
     MEM_BARRIER;
     return the_locks;
@@ -98,9 +98,9 @@ rw_bounded_qnode** init_rw_bounded_array_local(uint32_t thread_num, uint32_t num
 #ifdef ADD_PADDING
     assert(sizeof(rw_bounded_qnode) == CACHE_LINE_SIZE);
 #endif 
-    rw_bounded_qnode** the_qnodes = (rw_bounded_qnode**)malloc(num_locks * sizeof(rw_bounded_qnode*));
+    rw_bounded_qnode** the_qnodes = calloc(num_locks, sizeof *the_qnodes);
     for (i=0;i<num_locks;i++) {
-        the_qnodes[i]=(rw_bounded_qnode*)malloc(sizeof(rw_bounded_qnode));
+        the_qnodes[i] = calloc(1, sizeof *the_qnodes[i]);
 	    assert(((uint32_t)the_qnodes[i] % CACHE_LINE_SIZE) != (CACHE_LINE_SIZE - 4));
     }
     MEM_BARRIER;
@@ -126,8 +126,7 @@ void end_rw_bounded_array_global(rw_bounded_global_params* the_locks, uint32_t s
 
 int init_rw_bounded_global(rw_bounded_global_params* the_lock) {
     memset(the_lock, 0, sizeof *the_lock);
-    the_lock->the_lock=(rw_bounded_lock*)malloc(sizeof(rw_bounded_lock));
-    *(the_lock->the_lock)=0;
+    the_lock->the_lock = calloc(1, sizeof *the_lock->the_lock);
     MEM_BARRIER;
     return 0;
 }
@@ -136,7 +135,7 @@ int init_rw_bounded_global(rw_bounded_global_params* the_lock) {
 int init_rw_bounded_local(uint32_t thread_num, rw_bounded_qnode** the_qnode) {
     set_cpu(thread_num);
 
-    (*the_qnode)=(rw_bounded_qnode*)calloc(1, sizeof(rw_bounded_qnode));
+    *the_qnode = calloc(1, sizeof **the_qnode);
 
     MEM_BARRIER;
     return 0;
