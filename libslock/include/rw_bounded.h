@@ -16,9 +16,10 @@
 #include "atomic_ops.h"
 
 typedef struct rw_bounded_qnode {
-    volatile uint8_t waiting;
     volatile struct rw_bounded_qnode *volatile next;
+    volatile uint8_t waiting;
     volatile bool ticket;
+    uint8_t padding[54];
 } rw_bounded_qnode;
 
 typedef volatile rw_bounded_qnode *rw_bounded_qnode_ptr;
@@ -28,9 +29,10 @@ typedef rw_bounded_qnode* rw_bounded_local_params;
 
 typedef struct rw_bounded_global_params {
     rw_bounded_lock* the_lock;
+    volatile uint32_t ticket_waiters[2];
     volatile bool ticket;
     volatile bool reader_lock;
-    volatile uint32_t ticket_waiters[2];
+    uint8_t padding[46];
 } rw_bounded_global_params;
 
 
