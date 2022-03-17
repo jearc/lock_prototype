@@ -271,7 +271,7 @@ extern "C" {
         }
         //    printf("corr in float %f\n", (t_dur / (double) GETTICKS_CALC_REPS));
         ticks getticks_correction = (ticks)(t_dur / (double) GETTICKS_CALC_REPS);
-        printf("getticks_correction = %llu\n", getticks_correction);
+        printf("getticks_correction = %lu\n", getticks_correction);
         return getticks_correction;
     }
 

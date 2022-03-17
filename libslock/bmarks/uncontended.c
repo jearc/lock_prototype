@@ -404,7 +404,7 @@ int main(int argc, char **argv)
 
 #endif
     //printf("Avg acq: %llu (cycles), Avg rel: %llu (cycles)\n", (total_acquire/acquires), (total_release/acquires));
-    printf("%llu,%llu", (total_acquire/acquires), (total_release/acquires));
+    printf("%lu,%lu", (total_acquire/acquires), (total_release/acquires));
     /* Cleanup locks */
     free_lock_array_global(the_locks, num_locks);
 
