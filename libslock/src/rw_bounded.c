@@ -29,6 +29,7 @@ void rw_bounded_write_acquire(rw_bounded_global_params *G, rw_bounded_qnode_ptr 
         }
     }
     I->ticket = G->ticket = !G->ticket;
+    MEM_BARRIER;
     while (G->ticket_waiters[!I->ticket] != 0);
 }
 
