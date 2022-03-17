@@ -60,9 +60,9 @@ do
 	$MAKE "$PF" all LOCK_VERSION=-D$lock > /dev/null;
     fi
     suffix=`echo $lock | sed -e "s/USE_//g" -e "s/_LOCK\?//g" | tr "[:upper:]" "[:lower:]"`;
-    #mv bank bank_$suffix$USUFFIX;
-    #mv bank_one bank_one_$suffix$USUFFIX;
-    #mv bank_simple bank_simple_$suffix$USUFFIX;
+    mv bank bank_$suffix$USUFFIX;
+    mv bank_one bank_one_$suffix$USUFFIX;
+    mv bank_simple bank_simple_$suffix$USUFFIX;
     mv stress_test stress_test_$suffix$USUFFIX;
     mv stress_one stress_one_$suffix$USUFFIX;
     mv core_transitions core_transitions_$suffix$USUFFIX;
