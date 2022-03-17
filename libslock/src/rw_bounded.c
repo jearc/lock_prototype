@@ -28,14 +28,14 @@ void rw_bounded_write_acquire(rw_bounded_global_params *G, rw_bounded_qnode_ptr 
             /* PAUSE */;
         }
     }
-    I->ticket = G->ticket = !G->ticket;
+    I->observed_turn = G->turn = !G->turn;
     MEM_BARRIER;
-    while (G->ticket_waiters[!I->ticket] != 0);
+    while (G->n_waiting_readers[!I->observed_turn] != 0);
 }
 
 void rw_bounded_write_release(rw_bounded_global_params *G, rw_bounded_qnode_ptr I) 
 {
-    G->reader_lock = I->ticket;
+    G->completed_turn = I->observed_turn;
 
     rw_bounded_qnode_ptr succ;
     if (!(succ = I->next) && CAS_PTR(G->the_lock, I, NULL) != I) /* I seem to have no succ. */
@@ -52,17 +52,17 @@ void rw_bounded_write_release(rw_bounded_global_params *G, rw_bounded_qnode_ptr 
 
 void rw_bounded_read_acquire(rw_bounded_global_params *G, rw_bounded_qnode_ptr I)
 {
-    FAI_U32(&G->ticket_waiters[0]);
-    FAI_U32(&G->ticket_waiters[1]);
-    I->ticket = G->ticket;
-    FAD_U32(&G->ticket_waiters[!I->ticket]);
+    FAI_U32(&G->n_waiting_readers[0]);
+    FAI_U32(&G->n_waiting_readers[1]);
+    I->observed_turn = G->turn;
+    FAD_U32(&G->n_waiting_readers[!I->observed_turn]);
 
-    while (G->reader_lock != I->ticket);
+    while (G->completed_turn != I->observed_turn);
 }
 
 void rw_bounded_read_release(rw_bounded_global_params *G, rw_bounded_qnode_ptr I) 
 {
-    FAD_U32(&G->ticket_waiters[I->ticket]);
+    FAD_U32(&G->n_waiting_readers[I->observed_turn]);
 }
 
 int is_free_rw_bounded(rw_bounded_global_params *G){
