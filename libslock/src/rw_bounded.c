@@ -19,8 +19,7 @@ void rw_bounded_write_acquire(rw_bounded_global_params *G, rw_bounded_qnode_ptr 
     MEM_BARRIER;
     rw_bounded_qnode_ptr pred = (rw_bounded_qnode*) SWAP_PTR( G->the_lock, (void *)I);
 
-    bool first_writer = pred == NULL;
-    if (!first_writer) {
+    if (pred != NULL) {
         I->waiting = 1; // word on which to spin
         MEM_BARRIER;
         pred->next = I; // make pred point to me
@@ -29,8 +28,8 @@ void rw_bounded_write_acquire(rw_bounded_global_params *G, rw_bounded_qnode_ptr 
             /* PAUSE */;
         }
     }
-    I->ticket = FAI_U32(&G->ticket) + 1;
-    while (G->ticket_waiters[(I->ticket - 1) % 2] != 0);
+    I->ticket = G->ticket = !G->ticket;
+    while (G->ticket_waiters[!I->ticket] != 0);
 }
 
 void rw_bounded_write_release(rw_bounded_global_params *G, rw_bounded_qnode_ptr I) 
@@ -55,14 +54,14 @@ void rw_bounded_read_acquire(rw_bounded_global_params *G, rw_bounded_qnode_ptr I
     FAI_U32(&G->ticket_waiters[0]);
     FAI_U32(&G->ticket_waiters[1]);
     I->ticket = G->ticket;
-    FAD_U32(&G->ticket_waiters[(I->ticket + 1) % 2]);
+    FAD_U32(&G->ticket_waiters[!I->ticket]);
 
     while (G->reader_lock != I->ticket);
 }
 
 void rw_bounded_read_release(rw_bounded_global_params *G, rw_bounded_qnode_ptr I) 
 {
-    FAD_U32(&G->ticket_waiters[I->ticket % 2]);
+    FAD_U32(&G->ticket_waiters[I->ticket]);
 }
 
 int is_free_rw_bounded(rw_bounded_global_params *G){
