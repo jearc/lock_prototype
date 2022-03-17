@@ -17,6 +17,7 @@
 typedef struct rw_bounded_qnode {
     volatile uint8_t waiting;
     volatile struct rw_bounded_qnode *volatile next;
+    volatile uint32_t ticket;
 } rw_bounded_qnode;
 
 typedef volatile rw_bounded_qnode *rw_bounded_qnode_ptr;
@@ -26,6 +27,9 @@ typedef rw_bounded_qnode* rw_bounded_local_params;
 
 typedef struct rw_bounded_global_params {
     rw_bounded_lock* the_lock;
+    volatile uint32_t ticket;
+    volatile uint32_t reader_lock;
+    volatile uint32_t ticket_waiters[2];
 } rw_bounded_global_params;
 
 
