@@ -736,7 +736,7 @@ static inline void release_trylock(lock_local_data* local_d, lock_global_data* g
 #elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
     scalable_fair_write_release(global_d, local_d);
 #elif defined(USE_RW_BOUNDED_LOCKS)
-    rw_bounded_release(global_d,*local_d);
+    rw_bounded_write_release(global_d,*local_d);
 #endif
 }
 
