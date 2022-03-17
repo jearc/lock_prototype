@@ -35,6 +35,8 @@ void rw_bounded_write_acquire(rw_bounded_global_params *G, rw_bounded_qnode_ptr 
 
 void rw_bounded_write_release(rw_bounded_global_params *G, rw_bounded_qnode_ptr I) 
 {
+    G->reader_lock = I->ticket;
+
     rw_bounded_qnode_ptr succ;
     if (!(succ = I->next) && CAS_PTR(G->the_lock, I, NULL) != I) /* I seem to have no succ. */
     {
@@ -46,8 +48,6 @@ void rw_bounded_write_release(rw_bounded_global_params *G, rw_bounded_qnode_ptr 
     if (succ != NULL) {
         succ->waiting = 0;
     }
-
-    G->reader_lock = I->ticket;
 }
 
 void rw_bounded_read_acquire(rw_bounded_global_params *G, rw_bounded_qnode_ptr I)
