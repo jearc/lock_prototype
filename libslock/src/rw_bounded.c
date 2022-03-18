@@ -79,8 +79,6 @@ rw_bounded_global_params* init_rw_bounded_array_global(uint32_t num_locks) {
 rw_bounded_local_params* init_rw_bounded_array_local(uint32_t thread_num, uint32_t num_locks) {
     set_cpu(thread_num);
 
-    printf("init_rw_bounded_array_local() begin\n");
-
     //init its qnodes
     uint32_t i;
     rw_bounded_local_params* local_params = calloc(num_locks, sizeof *local_params);
@@ -89,7 +87,6 @@ rw_bounded_local_params* init_rw_bounded_array_local(uint32_t thread_num, uint32
         local_params[i].my_pred = NULL;
     }
     MEM_BARRIER;
-    printf("init_rw_bounded_array_local() end\n");
     return local_params;
 
 }
