@@ -1,7 +1,7 @@
 #include "rw_bounded.h"
 #include <stdbool.h>
 
-int rw_bounded_trylock(rw_bounded_global_params *G, rw_bounded_qnode_ptr I) {
+int rw_bounded_trylock(rw_bounded_global_params *G, rw_bounded_local_params *L) {
 //     rw_bounded_lock *L = G->the_lock;
     
 //     I->next=NULL;
@@ -13,56 +13,41 @@ int rw_bounded_trylock(rw_bounded_global_params *G, rw_bounded_qnode_ptr I) {
     return 1;
 }
 
-void rw_bounded_write_acquire(rw_bounded_global_params *G, rw_bounded_qnode_ptr I)
+void rw_bounded_write_acquire(rw_bounded_global_params *G, rw_bounded_local_params *L)
 {
-    I->next = NULL;
+    L->my_qnode->locked = 1;
     MEM_BARRIER;
-    rw_bounded_qnode_ptr pred = (rw_bounded_qnode*) SWAP_PTR( G->the_lock, (void *)I);
+    rw_bounded_qnode *pred = SWAP_PTR(G->the_lock, L->my_qnode);
+    while (pred->locked);
+    L->my_pred = pred;
 
-    if (pred != NULL) {
-        I->waiting = 1; // word on which to spin
-        MEM_BARRIER;
-        pred->next = I; // make pred point to me
-        while (I->waiting != 0) 
-        {
-            /* PAUSE */;
-        }
-    }
-    I->observed_turn = G->turn = !G->turn;
+    L->observed_turn = G->turn = !G->turn;
     MEM_BARRIER;
-    while (G->n_waiting_readers[!I->observed_turn] != 0);
+    while (G->n_waiting_readers[!L->observed_turn] != 0);
 }
 
-void rw_bounded_write_release(rw_bounded_global_params *G, rw_bounded_qnode_ptr I) 
+void rw_bounded_write_release(rw_bounded_global_params *G, rw_bounded_local_params *L) 
 {
-    G->completed_turn = I->observed_turn;
+    G->completed_turn = L->observed_turn;
 
-    rw_bounded_qnode_ptr succ;
-    if (!(succ = I->next) && CAS_PTR(G->the_lock, I, NULL) != I) /* I seem to have no succ. */
-    {
-        do {
-            succ = I->next;
-            PAUSE;
-        } while (!succ); // wait for successor
-    }
-    if (succ != NULL) {
-        succ->waiting = 0;
-    }
+    COMPILER_BARRIER;
+    L->my_qnode->locked = 0;
+    L->my_qnode = L->my_pred;
 }
 
-void rw_bounded_read_acquire(rw_bounded_global_params *G, rw_bounded_qnode_ptr I)
+void rw_bounded_read_acquire(rw_bounded_global_params *G, rw_bounded_local_params *L)
 {
     FAI_U32(&G->n_waiting_readers[0]);
     FAI_U32(&G->n_waiting_readers[1]);
-    I->observed_turn = G->turn;
-    FAD_U32(&G->n_waiting_readers[!I->observed_turn]);
+    L->observed_turn = G->turn;
+    FAD_U32(&G->n_waiting_readers[!L->observed_turn]);
 
-    while (G->completed_turn != I->observed_turn);
+    while (G->completed_turn != L->observed_turn);
 }
 
-void rw_bounded_read_release(rw_bounded_global_params *G, rw_bounded_qnode_ptr I) 
+void rw_bounded_read_release(rw_bounded_global_params *G, rw_bounded_local_params *L) 
 {
-    FAD_U32(&G->n_waiting_readers[I->observed_turn]);
+    FAD_U32(&G->n_waiting_readers[L->observed_turn]);
 }
 
 int is_free_rw_bounded(rw_bounded_global_params *G){
@@ -76,44 +61,41 @@ int is_free_rw_bounded(rw_bounded_global_params *G){
    */
 
 rw_bounded_global_params* init_rw_bounded_array_global(uint32_t num_locks) {
+    rw_bounded_global_params *the_params = calloc(num_locks, sizeof *the_params);
     uint32_t i;
 #ifdef ADD_PADDING
     printf("sizeof(rw_bounded_global_params) == %u\n", sizeof(rw_bounded_global_params));
     assert(sizeof(rw_bounded_global_params) == CACHE_LINE_SIZE);
-#endif    
-    rw_bounded_global_params *the_locks = calloc(num_locks, sizeof *the_locks);
+#endif
     for (i=0;i<num_locks;i++) {
-        the_locks[i].the_lock = calloc(1, sizeof *the_locks[i].the_lock);
+        the_params[i].the_lock = calloc(1, sizeof *the_params[i].the_lock);
+        *(the_params[i].the_lock) = calloc(1, sizeof **(the_params[i].the_lock));
     }
     MEM_BARRIER;
-    return the_locks;
+    return the_params;
 }
 
 
-rw_bounded_qnode** init_rw_bounded_array_local(uint32_t thread_num, uint32_t num_locks) {
+rw_bounded_local_params* init_rw_bounded_array_local(uint32_t thread_num, uint32_t num_locks) {
     set_cpu(thread_num);
+
+    printf("init_rw_bounded_array_local() begin\n");
 
     //init its qnodes
     uint32_t i;
-#ifdef ADD_PADDING
-    assert(sizeof(rw_bounded_qnode) == CACHE_LINE_SIZE);
-#endif 
-    rw_bounded_qnode** the_qnodes = calloc(num_locks, sizeof *the_qnodes);
+    rw_bounded_local_params* local_params = calloc(num_locks, sizeof *local_params);
     for (i=0;i<num_locks;i++) {
-        the_qnodes[i] = calloc(1, sizeof *the_qnodes[i]);
-	    assert(((uint32_t)the_qnodes[i] % CACHE_LINE_SIZE) != (CACHE_LINE_SIZE - 4));
+        local_params[i].my_qnode = calloc(1, sizeof *local_params[i].my_qnode);
+        local_params[i].my_pred = NULL;
     }
     MEM_BARRIER;
-    return the_qnodes;
+    printf("init_rw_bounded_array_local() end\n");
+    return local_params;
 
 }
 
-void end_rw_bounded_array_local(rw_bounded_qnode** the_qnodes, uint32_t size) {
-    uint32_t i;
-    for (i = 0; i < size; i++) {
-        free(the_qnodes[i]);
-    }
-    free(the_qnodes);
+void end_rw_bounded_array_local(rw_bounded_local_params *the_params, uint32_t size) {
+    free(the_params);
 }
 
 void end_rw_bounded_array_global(rw_bounded_global_params* the_locks, uint32_t size) {
@@ -126,24 +108,24 @@ void end_rw_bounded_array_global(rw_bounded_global_params* the_locks, uint32_t s
 
 int init_rw_bounded_global(rw_bounded_global_params* the_lock) {
     memset(the_lock, 0, sizeof *the_lock);
-    the_lock->the_lock = calloc(1, sizeof *the_lock->the_lock);
+    the_lock->the_lock = calloc(1, sizeof *(the_lock->the_lock));    
+    *(the_lock->the_lock) = calloc(1, sizeof **(the_lock->the_lock));
     MEM_BARRIER;
     return 0;
 }
 
 
-int init_rw_bounded_local(uint32_t thread_num, rw_bounded_qnode** the_qnode) {
+int init_rw_bounded_local(uint32_t thread_num, rw_bounded_local_params *local_params) {
     set_cpu(thread_num);
 
-    *the_qnode = calloc(1, sizeof **the_qnode);
-
+    local_params->my_qnode = (rw_bounded_qnode *) calloc(1, sizeof *local_params->my_qnode);
+    local_params->my_pred = NULL;
     MEM_BARRIER;
     return 0;
-
 }
 
-void end_rw_bounded_local(rw_bounded_qnode* the_qnodes) {
-    free(the_qnodes);
+void end_rw_bounded_local(rw_bounded_local_params the_params) {
+    // free(the_params);
 }
 
 void end_rw_bounded_global(rw_bounded_global_params the_locks) {

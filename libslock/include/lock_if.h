@@ -214,7 +214,7 @@ static inline void acquire_lock(lock_local_data* local_d, lock_global_data* glob
 #elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
     scalable_fair_write_acquire(global_d, local_d);
 #elif defined(USE_RW_BOUNDED_LOCKS)
-    rw_bounded_write_acquire(global_d,*local_d);
+    rw_bounded_write_acquire(global_d, local_d);
 #endif
 }
 static inline void acquire_write(lock_local_data* local_d, lock_global_data* global_d) {
@@ -245,7 +245,7 @@ static inline void acquire_write(lock_local_data* local_d, lock_global_data* glo
 #elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
     scalable_fair_write_acquire(global_d,local_d);
 #elif defined(USE_RW_BOUNDED_LOCKS)
-    rw_bounded_write_acquire(global_d,*local_d);
+    rw_bounded_write_acquire(global_d, local_d);
 #endif
 }
 
@@ -277,7 +277,7 @@ static inline void acquire_read(lock_local_data* local_d, lock_global_data* glob
 #elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
     scalable_fair_read_acquire(global_d,local_d);
 #elif defined(USE_RW_BOUNDED_LOCKS)
-    rw_bounded_read_acquire(global_d,*local_d);
+    rw_bounded_read_acquire(global_d, local_d);
 #endif
 }
 
@@ -310,7 +310,7 @@ static inline void release_lock(lock_local_data *local_d, lock_global_data *glob
 #elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
     scalable_fair_write_release(global_d, local_d); 
 #elif defined(USE_RW_BOUNDED_LOCKS)
-    rw_bounded_write_release(global_d,*local_d);
+    rw_bounded_write_release(global_d, local_d);
 #endif
 
 }
@@ -343,7 +343,7 @@ static inline void release_write(lock_local_data *local_d, lock_global_data *glo
 #elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
     scalable_fair_write_release(global_d, local_d);
 #elif defined(USE_RW_BOUNDED_LOCKS)
-    rw_bounded_write_release(global_d,*local_d);
+    rw_bounded_write_release(global_d, local_d);
 #endif
 
 }
@@ -376,7 +376,7 @@ static inline void release_read(lock_local_data *local_d, lock_global_data *glob
 #elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
     scalable_fair_read_release(global_d, local_d); 
 #elif defined(USE_RW_BOUNDED_LOCKS)
-    rw_bounded_read_release(global_d,*local_d);
+    rw_bounded_read_release(global_d, local_d);
 #endif
 
 }
@@ -704,7 +704,7 @@ static inline int acquire_trylock( lock_local_data* local_d, lock_global_data* g
 #elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
     return rw_scalable_fair_trylock(global_d,local_d);
 #elif defined(USE_RW_BOUNDED_LOCKS)
-    return rw_bounded_trylock(global_d, *local_d);
+    return rw_bounded_trylock(global_d, local_d);
 #endif
 }
 
@@ -736,7 +736,7 @@ static inline void release_trylock(lock_local_data* local_d, lock_global_data* g
 #elif defined(USE_RW_SCALABLE_FAIR_LOCKS)
     scalable_fair_write_release(global_d, local_d);
 #elif defined(USE_RW_BOUNDED_LOCKS)
-    rw_bounded_write_release(global_d,*local_d);
+    rw_bounded_write_release(global_d,local_d);
 #endif
 }
 
