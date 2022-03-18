@@ -1,4 +1,8 @@
-byte ncrit;             // nr of procs in critical section
+// if the assertion does not hold, then you have existence of reader parallelism
+#define CHECK_READER_PARALLELISM 1
+
+byte ncrit;             // nr of writer procs in critical section
+int reader_sum;
 
 bool turn;
 bool completed_turn;
@@ -48,6 +52,12 @@ again:
     (completed_turn == observed_turn);
 
     assert(ncrit != 1);
+    
+#if CHECK_READER_PARALLELISM
+    reader_sum = 0;
+    reader_sum = reader_sum + 1;
+    assert(reader_sum != 4);
+#endif
 
     waiting_readers[observed_turn]--;
 
