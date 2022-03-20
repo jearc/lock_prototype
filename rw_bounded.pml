@@ -1,5 +1,6 @@
-// if the assertion does not hold, then you have existence of reader parallelism
-#define CHECK_READER_PARALLELISM 1
+#define NUM_WRITERS 3
+#define NUM_READERS 2
+#define CHECK_READER_PARALLELISM 0
 
 byte ncrit;             // nr of writer procs in critical section
 int reader_sum;
@@ -8,19 +9,25 @@ bool turn;
 bool completed_turn;
 int waiting_readers[2];
 
-bool writer_spinlock;
+bool writer_locked[NUM_WRITERS + 1];
+int writer_tail;
 
-active [3] proctype writer()
+active [NUM_WRITERS] proctype writer()
 {
     bool observed_turn;
+    int pred = 0;
+
+    int my_index = _pid + 1;
+    int my_pred_index = 0;
 
 again:
+    writer_locked[my_index] = 1;
     atomic {
-        if
-        :: (writer_spinlock == 0) -> { writer_spinlock = 1 }
-        :: else -> { goto again }
-        fi
+        pred = writer_tail;
+        writer_tail = my_index;
     }
+    (!writer_locked[pred]);
+    my_pred_index = pred;
 
     atomic {
         turn = !turn;
@@ -34,12 +41,14 @@ again:
     ncrit--;
 
     completed_turn = observed_turn;
-    writer_spinlock = 0;
+
+    writer_locked[my_index] = 0;
+    my_index = my_pred_index;
 
     goto again;
 }
 
-active [4] proctype reader()
+active [NUM_READERS] proctype reader()
 {
     bool observed_turn;
 
@@ -56,7 +65,7 @@ again:
 #if CHECK_READER_PARALLELISM
     reader_sum = 0;
     reader_sum = reader_sum + 1;
-    assert(reader_sum != 4);
+    assert(reader_sum != NUM_READERS);
 #endif
 
     waiting_readers[observed_turn]--;
