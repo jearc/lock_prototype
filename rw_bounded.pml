@@ -29,10 +29,8 @@ again:
     (!writer_locked[pred]);
     my_pred_index = pred;
 
-    atomic {
-        turn = !turn;
-        observed_turn = turn;
-    }
+    turn = !turn;
+    observed_turn = turn;
     
     (waiting_readers[!observed_turn] == 0);
 
