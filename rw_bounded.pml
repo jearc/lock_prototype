@@ -16,57 +16,54 @@ active [NUM_WRITERS] proctype writer()
 {
     bool observed_turn;
     int pred = 0;
-
     int my_index = _pid + 1;
     int my_pred_index = 0;
 
-again:
-    writer_locked[my_index] = 1;
-    atomic {
-        pred = writer_tail;
-        writer_tail = my_index;
-    }
-    (!writer_locked[pred]);
-    my_pred_index = pred;
+    do ::
+        writer_locked[my_index] = 1;
+        d_step {
+            pred = writer_tail;
+            writer_tail = my_index;
+        }
+        (!writer_locked[pred]);
+        my_pred_index = pred;
 
-    turn = !turn;
-    observed_turn = turn;
-    
-    (waiting_readers[!observed_turn] == 0);
+        turn = !turn;
+        observed_turn = turn;
 
-    ncrit++;
-    assert(ncrit == 1);
-    ncrit--;
+        (waiting_readers[!observed_turn] == 0);
 
-    completed_turn = observed_turn;
+        ncrit++;
+        assert(ncrit == 1);
+        ncrit--;
 
-    writer_locked[my_index] = 0;
-    my_index = my_pred_index;
+        completed_turn = observed_turn;
 
-    goto again;
+        writer_locked[my_index] = 0;
+        my_index = my_pred_index;
+    od
 }
 
 active [NUM_READERS] proctype reader()
 {
     bool observed_turn;
 
-again:
-    waiting_readers[0]++;
-    waiting_readers[1]++;
-    observed_turn = turn;
-    waiting_readers[!observed_turn]--;
+    do ::
+        waiting_readers[0]++;
+        waiting_readers[1]++;
+        observed_turn = turn;
+        waiting_readers[!observed_turn]--;
 
-    (completed_turn == observed_turn);
+        (completed_turn == observed_turn);
 
-    assert(ncrit != 1);
-    
+        assert(ncrit != 1);
+
 #if CHECK_READER_PARALLELISM
-    reader_sum = 0;
-    reader_sum = reader_sum + 1;
-    assert(reader_sum != NUM_READERS);
+        reader_sum = 0;
+        reader_sum = reader_sum + 1;
+        assert(reader_sum != NUM_READERS);
 #endif
 
-    waiting_readers[observed_turn]--;
-
-    goto again
+        waiting_readers[observed_turn]--;
+    od
 }
