@@ -17,11 +17,11 @@ void rw_bounded_write_acquire(rw_bounded_global_params *G, rw_bounded_local_para
 {
     L->my_qnode->locked = 1;
     MEM_BARRIER;
-    rw_bounded_qnode *pred = SWAP_PTR(G->the_lock, L->my_qnode);
-    while (pred->locked);
-    L->my_pred = pred;
+    L->my_pred = SWAP_PTR(G->the_lock, L->my_qnode);
+    while (L->my_pred->locked);
 
-    L->observed_turn = G->turn = !G->turn;
+    G->turn = !G->turn;
+    L->observed_turn = G->turn;
     MEM_BARRIER;
     while (G->n_waiting_readers[!L->observed_turn] != 0);
 }
@@ -30,7 +30,6 @@ void rw_bounded_write_release(rw_bounded_global_params *G, rw_bounded_local_para
 {
     G->completed_turn = L->observed_turn;
 
-    COMPILER_BARRIER;
     L->my_qnode->locked = 0;
     L->my_qnode = L->my_pred;
 }
