@@ -24,10 +24,17 @@ void rw_bounded_write_acquire(rw_bounded_global_params *G, rw_bounded_local_para
     L->observed_turn = G->turn;
     MEM_BARRIER;
     while (G->n_waiting_readers[!L->observed_turn] != 0);
+#if defined(__aarch64__)
+    MEM_BARRIER;
+#endif
 }
 
 void rw_bounded_write_release(rw_bounded_global_params *G, rw_bounded_local_params *L) 
 {
+#if defined(__aarch64__)
+    MEM_BARRIER;
+#endif
+
     G->completed_turn = L->observed_turn;
 
     L->my_qnode->locked = 0;
@@ -38,6 +45,7 @@ void rw_bounded_read_acquire(rw_bounded_global_params *G, rw_bounded_local_param
 {
     FAI_U32(&G->n_waiting_readers[0]);
     FAI_U32(&G->n_waiting_readers[1]);
+    // barrier should be required but __sync_fetch_and_add (used by FAI_U32) has implicit barrier functionality
     L->observed_turn = G->turn;
     FAD_U32(&G->n_waiting_readers[!L->observed_turn]);
 

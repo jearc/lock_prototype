@@ -517,20 +517,20 @@ static inline uint32_t CAS_U32(volatile void* ptr, uint32_t old, uint32_t new) {
 //Fetch-and-increment
 //#define FAI_U8(a) __sync_fetch_and_add(a,1)
 //#define FAI_U16(a) __sync_fetch_and_add(a,1)
-//#define FAI_U32(a) __sync_fetch_and_add(a,1)
-static inline uint32_t FAI_U32(volatile uint32_t* ptr) {
-    assert(!"Not used by benches or CLH/spinlocks\n");
-    return 0;
-}
+#define FAI_U32(a) __sync_fetch_and_add(a,1)
+/* static inline uint32_t FAI_U32(volatile uint32_t* ptr) { */
+/*     assert(!"Not used by benches or CLH/spinlocks\n"); */
+/*     return 0; */
+/* } */
 //#define FAI_U64(a) __sync_fetch_and_add(a,1)
 //Fetch-and-decrement
 //#define FAD_U8(a) __sync_fetch_and_sub(a,1)
 //#define FAD_U16(a) __sync_fetch_and_sub(a,1)
-//#define FAD_U32(a) __sync_fetch_and_sub(a,1)
-static inline uint32_t FAD_U32(volatile uint32_t* ptr) {
-    assert(!"Not used by benches or CLH/spinlocks\n");
-    return 0;
-}
+#define FAD_U32(a) __sync_fetch_and_sub(a,1)
+/* static inline uint32_t FAD_U32(volatile uint32_t* ptr) { */
+/*     assert(!"Not used by benches or CLH/spinlocks\n"); */
+/*     return 0; */
+/* } */
 //#define FAD_U64(a) __sync_fetch_and_sub(a,1)
 //Increment-and-fetch
 //#define IAF_U8(a) __sync_add_and_fetch(a,1)
@@ -542,24 +542,24 @@ static inline uint16_t IAF_U16(volatile uint16_t* ptr) {
 }
 
 #define IAF_U32(a) __sync_add_and_fetch(a,1)
-static inline uint32_t IAF_U32(volatile uint32_t* ptr) {
-  uint32_t atomic, x = 1, ret;
+/* static inline uint32_t IAF_U32(volatile uint32_t* ptr) { */
+/*   uint32_t atomic, x = 1, ret; */
 
-    __asm__ __volatile__ (
-            "1:                             \n\t"
-            "ldxrh %w1, [%2]                 \n\t" /* ret = *ptr */
-            "add %w1, %w1, %3                     \n\t" /* ret = ret + 1 */
-            "stxrh %w0, %w1, [%2]             \n\t" /* *ptr = ret */
-            "cmp %0, #0                     \n\t" /* was atomic? */
-            "bne 1b                         \n\t"
+/*     __asm__ __volatile__ ( */
+/*             "1:                             \n\t" */
+/*             "ldxrh %w1, [%2]                 \n\t" /\* ret = *ptr *\/ */
+/*             "add %w1, %w1, %3                     \n\t" /\* ret = ret + 1 *\/ */
+/*             "stxrh %w0, %w1, [%2]             \n\t" /\* *ptr = ret *\/ */
+/*             "cmp %0, #0                     \n\t" /\* was atomic? *\/ */
+/*             "bne 1b                         \n\t" */
 
-            : "=&r"(atomic), "=&r"(ret)     /* output */
-            : "r"(ptr), "r"(x)              /* input */
-            : "memory", "cc"                /* clobbered */
-            );
+/*             : "=&r"(atomic), "=&r"(ret)     /\* output *\/ */
+/*             : "r"(ptr), "r"(x)              /\* input *\/ */
+/*             : "memory", "cc"                /\* clobbered *\/ */
+/*             ); */
 
-    return ret;
-}
+/*     return ret; */
+/* } */
 //#define IAF_U64(a) __sync_add_and_fetch(a,1)
 //Decrement-and-fetch
 //#define DAF_U8(a) __sync_sub_and_fetch(a,1)
