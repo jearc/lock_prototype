@@ -24,9 +24,6 @@ void rw_bounded_write_acquire(rw_bounded_global_params *G, rw_bounded_local_para
     L->observed_turn = G->turn;
     MEM_BARRIER;
     while (G->n_waiting_readers[!L->observed_turn] != 0);
-#if defined(__aarch64__)
-    MEM_BARRIER;
-#endif
 }
 
 void rw_bounded_write_release(rw_bounded_global_params *G, rw_bounded_local_params *L) 
